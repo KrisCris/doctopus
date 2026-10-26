@@ -62,7 +62,8 @@ jobs:
           key: corpus-${{ hashFiles('testdata/corpus.tsv') }}
       - name: Fetch the test corpus
         run: bash scripts/fetch-corpus.sh
-      - run: cargo test --workspace --locked
+      # Run every test binary, so one failure does not hide others.
+      - run: cargo test --workspace --locked --no-fail-fast
 
   msrv:
     name: Minimum supported Rust version
