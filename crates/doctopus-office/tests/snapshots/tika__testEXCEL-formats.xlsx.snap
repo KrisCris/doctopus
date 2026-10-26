@@ -1,0 +1,29 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL-formats.xlsx
+---
+---
+source: tika/testEXCEL-formats.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+last_modified_by: garribas
+created: 2008-12-11T16:03:13Z
+modified: 2008-12-11T16:03:13Z
+sheets: 1
+---
+
+## Sheet 1: Format Examples
+
+|  | B | C | D | E |
+|---|---|---|---|---|
+| 4 | \| | Number #,##0.00 | 1599.99 | -1599.99 |
+| 5 | \| | Currency $#,##0.00;[Red]($#,##0.00) | 1599.99 | -1599.99 |
+| 6 | \| | Scientific 0.00E+00 | 198356388 | -198356388 |
+| 7 | \| | Percentage (0.025) | 0.025 | 0.025 |
+| 8 | \| | Fraction (2.5) | 2.5 |  |
+| 9 | \| | Time Format: h:mm AM/PM | 1992-12-28 06:15 | 1992-12-28 18:15 |
+| 10 | \| | Time Format: h:mm | 1992-12-28 06:15 | 1992-12-28 18:15 |
+| 11 | \| | Date Format: m/d/yy | 2009-10-03 20:21 |  |
+| 12 | \| | Date Format: d-mmm-yy | 2007-05-17 20:21 |  |
+| 13 | \| | Date/Time Format | 2008-01-19 04:35 |  |
+| 15 | \| | Custom Number: | 19.99 |  |
+| 16 | \| | Custom Date: | 2007-05-17 04:20 |  |

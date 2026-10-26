@@ -1,0 +1,28 @@
+[package]
+name = "doctopus-office"
+description = "Microsoft Office readers for doctopus: Word, Excel, PowerPoint and Visio, both OOXML and legacy binary formats"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+
+[dependencies]
+calamine.workspace = true
+codepage.workspace = true
+doctopus-core.workspace = true
+encoding_rs.workspace = true
+flate2.workspace = true
+quick-xml.workspace = true
+
+[dev-dependencies]
+cfb.workspace = true
+insta.workspace = true
+zip.workspace = true
+
+[lints]
+workspace = true

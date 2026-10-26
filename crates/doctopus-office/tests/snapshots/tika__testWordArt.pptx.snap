@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWordArt.pptx
+---
+---
+source: tika/testWordArt.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: Slide 1
+author: Michael McCandless
+last_modified_by: Michael McCandless
+created: 2011-09-13T16:25:03Z
+modified: 2011-09-13T16:25:36Z
+application: Microsoft Office PowerPoint
+revision: "1"
+words: "6"
+slides: 1
+---
+
+## Slide 1
+
+**Here is some red word Art**

@@ -1,0 +1,28 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_macro.xlsm
+---
+---
+source: tika/testEXCEL_macro.xlsm
+format: xlsx (Excel workbook (Office Open XML))
+created: 2006-09-16T00:00:00Z
+modified: 2016-09-21T20:12:03Z
+application: Microsoft Excel
+macros: yes (VBA project)
+sheets: 3
+---
+
+## Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | This is a blank worksheet |
+| 2 | However, a macro is about to be created |
+
+## Sheet 2: Sheet2
+
+*(empty)*
+
+## Sheet 3: Sheet3
+
+*(empty)*

@@ -1,0 +1,18 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_embeddedPDF_windows.xls
+---
+---
+source: tika/testEXCEL_embeddedPDF_windows.xls
+format: xls (Excel 97-2003 workbook)
+created: 2015-06-05T18:17:20Z
+modified: 2017-01-04T20:41:11Z
+application: Microsoft Excel
+sheets: 1
+parts:
+  - emb1: OLE object AcroExch.Document.11 (application/pdf, 34.0 KB, sheet "Sheet1" cell A1)
+---
+
+## Sheet 1: Sheet1
+
+<embedded id="emb1" ref="tika/testEXCEL_embeddedPDF_windows.xls#emb1" type="application/pdf" size="34.0 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testEXCEL_embeddedPDF_windows.xls#emb1&quot; -o &lt;dir&gt;"/>

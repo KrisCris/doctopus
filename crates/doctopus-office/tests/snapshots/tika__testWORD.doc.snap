@@ -1,0 +1,59 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD.doc
+---
+---
+source: tika/testWORD.doc
+format: doc (Word 97-2003 document)
+title: Sample Word Document
+author: Keith Bennett
+last_modified_by: Nick Burch
+created: 2010-11-12T16:22:00Z
+modified: 2010-11-12T16:22:00Z
+application: Microsoft Office Word
+characters: "699"
+pages: "2"
+revision: "2"
+template: Normal.dotm
+total_editing_time: 1 minutes
+words: "122"
+---
+
+# Sample Word Document Title
+
+And now for a subtitle
+
+Main Heading
+
+# Heading Level 1
+
+## Heading Level 2
+
+### Heading Level 3
+
+This is a sample Microsoft Word Document.
+
+This document includes text that is **BOLD** and *ITALIC*.
+
+| This is a table |  |
+|---|---|
+|  | Nested table / ;  / More of our nested table |
+| The table has things in it |  |
+
+Apache Tika: <http://tika.apache.org/> [Tika](http://tika.apache.org/)
+
+Apache POI: <http://poi.apache.org/> [POI](http://poi.apache.org/)
+
+This paragraph is in the default text style
+
+This one is in a different one, the Signature style
+
+This is back to the default again
+
+This links to The Main Heading Bookmark and The Level 3 Bookmark. That’s it!
+
+## Headers and footers
+
+**Header:** This is the header for our document
+
+**Footer:** This is the footer for our document

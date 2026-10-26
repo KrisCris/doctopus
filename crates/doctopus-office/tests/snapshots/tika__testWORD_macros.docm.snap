@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_macros.docm
+---
+---
+source: tika/testWORD_macros.docm
+format: docx (Word document (Office Open XML))
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-09-21T13:01:00Z
+modified: 2016-09-21T13:11:00Z
+application: Microsoft Office Word
+characters: "18"
+macros: yes (VBA project)
+pages: "1"
+revision: "4"
+template: Normal.dotm
+total_editing_time: 6 minutes
+words: "3"
+---
+
+The **quick** *brown* fox.

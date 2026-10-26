@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_diagramData.pptx
+---
+---
+source: tika/testPPT_diagramData.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: PowerPoint Presentation
+created: 2013-07-15T20:26:40Z
+modified: 2016-04-10T00:27:26Z
+application: Microsoft Office PowerPoint
+revision: "7"
+template: office theme
+slides: 1
+---
+
+## Slide 1
+
+- President
+  - VP – HR
+    - Manager 1
+  - VP - Marketing
+    - Manager 1

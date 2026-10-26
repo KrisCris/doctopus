@@ -1,0 +1,65 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/github260.vsdx
+---
+---
+source: poi/github260.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+pages: 1
+---
+
+## Page 1: Activity diagram by role example
+
+Shapes:
+- 1 [UMLStartBlock]
+- 4 [UMLStateBlock] "Arrive at hotel"
+- 7 [UMLStateBlock] "Ask for reservation number"
+- 10 [UMLDecisionBlock]
+- 14 [UMLStateBlock] "State reservation number"
+- 16 [UMLStateBlock] "Look up reservation"
+- 19 [UMLStateBlock] "Confirm reservation"
+- 22 [UMLStateBlock] "Issue room key"
+- 25 [UMLStateBlock] "Take bags"
+- 28 [UMLStateBlock] "Drop bags off at room"
+- 31 [UMLStateBlock] "Go to room"
+- 34 [UMLEndBlock]
+- 38 [UMLDecisionBlock]
+- 41 [UMLStateBlock] "Check room availability"
+- 43 [UMLStateBlock] "Process payment"
+- 45 [UMLStateBlock] "Complete reservation"
+- 50 [UMLHForkJoinBlock]
+- 52 [UMLHForkJoinBlock]
+- 58
+  - 59 [DefaultSquareBlock] "Activity diagram by role example"
+  - 61 [com.lucidchart.Line]
+  - 62 [DefaultSquareBlock] "Ivan Kuznetsov | October 6, 2021"
+- 64
+  - 65 [RectangleBlock] "Role:"
+  - 67 [MinimalTextBlock] "Customer"
+  - 69 [UMLStateBlock]
+  - 71 [MinimalTextBlock] "Front desk receptionist"
+  - 73 [UMLStateBlock]
+  - 75 [MinimalTextBlock] "Bell hop"
+  - 77 [UMLStateBlock]
+
+Connections:
+- 1 [UMLStartBlock] -> 4 "Arrive at hotel" [inferred from positions]
+- 4 "Arrive at hotel" -> 7 "Ask for reservation number" [inferred from positions]
+- 7 "Ask for reservation number" -> 10 [UMLDecisionBlock] [inferred from positions]
+- 10 [UMLDecisionBlock] -> 50 [UMLHForkJoinBlock] ([reservation]) [inferred from positions]
+- 10 [UMLDecisionBlock] -> 41 "Check room availability" ([no reservation]) [inferred from positions]
+- 52 [UMLHForkJoinBlock] -> 19 "Confirm reservation" [inferred from positions]
+- 19 "Confirm reservation" -> 22 "Issue room key" [inferred from positions]
+- 38 [UMLDecisionBlock] -> 25 "Take bags" ([bags(s)]) [inferred from positions]
+- 25 "Take bags" -> 28 "Drop bags off at room" [inferred from positions]
+- 38 [UMLDecisionBlock] -> 31 "Go to room" ([no bag(s)]) [inferred from positions]
+- 31 "Go to room" -> 34 [UMLEndBlock] [inferred from positions]
+- 22 "Issue room key" -> 38 [UMLDecisionBlock] [inferred from positions]
+- 28 "Drop bags off at room" -> 34 [UMLEndBlock] [inferred from positions]
+- 41 "Check room availability" -> 43 "Process payment" [inferred from positions]
+- 43 "Process payment" -> 45 "Complete reservation" [inferred from positions]
+- 45 "Complete reservation" -> 22 "Issue room key" [inferred from positions]
+- 14 "State reservation number" -> 52 [UMLHForkJoinBlock] [inferred from positions]
+- 16 "Look up reservation" -> 52 [UMLHForkJoinBlock] [inferred from positions]
+- 50 [UMLHForkJoinBlock] -> 14 "State reservation number" [inferred from positions]
+- 50 [UMLHForkJoinBlock] -> 16 "Look up reservation" [inferred from positions]

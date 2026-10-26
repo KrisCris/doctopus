@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_template.xlt
+---
+---
+source: tika/testEXCEL_template.xlt
+format: xls (Excel 97-2003 workbook)
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2019-06-04T15:24:53Z
+modified: 2019-06-04T15:26:18Z
+application: Microsoft Excel
+sheets: 1
+---
+
+## Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | this is a template |

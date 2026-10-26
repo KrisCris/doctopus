@@ -1,0 +1,461 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/NegativeChunkLength.vsd
+---
+---
+source: poi/NegativeChunkLength.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: hb
+last_modified_by: Philipp Krebs
+modified: 2005-11-16T12:58:37Z
+application: Microsoft Visio
+template: C:\Programme\Microsoft Office\Visio11\1031\BLOCK_M.VST
+pages: 3
+---
+
+## Page 1: Übersicht
+
+Shapes:
+- 2 [Rechteck]
+- 3 [Knoten]
+- 6
+  - 1 [Rechteck]
+  - 20 [Rechteck]
+  - 21 [Rechteck]
+  - 22 [Rechteck]
+  - 23 [Rechteck]
+  - 40 [Rechteck]
+  - 53
+    - 91 [Feld] "Entladevorgang"
+    - 102 "A"
+  - 67 [Rechteck]
+  - 68 [Rechteck]
+  - 69 [Rechteck]
+  - 70 [Rechteck]
+  - 109 [Rechteck]
+- 7 [Knoten]
+- 11 [Knoten]
+- 15 [Knoten]
+- 18
+  - 81 [Rechteck]
+  - 82 [Rechteck]
+  - 83 [Rechteck]
+  - 84 [Rechteck]
+  - 136 [Feld] "Messung des Entladestroms"
+  - 138 "C"
+- 19
+  - 92 "F"
+  - 146 [Feld] "Batterie aufnehmen"
+- 24 [Knoten]
+- 27 [Knoten]
+- 36 [Knoten]
+- 44 [Knoten]
+- 46 [Rechteck] "St1"
+- 49 [Knoten]
+- 51 [Rechteck] "St2"
+- 56 [Rechteck] "St3"
+- 57 [Rechteck] "St4"
+- 62 [Feld] "S9opt"
+- 64 [Feld] "S8opt"
+- 65 [Feld] "S1mech"
+- 72 [Feld] "S2mech"
+- 74 [Feld] "S3mech"
+- 76 [Feld] "S4mech"
+- 78 [Feld] "E1el"
+- 85 [Feld] "S5mech"
+- 87 [Feld] "S7opt"
+- 89
+  - 97 [Rechteck]
+  - 98 [Rechteck]
+  - 107 [Rechteck]
+  - 111 [Rechteck]
+  - 114 [Rechteck]
+  - 115 [Rechteck]
+  - 116 [Rechteck]
+  - 117 [Rechteck]
+  - 144 [Rechteck]
+  - 147 [Rechteck]
+  - 148 [Rechteck]
+  - 149 [Rechteck]
+  - 154 "E"
+  - 248 "Eingabe"
+- 100 [Knoten]
+- 105
+  - 52 [Rechteck]
+  - 103 [Rechteck]
+  - 104 [Rechteck]
+  - 118 [Feld] "Messung der Batteriespannung"
+  - 137 "B"
+- 112 [Knoten]
+- 121 [Knoten]
+- 125 [Knoten]
+- 129 [Knoten]
+- 143 "S15el - akt. Spannung"
+- 150 "S13el - Abschaltspannung"
+- 153 "S12el - Startsignal"
+- 155 [Feld] "S6mech"
+- 160 "S11el - Einstellung Entladestrom"
+- 162
+  - 58 [Rechteck]
+  - 59 [Rechteck]
+  - 95 [Rechteck]
+  - 96 [Rechteck]
+  - 99 [Rechteck]
+  - 145 [Rechteck]
+  - 157 "D"
+  - 181 [Rechteck]
+  - 199 [Feld] "Auswertung und Ausgabe"
+
+Connections:
+- 7 [Knoten] -> 10 (E1el)
+- 11 [Knoten] -> 107 [Rechteck] (S1mech)
+- 3 [Knoten] -> 68 [Rechteck] (St1)
+- 21 [Rechteck] -> 27 [Knoten] (St3)
+- 23 [Rechteck] -> 136 "Messung des Entladestroms" (E4el - abgetrennte Energie der Batterie)
+- 84 [Rechteck] -> 20 [Rechteck] (E5el - abgetrennte Energie der Batterie)
+- 22 [Rechteck] -> 24 [Knoten] (St4)
+- 109 [Rechteck] -> 83 [Rechteck] (S30el - aktuelle Entladestromstärke)
+- 52 [Rechteck] -> 58 [Rechteck]
+- 36 [Knoten] -> 117 [Rechteck] (S4mech)
+- 46 "St1" -> 3 [Knoten] (Kalte Luft)
+- 44 [Knoten] -> 116 [Rechteck] (S2mech)
+- 15 [Knoten] -> 51 "St2" (Zu testende Batterie)
+- 24 [Knoten] -> 57 "St4" (Entladene Batterie)
+- 27 [Knoten] -> 56 "St3" (Warme Luft)
+- 15 [Knoten] -> 146 "Batterie aufnehmen" (St2)
+- 121 [Knoten] -> 181 [Rechteck] (S9opt)
+- 129 [Knoten] -> 99 [Rechteck] (S8opt)
+- 65 "S1mech" -> 11 [Knoten] (Betätigung des Ein/Aus Schalters)
+- 72 "S2mech" -> 44 [Knoten] (Einstellung Entladestrom)
+- 74 "S3mech" -> 100 [Knoten] (Preis der Batterie)
+- 76 "S4mech" -> 36 [Knoten] (Betätigung der Starttaste)
+- 78 "E1el" -> 7 [Knoten] (5V DC)
+- 125 [Knoten] -> 96 [Rechteck] (S7opt)
+- 85 "S5mech" -> 112 [Knoten] (Auswahl der Ergebnisdarstellung)
+- 97 [Rechteck] -> 95 [Rechteck] (S47el - Preis der Batterie)
+- 49 [Knoten] -> 114 [Rechteck] (S6mech)
+- 118 "Messung der Batteriespannung" -> 1 [Rechteck] (S23el - aktuelle Spannung)
+- 100 [Knoten] -> 149 [Rechteck] (S3mech)
+- 112 [Knoten] -> 120 (S5mech)
+- 62 "S9opt" -> 121 [Knoten] (Statusanzeige)
+- 87 "S7opt" -> 125 [Knoten] (Einsatzbereiche der Batterie)
+- 64 "S8opt" -> 129 [Knoten] (Ergebnisse der Messung)
+- 104 [Rechteck] -> 67 [Rechteck] (St6 - Batterie)
+- 81 [Rechteck] -> 59 [Rechteck] (S14el - aktuelle Entladestromstärke)
+- 118 "Messung der Batteriespannung" -> 146 "Batterie aufnehmen" (St5 – Batterie)
+- 155 "S6mech" -> 49 [Knoten] (Abschaltungs- spannung)
+- 145 [Rechteck] -> 115 [Rechteck] (S43el - Art der Darstellung)
+- 69 [Rechteck] -> 147 [Rechteck]
+- 40 [Rechteck] -> 148 [Rechteck]
+- 70 [Rechteck] -> 98 [Rechteck]
+
+## Page 2: Entladevorgang
+
+Shapes:
+- 2
+  - 1 "A"
+  - 95 "E5el wandeln"
+    - 96 [Feld]
+    - 97 [Feld] "G"
+    - 98 [Feld]
+  - 106 "E6th + St1 verknüpfen"
+    - 107 [Feld]
+    - 108 [Feld] "H"
+    - 109 [Feld]
+  - 118 "St6 trennen"
+    - 119 [Feld]
+    - 120 [Feld] "E"
+    - 121 [Feld]
+  - 129 "E3el + S27el verknüpfen"
+    - 130 [Feld]
+    - 131 [Feld] "F"
+    - 132 [Feld]
+  - 154 "S24el + S25el verknüpfen"
+    - 155 [Feld]
+    - 156 [Feld] "C"
+    - 157 [Feld]
+  - 181 "S13el + S23el verknüpfen"
+    - 182 [Feld]
+    - 183 [Feld] "A"
+    - 184 [Feld]
+  - 190 "E26el + S30el verknüpfen"
+    - 191 [Feld]
+    - 192 [Feld] "D"
+    - 193 [Feld]
+  - 217 [Feld]
+  - 218 "S11el + S12el verknüpfen"
+    - 219 [Feld]
+    - 220 [Feld] "B"
+    - 221 [Feld]
+  - 251 "Entladevorgang"
+- 3
+  - 112 "St5 trennen"
+    - 113 [Feld]
+    - 114 [Feld] "A"
+    - 115 [Feld]
+  - 185 "S21el wandeln" (Beschreibung: St2 trennen; ID: B)
+    - 186 [Feld]
+    - 187 [Feld] "B"
+    - 188 [Feld]
+  - 245 "S22el trennen"
+    - 246 [Feld]
+    - 247 [Feld] "C"
+    - 248 [Feld]
+  - 249 [Feld]
+  - 250 "Messung der Batteriespannung"
+- 4
+  - 134 "E4el trennen"
+    - 135 [Feld]
+    - 136 [Feld] "A"
+    - 137 [Feld]
+  - 159 "S28el wandeln" (Beschreibung: St2 trennen; ID: B)
+    - 160 [Feld]
+    - 161 [Feld] "B"
+    - 162 [Feld]
+  - 256 "S29l trennen"
+    - 257 [Feld]
+    - 258 [Feld] "C"
+    - 259 [Feld]
+  - 262 [Feld]
+  - 263 "Messung des Entladestroms"
+- 5 [Rechteck]
+- 8 [Rechteck] "S12el"
+- 11 [Rechteck] "S11el"
+- 12 [Knoten]
+- 15 [Rechteck] "St1"
+- 16 [Knoten]
+- 19 [Knoten]
+- 23 [Rechteck] "S13el"
+- 24 [Knoten]
+- 27 [Knoten]
+- 31 [Rechteck] "St2"
+- 36 [Knoten]
+- 39 [Knoten]
+- 43 [Knoten]
+- 46 [Knoten]
+- 49 [Rechteck] "St3"
+- 50 [Rechteck] "St4"
+- 51 [Rechteck] "S14el"
+- 52 [Rechteck] "S15el"
+- 53
+  - 269 [Feld]
+  - 270 "Batterie aufnehmen"
+- 55 "B"
+- 56 "C"
+- 264 "St2 speichern" (Beschreibung: St2 trennen; ID: B)
+  - 265 [Feld]
+  - 266 [Feld] "F"
+  - 267 [Feld]
+- 272 [Rechteck]
+- 273 "In Zeichnung „Eingabe-Ausgabe“"
+- 274 [Rechteck]
+- 275 "Aus Zeichnung „Eingabe Ausgabe“"
+
+Connections:
+- 108 "H" -> 96 [Feld] (E6th)
+- 120 "E" -> 132 [Feld] (E3el)
+- 131 "F" -> 191 [Feld] (S27el Regelspannung)
+- 182 [Feld] -> 156 "C" (S24el)
+- 155 [Feld] -> 193 [Feld] (S26el)
+- 219 [Feld] -> 157 [Feld] (S25el)
+- 114 "A" -> 186 [Feld] (S21el)
+- 186 [Feld] -> 246 [Feld] (S22el)
+- 136 "A" -> 160 [Feld] (S28el)
+- 160 [Feld] -> 257 [Feld] (S29el)
+- 24 [Knoten] -> 23 "S13el" (Abschalt- spannung)
+- 15 "St1" -> 12 [Knoten] (Kalte Luft)
+- 11 "S11el" -> 16 [Knoten] (Entladestrom)
+- 19 [Knoten] -> 8 "S12el" (Startsignal)
+- 27 [Knoten] -> 31 "St2" (Zu testende Batterie)
+- 36 [Knoten] -> 51 "S14el" (Aktuelle Stromstärke)
+- 39 [Knoten] -> 52 "S15el" (Aktuelle Spannung)
+- 43 [Knoten] -> 50 "St4" (Entladene Batterie)
+- 46 [Knoten] -> 49 "St3" (Warme Luft)
+- 12 [Knoten] -> 109 [Feld] (St1)
+- 107 [Feld] -> 46 [Knoten] (St3)
+- 113 [Feld] -> 265 [Feld] (St5)
+- 115 [Feld] -> 119 [Feld] (St6)
+- 130 [Feld] -> 135 [Feld] (E4el)
+- 137 [Feld] -> 96 [Feld] (E5el)
+- 149 -> 149 (St4)
+- 16 [Knoten] -> 221 [Feld] (S11el)
+- 259 [Feld] -> 192 "D" (S30el)
+- 184 [Feld] -> 24 [Knoten] (S13el)
+- 220 "B" -> 19 [Knoten] (S12el)
+- 248 [Feld] -> 183 "A" (S23el)
+- 247 "C" -> 39 [Knoten] (S15el)
+- 258 "C" -> 36 [Knoten] (S14el)
+- 27 [Knoten] -> 265 [Feld] (St2)
+
+## Page 3: EA
+
+Shapes:
+- 1 [Feld]
+- 5 [Feld] "S9opt"
+- 7 [Feld] "S8opt"
+- 8 [Feld] "S1mech"
+- 11 [Feld] "S2mech"
+- 13 [Feld] "S3mech"
+- 15 [Feld] "S4mech"
+- 17 [Feld] "E1el"
+- 20 [Feld] "S5mech"
+- 22 [Feld] "S7opt"
+- 28 [Knoten]
+- 32 [Knoten]
+- 35 [Knoten]
+- 38 [Knoten]
+- 41 [Knoten]
+- 46 "S50el wandeln" (Beschreibung: St2 trennen; ID: B)
+  - 47 [Feld]
+  - 48 [Feld] "H"
+  - 49 [Feld]
+- 51 "S49el wandeln" (Beschreibung: St2 trennen; ID: B)
+  - 52 [Feld]
+  - 53 [Feld] "G"
+  - 54 [Feld]
+- 56 "S41el wandeln" (Beschreibung: St2 trennen; ID: B)
+  - 57 [Feld]
+  - 58 [Feld] "C"
+  - 59 [Feld]
+- 60 "S52el speichern"
+  - 61 [Feld]
+  - 62 [Feld] "G"
+  - 63 [Feld]
+- 64 [Feld] "S6mech"
+- 66 "S51el speichern"
+  - 67 [Feld]
+  - 68 [Feld] "E"
+  - 69 [Feld]
+- 70 "S45el speichern"
+  - 71 [Feld]
+  - 72 [Feld] "B"
+  - 73 [Feld]
+- 75 [Knoten]
+- 78 [Knoten]
+- 81 [Knoten]
+- 84 [Knoten]
+- 88 "S14el + S15el verknüpfen"
+  - 89 [Feld]
+  - 90 [Feld] "A"
+  - 91 [Feld]
+- 92 "S48el trennen"
+  - 93 [Feld]
+  - 94 [Feld] "F"
+  - 95 [Feld]
+- 96 "S44el + S47el verknüpfen"
+  - 97 [Feld]
+  - 98 [Feld] "E"
+  - 99 [Feld]
+- 102 [Feld]
+- 103 "Auswertung und Ausgabe"
+- 104
+  - 207 "E2el trennen"
+  - 208 [Feld]
+  - 209 [Feld] "J"
+- 106 "E7el + S6mech verknüpfen"
+- 107 [Feld]
+- 108 [Feld] "D"
+- 109 [Feld]
+- 110 "* nicht nach Roth"
+- 111 "E7el + S2mech verknüpfen"
+- 112 [Feld]
+- 113 [Feld] "F"
+- 114 [Feld]
+- 118 "E7el + S4mech verknüpfen"
+- 119 [Feld]
+- 120 [Feld] "H"
+- 121 [Feld]
+- 123 "E7el + S3mech verknüpfen"
+- 124 [Feld]
+- 125 [Feld] "C"
+- 126 [Feld]
+- 129 "E7el + S5mech verknüpfen"
+- 130 [Feld]
+- 131 [Feld] "A"
+- 132 [Feld]
+- 134
+  - 136 "E1el + S1mech verknüpfen"
+    - 137 [Feld]
+    - 138 [Feld] "I"
+    - 139 [Feld]
+- 140 "S40el trennen"
+  - 141 [Feld]
+  - 142 [Feld] "B"
+  - 143 [Feld]
+- 144 "S42el + S43el verknüpfen"
+  - 145 [Feld]
+  - 146 [Feld] "D"
+  - 147 [Feld]
+- 149 [Feld] "S11el"
+- 150 [Knoten]
+- 154 [Feld] "S13el"
+- 155 [Knoten]
+- 159 [Feld] "S12el"
+- 160 [Knoten]
+- 163 [Feld] "S14el"
+- 165 [Knoten]
+- 168 [Feld] "S15el"
+- 169 [Knoten]
+- 174 "Eingabe"
+- 175 "D"
+- 176 "E"
+- 177 [Knoten]
+- 196 [Knoten]
+- 201 [Rechteck]
+- 202 "In Zeichnung „Entladevorgang“"
+- 203 [Rechteck]
+- 204 "Aus Zeichnung „Entladevorgang“"
+- 210 [Feld]
+
+Connections:
+- 5 "S9opt" -> 84 [Knoten] (Statusanzeige)
+- 7 "S8opt" -> 78 [Knoten] (Ergebnisse der Messung)
+- 8 "S1mech" -> 41 [Knoten] (Betätigung des Ein/Aus Schalters)
+- 11 "S2mech" -> 38 [Knoten] (Einstellung Entladestrom)
+- 13 "S3mech" -> 35 [Knoten] (Preis der Batterie)
+- 15 "S4mech" -> 32 [Knoten] (Betätigung der Starttaste)
+- 17 "E1el" -> 75 [Knoten] (5V DC)
+- 22 "S7opt" -> 81 [Knoten] (Einsatzbereiche der Batterie)
+- 20 "S5mech" -> 28 [Knoten] (Auswahl der Ergebnisdarstellung)
+- 31 -> 131 "A" (S5mech)
+- 124 [Feld] -> 71 [Feld] (S45el)
+- 112 [Feld] -> 61 [Feld] (S52el)
+- 47 [Feld] -> 94 "F" (S50el)
+- 52 [Feld] -> 95 [Feld] (S49el)
+- 64 "S6mech" -> 196 [Knoten] (Abschalt- spannung)
+- 107 [Feld] -> 67 [Feld] (S51el)
+- 143 [Feld] -> 57 [Feld] (S41el)
+- 147 [Feld] -> 142 "B" (S42el)
+- 93 [Feld] -> 97 [Feld] (S48el)
+- 108 "D" -> 105 (E7el)
+- 113 "F" -> 115 (E7el)
+- 116 -> 116
+- 120 "H" -> 117 (E7el)
+- 127 -> 126 [Feld] (E7el)
+- 128 -> 128
+- 132 [Feld] -> 133 (E7el)
+- 137 [Feld] -> 208 [Feld] (E2el)
+- 149 "S11el" -> 150 [Knoten] (Einstellung Entladestrom)
+- 154 "S13el" -> 155 [Knoten] (Abschalt- spannung)
+- 159 "S12el" -> 160 [Knoten] (Startsignal)
+- 163 "S14el" -> 165 [Knoten] (Aktuelle Stromstärke)
+- 89 [Feld] -> 141 [Feld] (S40el)
+- 99 [Feld] -> 145 [Feld] (S44el)
+- 139 [Feld] -> 41 [Knoten] (S1mech)
+- 114 [Feld] -> 38 [Knoten] (S2mech)
+- 125 "C" -> 35 [Knoten] (S3mech)
+- 32 [Knoten] -> 121 [Feld] (S4mech)
+- 184 -> 81 [Knoten] (S7opt)
+- 47 [Feld] -> 78 [Knoten] (S8opt)
+- 57 [Feld] -> 84 [Knoten] (S9opt)
+- 61 [Feld] -> 150 [Knoten] (S11el)
+- 67 [Feld] -> 155 [Knoten] (S13el)
+- 196 [Knoten] -> 109 [Feld] (S6mech)
+- 119 [Feld] -> 160 [Knoten] (S12el)
+- 71 [Feld] -> 98 "E" (S47el)
+- 130 [Feld] -> 146 "D" (S43el)
+- 90 "A" -> 169 [Knoten] (S15el)
+- 194 -> 91 [Feld] (S14el)
+- 138 "I" -> 75 [Knoten] (E1el)
+- 168 "S15el" -> 169 [Knoten] (Aktuelle Spannung)
+- 208 [Feld] -> 206 (E7el*)

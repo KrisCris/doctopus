@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/recursion-cycle.vsdx
+---
+---
+source: libvisio/recursion-cycle.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+pages: 1
+warnings:
+  - "`visio/pages/pages.xml` is not a drawing page"
+---
+
+## Page 1: Page-1
+
+*(empty)*

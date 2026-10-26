@@ -1,0 +1,34 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_embedded_pdf.docx
+---
+---
+source: tika/testWORD_embedded_pdf.docx
+format: docx (Word document (Office Open XML))
+title: "Here is the pdf file:"
+author: IBMer
+last_modified_by: Michael McCandless
+created: 2012-09-04T15:01:00Z
+modified: 2012-09-04T15:01:00Z
+application: Microsoft Office Word
+company: IBM
+characters: "101"
+pages: "1"
+revision: "2"
+template: Normal.dotm
+total_editing_time: 267 minutes
+words: "10"
+parts:
+  - emb1: OLE object AcroExch.Document.7 (application/pdf, 7.9 KB, body)
+  - emb2: OLE object AcroExch.Document.7 (application/pdf, 7.9 KB, body)
+---
+
+Here is the pdf file:
+
+<embedded id="emb1" ref="tika/testWORD_embedded_pdf.docx#emb1" type="application/pdf" size="7.9 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWORD_embedded_pdf.docx#emb1&quot; -o &lt;dir&gt;"/>
+
+Bye Bye
+
+<embedded id="emb2" ref="tika/testWORD_embedded_pdf.docx#emb2" type="application/pdf" size="7.9 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWORD_embedded_pdf.docx#emb2&quot; -o &lt;dir&gt;"/>
+
+Bye for real.

@@ -1,0 +1,121 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/Visio11FormatLine.vsd
+---
+---
+source: libvisio/Visio11FormatLine.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: Bartosz Kosiorek
+last_modified_by: Bartosz Kosiorek
+modified: 2019-07-15T12:59:01Z
+application: Microsoft Visio
+company: TomTom
+template: C:\Program Files (x86)\Microsoft Office\Office14\visio content\1033\EESYS_M.VST
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 7 "Collosal"
+- 8 "Extra large"
+- 9 "Jumbo"
+- 10 "Large"
+- 11 "Medium"
+- 14 "Small"
+- 15 "Very small"
+- 16 "Round corners 10mm"
+- 17 "Round corners 0mm"
+- 18 "Round corners 2mm"
+- 19 "Round corners 4mm"
+- 20 "Round corners 6mm"
+- 21 "Round corners 8mm"
+- 22 "Round corners 3mm"
+- 43 "7"
+- 44 "8"
+- 45 "6"
+- 46 "5"
+- 47 "9 middle"
+- 48 "10 middle"
+- 49 "11 middle"
+- 50 "15"
+- 51 "16"
+- 53 "0"
+- 59 "17"
+- 60 "18"
+- 61 "20 middle"
+- 62 "21 middle"
+- 63 "22"
+- 64 "19"
+- 65 "26"
+- 66 "25"
+- 67 "23 end"
+- 68 "24"
+- 69 "27"
+- 70 "28"
+- 74 "30"
+- 75 "29 end"
+- 76 "31 end"
+- 77 "32 end"
+- 78 "33 end"
+- 79 "34 end"
+- 80 "1 end"
+- 81 "2"
+- 82 "3"
+- 83 "4"
+- 95 "35"
+- 96 "36"
+- 97 "40"
+- 98 "38"
+- 99 "39"
+- 100 "45"
+- 101 "42"
+- 102 "44"
+- 103 "43"
+- 104 "41"
+- 105 "0"
+
+Connections:
+- 1 -> 1
+- 2 -> 2
+- 3 -> 3
+- 4 -> 4
+- 5 -> 5
+- 6 -> 6
+- 12 -> 12
+- 13 -> 13
+- 23 -> 23 (Weight ¼ pt)
+- 24 -> 24 (Weight ½ pt)
+- 25 -> 25 (Weight ¾ pt)
+- 26 -> 26 (Weight 1 pt)
+- 27 -> 27 (Weight 1 ½ pt)
+- 28 -> 28 (Weight 2 ¼ pt)
+- 29 -> 29 (Weight 3 pt)
+- 35 -> 35
+- 36 -> 36
+- 37 -> 37
+- 38 -> 38
+- 39 -> 39
+- 40 -> 40
+- 41 -> 41
+- 42 -> 42
+- 52 -> 52
+- 54 -> 54
+- 55 -> 55
+- 56 -> 56
+- 57 -> 57
+- 58 -> 58
+- 71 -> 71
+- 72 -> 72
+- 73 -> 73
+- 84 -> 84
+- 85 -> 85
+- 86 -> 86
+- 87 -> 87
+- 88 -> 88
+- 89 -> 89
+- 90 -> 90
+- 91 -> 91
+- 92 -> 92
+- 93 -> 93
+- 94 -> 94

@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_sdtInTextBox.docx
+---
+---
+source: tika/testWORD_sdtInTextBox.docx
+format: docx (Word document (Office Open XML))
+created: 2019-01-04T13:29:00Z
+modified: 2019-01-07T12:10:00Z
+application: Microsoft Office Word
+characters: "36"
+pages: "1"
+revision: "5"
+template: Normal.dotm
+words: "6"
+---
+
+simple-text
+
+> **rich-text-content-control_inside-text-box**
+
+rich-text-content-control

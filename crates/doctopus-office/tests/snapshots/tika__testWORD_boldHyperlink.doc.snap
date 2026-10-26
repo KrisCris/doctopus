@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_boldHyperlink.doc
+---
+---
+source: tika/testWORD_boldHyperlink.doc
+format: doc (Word 97-2003 document)
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-09-12T17:31:00Z
+modified: 2016-09-12T17:48:00Z
+application: Microsoft Office Word
+characters: "127"
+pages: "1"
+revision: "5"
+template: Normal.dotm
+total_editing_time: 4 minutes
+words: "22"
+---
+
+This is a bold [hyper **link**](http://tika.apache.org/); bold, I say. [**hyper** link](http://tika.apache.org/); bold, I say.

@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_embeddedMP3.pptx
+---
+---
+source: tika/testPPT_embeddedMP3.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: PowerPoint Presentation
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2017-11-27T17:31:23Z
+modified: 2017-11-27T17:32:06Z
+application: Microsoft Office PowerPoint
+revision: "1"
+slides: 1
+parts:
+  - media1: audio/mpeg "media1.mp3" (33.9 KB, slide 1)
+---
+
+## Slide 1
+
+<embedded id="media1" ref="tika/testPPT_embeddedMP3.pptx#media1" type="audio/mpeg" name="media1.mp3" size="33.9 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testPPT_embeddedMP3.pptx#media1&quot; -o &lt;dir&gt;"/>

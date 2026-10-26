@@ -1,0 +1,25 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/EmbeddedPDF.docx
+---
+---
+source: tika/EmbeddedPDF.docx
+format: docx (Word document (Office Open XML))
+author: Jeremy Anderson
+last_modified_by: Jukka Zitting
+created: 2011-09-09T09:09:00Z
+modified: 2011-09-09T09:09:00Z
+application: Microsoft Office Word
+company: Adobe Systems inc.
+characters: "57"
+pages: "1"
+revision: "2"
+template: Normal.dotm
+words: "10"
+parts:
+  - emb1: OLE object AcroExch.Document.7 (application/pdf, 87.8 KB, body)
+---
+
+Test Document with embedded pdf’s:
+
+<embedded id="emb1" ref="tika/EmbeddedPDF.docx#emb1" type="application/pdf" size="87.8 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/EmbeddedPDF.docx#emb1&quot; -o &lt;dir&gt;"/>

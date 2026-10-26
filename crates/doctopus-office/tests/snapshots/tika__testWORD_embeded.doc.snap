@@ -1,0 +1,92 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_embeded.doc
+---
+---
+source: tika/testWORD_embeded.doc
+format: doc (Word 97-2003 document)
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Nick Burch
+created: 2005-05-26T12:57:00Z
+modified: 2010-09-08T16:11:00Z
+application: Microsoft Office Word
+characters: "179"
+pages: "3"
+revision: "3"
+template: Normal.dotm
+total_editing_time: 3 minutes
+words: "31"
+parts:
+  - img1: image/png (189x55, 4.3 KB, body)
+  - img2: image/jpeg (64x64, 1.8 KB, body)
+  - img3: image/png (180x171, 18.5 KB, body)
+  - emb1: Excel 97-2003 workbook (60.0 KB, body)
+  - emb2: PowerPoint 97-2003 presentation (128.0 KB, body)
+  - emb3: Word document (Office Open XML) (30.6 KB, body)
+---
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testWORD_embeded.doc#img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![image](tika/testWORD_embeded.doc#img2 "JPG, 64x64, 1.8 KB")![image](tika/testWORD_embeded.doc#img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+<embedded id="emb1" ref="tika/testWORD_embeded.doc#emb1" type="xls" size="60.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testWORD_embeded.doc#emb1/img1 "PNG, 189x55, 4.3 KB")
+
+### Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testWORD_embeded.doc#emb2" type="ppt" size="128.0 KB">
+
+### Slide 1: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testWORD_embeded.doc#emb2/img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testWORD_embeded.doc#emb2/img2 "PNG, 100x75, 7.7 KB")
+
+<embedded id="media1" ref="tika/testWORD_embeded.doc#emb2/media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: C:\Documents and Settings\Nick\Desktop\Embeded\empty.mp3"/>
+
+</embedded>
+
+<embedded id="emb3" ref="tika/testWORD_embeded.doc#emb3" type="docx" size="30.6 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![A description...](tika/testWORD_embeded.doc#emb3/img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![A description...](tika/testWORD_embeded.doc#emb3/img2 "JPG, 64x64, 4.0 KB")![A description...](tika/testWORD_embeded.doc#emb3/img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+</embedded>

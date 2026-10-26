@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_macros.pptm
+---
+---
+source: tika/testPPT_macros.pptm
+format: pptx (PowerPoint presentation (Office Open XML))
+title: The quick
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-09-22T00:35:22Z
+modified: 2016-09-22T00:36:45Z
+application: Microsoft Office PowerPoint
+macros: yes (VBA project)
+revision: "2"
+total_editing_time: 1 minutes
+words: "2"
+slides: 1
+---
+
+## Slide 1: The quick
+
+*(empty)*

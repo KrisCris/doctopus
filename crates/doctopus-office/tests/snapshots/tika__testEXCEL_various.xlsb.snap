@@ -1,0 +1,41 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_various.xlsb
+---
+---
+source: tika/testEXCEL_various.xlsb
+format: xlsb (Excel binary workbook)
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2017-03-09T12:24:26Z
+modified: 2017-03-10T14:58:49Z
+application: Microsoft Excel
+macros: yes (VBA project)
+sheets: 1
+---
+
+## Sheet 1: mySheet1
+
+|  | A | B | C | D | E |
+|---|---|---|---|---|---|
+| 1 | String | This is a string |  |  |  |
+| 2 | integer | 13 |  |  |  |
+| 3 | float | 13.1211231321 |  |  |  |
+| 4 | currency | 3.03 |  |  |  |
+| 5 | percent | 0.2 |  |  |  |
+| 6 | float 2 | 13.12131231 |  |  |  |
+| 7 | long int | 123456789012345 |  |  |  |
+| 8 | longer int | 1234567890123450 |  |  |  |
+| 9 | fraction | 0.25 |  |  |  |
+| 10 | date | 2017-03-09 |  |  |  |
+| 11 | comment | contents |  |  |  |
+| 12 | hyperlink | tika_link |  |  |  |
+| 13 | formula | 4 | 2 |  |  |
+| 14 | formulaErr |  |  |  |  |
+| 15 | formulaFloat | 0.5 |  | March | April |
+| 16 | customFormat1 | 46/1963 | merchant1 | 1 | 3 |
+| 17 | customFormat2 | 3/128 | merchant2 | 2 | 4 |
+| 21 |  |  | text test |  |  |
+| 30 |  | the |  |  |  |
+| 33 |  | the |  | quick |  |
+| 35 |  | comment6 |  |  |  |

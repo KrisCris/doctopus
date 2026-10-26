@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testVISIO.vsdm
+---
+---
+source: tika/testVISIO.vsdm
+format: vsdx (Visio drawing (Office Open XML))
+author: Pascal Essiembre
+last_modified_by: Pascal Essiembre
+created: 2015-03-11T15:26:33Z
+modified: 2015-03-11T15:28:26Z
+application: Microsoft Visio
+company: Norconex Inc.
+language: en-US
+template: C:\Program Files\Microsoft Office\Office15\visio content\1033\BASICD_M.VSTX
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 3 [Classic]
+  - 6 "test"
+- 1 "This is a test."
+- 2 "Nothing fancy."
+- 8 [5-Point Star]

@@ -1,0 +1,40 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL-charts.xls
+---
+---
+source: tika/testEXCEL-charts.xls
+format: xls (Excel 97-2003 workbook)
+author: David E. Weekly
+last_modified_by: David E. Weekly
+created: 2009-03-26T23:09:47Z
+modified: 2009-03-26T23:12:33Z
+application: Microsoft Excel
+company: Coceve, Inc.
+sheets: 3
+warnings:
+  - "2 chart(s) not shown: charts in .xls files are not read; save the workbook as .xlsx to include them"
+---
+
+## Sheet 1: charttabyodawg
+
+*type: chart sheet*
+
+*(empty)*
+
+## Sheet 2: Sheet1
+
+|  | A | B | C | D | E | F |
+|---|---|---|---|---|---|---|
+| 1 | Test Excel Spreasheet |  |  |  |  |  |
+| 2 | foo |  |  |  |  |  |
+| 3 | bar |  |  | 1 |  |  |
+| 4 | baz |  |  | 2 |  | 9 |
+| 5 | yadda yam |  |  | 300 |  | 5 |
+| 6 |  |  |  |  |  | 16 |
+
+## Sheet 3: Sheet2
+
+|  | C |
+|---|---|
+| 5 | dingdong |

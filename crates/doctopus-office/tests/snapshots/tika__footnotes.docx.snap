@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/footnotes.docx
+---
+---
+source: tika/footnotes.docx
+format: docx (Word document (Office Open XML))
+author: Anton Trekin
+last_modified_by: Anton Trekin
+created: 2009-07-14T09:45:00Z
+modified: 2009-07-14T09:46:00Z
+application: Microsoft Office Word
+company: Jet Infosystem
+characters: "30"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 1 minutes
+words: "5"
+---
+
+Eto ochen prostoy[^1] text so snoskoy
+
+## Footnotes
+
+[^1]: snoska

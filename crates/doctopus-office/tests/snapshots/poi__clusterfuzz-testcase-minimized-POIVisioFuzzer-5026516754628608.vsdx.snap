@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/clusterfuzz-testcase-minimized-POIVisioFuzzer-5026516754628608.vsdx
+---
+---
+source: poi/clusterfuzz-testcase-minimized-POIVisioFuzzer-5026516754628608.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+pages: 1
+warnings:
+  - the file is truncated or damaged (zip directory missing); content was recovered from what is left and may be incomplete
+---
+
+## Page 1: Page-1
+
+*(empty)*

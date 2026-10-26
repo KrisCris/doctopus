@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testVISIO_text.vsdx
+---
+---
+source: tika/testVISIO_text.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+created: 2015-09-18T19:29:13Z
+modified: 2015-09-18T19:33:52Z
+application: Microsoft Visio
+language: en-US
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 "Text here"
+- 2 [Triangle] "Text there"
+- 3 [Pentagon] "Text, text, everywhere!"
+- 4 [Router] "Router here"

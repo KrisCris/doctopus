@@ -1,0 +1,39 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL.strict.xlsx
+---
+---
+source: tika/testEXCEL.strict.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+title: Sample Spreadsheet
+subject: Spreadsheet for testing
+author: Nick Burch
+last_modified_by: Nick Burch
+created: 2008-01-04T11:51:36Z
+modified: 2015-03-13T11:39:06Z
+keywords: Testing Sample Formulas
+description: This is a sample spreadsheet, for use when testing things
+sheets: 3
+---
+
+## Sheet 1: First Sheet
+
+|  | A | B |
+|---|---|---|
+| 1 | Test spreadsheet |  |
+| 2 | 2nd row | 2nd row 2nd column |
+| 4 | This one is red |  |
+
+## Sheet 2: Sheet Number 2
+
+|  | A | B | C | D |
+|---|---|---|---|---|
+| 1 | Start of 2nd sheet |  |  |  |
+| 2 | Sheet 2 row 2 |  |  |  |
+| 4 | I'm in bold blue, on a yellow background |  |  |  |
+| 6 | cb=1 | cb=10 | cb=2 | cb=sum |
+| 7 | 1 | 10 | 2 | 13 |
+
+## Sheet 3: Sheet3
+
+*(empty)*

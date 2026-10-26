@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testVISIO.vsd
+---
+---
+source: tika/testVISIO.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: Hogwarts
+last_modified_by: Hogwarts
+modified: 2006-07-03T21:05:31Z
+application: Microsoft Visio
+company: Torchbox
+template: C:\Program Files\Microsoft Office\Visio11\1033\DBMODL_M.VST
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 [View]
+  - 2 "Test View"
+  - 3 "I am a test view"
+- 4 "Some random text, on a page"

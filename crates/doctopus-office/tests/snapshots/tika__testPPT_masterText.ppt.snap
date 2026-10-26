@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_masterText.ppt
+---
+---
+source: tika/testPPT_masterText.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: Slide 1
+author: Michael McCandless
+last_modified_by: Michael McCandless
+created: 2011-09-24T18:40:18Z
+modified: 2011-09-24T18:54:42Z
+application: Microsoft Office PowerPoint
+revision: "1"
+total_editing_time: 14 minutes
+slides: 1
+---
+
+## Slide 1
+
+*(empty)*

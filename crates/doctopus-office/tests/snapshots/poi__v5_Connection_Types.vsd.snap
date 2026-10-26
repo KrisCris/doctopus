@@ -1,0 +1,28 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/v5_Connection_Types.vsd
+---
+---
+source: poi/v5_Connection_Types.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: Connection Types
+author: Raymond Mark
+template: C:\Visio\Solutions\Blank Drawing.vst
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 7
+  - 1 [Process]
+  - 2 [Process]
+- 8
+  - 3 [Process]
+  - 4 [Process]
+- 9
+  - 5 [Process]
+  - 6 [Process]
+- 12 "Static to Static"
+- 13 "Dynamic to Static"
+- 15 "Dynamic to Dynamic"

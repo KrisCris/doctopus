@@ -1,0 +1,28 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_EmbeddedPDF.ppt
+---
+---
+source: tika/testPPT_EmbeddedPDF.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-06-28T12:40:36Z
+modified: 2016-06-28T12:41:11Z
+application: Microsoft Office PowerPoint
+revision: "1"
+slides: 1
+parts:
+  - img1: image/jpeg (100x75, 7.5 KB, slide 1)
+  - emb1: OLE object AcroExch.Document.11 (application/pdf, 34.0 KB, slide 1)
+  - emb2: OLE object AcroExch.Document.11 (application/pdf, 1.7 KB, slide 1)
+---
+
+## Slide 1
+
+![image](tika/testPPT_EmbeddedPDF.ppt#img1 "JPG, 100x75, 7.5 KB")
+
+<embedded id="emb1" ref="tika/testPPT_EmbeddedPDF.ppt#emb1" type="application/pdf" size="34.0 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testPPT_EmbeddedPDF.ppt#emb1&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb2" ref="tika/testPPT_EmbeddedPDF.ppt#emb2" type="application/pdf" size="1.7 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testPPT_EmbeddedPDF.ppt#emb2&quot; -o &lt;dir&gt;"/>

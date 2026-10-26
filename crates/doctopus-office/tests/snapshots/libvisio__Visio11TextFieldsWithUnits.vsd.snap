@@ -1,0 +1,57 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/Visio11TextFieldsWithUnits.vsd
+---
+---
+source: libvisio/Visio11TextFieldsWithUnits.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: Bartosz Kosiorek
+last_modified_by: Bartosz Kosiorek
+modified: 2019-07-11T05:13:43Z
+application: Microsoft Visio
+company: TomTom
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 "Number 1 with unit [mm] 1 mm"
+- 2 "Didots 1 d"
+- 3 "Number 1 with [%] unit 1%"
+- 4 "Points 1 pt"
+- 5 "Number -1 without unit -1"
+- 6 "1 Ciceros 1 c"
+- 7 "1 (31.12.1899) date without unit 1899-12-31"
+- 8 "1 degrees 1 deg"
+- 10 "1 elapsed day 1 ed."
+- 11 "1 elapsed week 1 ew."
+- 12 "Number1 with unit [cm] 1 cm" (Property1: 14 mm)
+- 13 "Number 1 with unit [cm] hidden 1"
+- 14 "Number 1 without unit 1"
+- 15 "1 Acre 1 acre"
+- 16 "1 sq. Centimeter 1 cm²"
+- 17 "1 sq. hectares 1 ha"
+- 18 "1 sq inches 1 in²"
+- 19 "Number 100 with [%] unit 100%"
+- 20 "Picas 1 p"
+- 21 "Inch 1 in"
+- 22 "Feet 1 ft"
+- 23 "1 kilometer 1 km"
+- 24 "1 radians 1 rad"
+- 25 "1 yard 1 yd"
+- 26 "1 sq Feet 1 ft²"
+- 27 "1 kilometers 1 km²"
+- 28 "1 miles 1 mi²"
+- 29 "1 Inches in fractions 1.5 in"
+- 30 "1 elapsed hours1 eh."
+- 31 "1 el. Minutes 1 em."
+- 32 "1 el. Sec 1 es."
+- 33 "1 miles 1 mi"
+- 34 "1 nautical miles 1 nmi"
+- 35 "ANGLE 1 seconds 0°0'1""
+- 36 "ANGLE seconds 130°49'9""
+- 37 "1000 didots 1000 d"
+- 38 "1 date with unitout unit 1899-12-31"
+- 39 "1 date with radians unit 1899-12-31"
+- 40 "1 date with currency unit 1899-12-31"

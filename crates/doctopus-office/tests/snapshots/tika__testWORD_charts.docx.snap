@@ -1,0 +1,31 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_charts.docx
+---
+---
+source: tika/testWORD_charts.docx
+format: docx (Word document (Office Open XML))
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2017-06-08T20:16:00Z
+modified: 2017-06-08T20:17:00Z
+application: Microsoft Office Word
+characters: "1"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 1 minutes
+---
+
+**Chart: wants a peach (pie)**
+
+|  | NUMBER |
+|---|---|
+| January | 5 |
+| February | 8 |
+| March | 4 |
+| April | 7 |
+| May | 4 |
+| June | 2 |
+| July | 5 |
+| August | 6 |

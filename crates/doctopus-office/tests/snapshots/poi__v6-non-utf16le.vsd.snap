@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/v6-non-utf16le.vsd
+---
+---
+source: poi/v6-non-utf16le.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: harold
+company: cccc
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 [Entity]
+  - 2 "PropertySheet"
+- 20 [Entity]
+  - 21 "PropertySheetField"
+
+Connections:
+- 1 [Entity] -> 20 [Entity]

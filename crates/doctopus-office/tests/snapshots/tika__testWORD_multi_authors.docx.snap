@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_multi_authors.docx
+---
+---
+source: tika/testWORD_multi_authors.docx
+format: docx (Word document (Office Open XML))
+subject: subject
+author: Allison, Timothy B.;author2;author3
+last_modified_by: Allison, Timothy B.
+created: 2015-10-07T18:14:00Z
+modified: 2015-10-07T18:18:00Z
+keywords: tag
+application: Microsoft Office Word
+company: metadata_company
+custom.Checked by: metadata_checked_by
+manager: manager1;manager2
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 4 minutes
+---

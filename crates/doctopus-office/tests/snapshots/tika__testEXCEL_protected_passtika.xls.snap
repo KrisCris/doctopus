@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_protected_passtika.xls
+---
+error: Excel 97-2003 workbook is encrypted or password-protected

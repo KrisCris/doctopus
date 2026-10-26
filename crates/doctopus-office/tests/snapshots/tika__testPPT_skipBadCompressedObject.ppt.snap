@@ -1,0 +1,266 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_skipBadCompressedObject.ppt
+---
+---
+source: tika/testPPT_skipBadCompressedObject.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+author: Walter W. Johnson
+last_modified_by: Walter W. Johnson
+created: 2000-10-04T22:02:27Z
+modified: 2000-11-03T20:00:36Z
+application: Microsoft PowerPoint
+company: NASA
+revision: "44"
+total_editing_time: 2674 minutes
+words: "810"
+slides: 14
+parts:
+  - img1: image/png (75x65, 13.9 KB, slide 5)
+  - emb1: Visio 2003-2010 drawing (87.5 KB, slide 5)
+  - emb2: Visio 2003-2010 drawing (9.5 KB, slide 5)
+  - img2: image/wmf (234 B, slide 5)
+  - img3: image/wmf (234 B, slide 5)
+  - emb3: Visio 2003-2010 drawing (9.5 KB, slide 5)
+  - img4: image/emf (23.6 KB, slide 8)
+  - img5: image/emf (24.3 KB, slide 9)
+  - img6: image/emf (23.9 KB, slide 10)
+  - img7: image/emf (24.4 KB, slide 11)
+warnings:
+  - an embedded object on slide 10 is damaged; only its picture is shown
+  - an embedded object on slide 11 is damaged; only its picture is shown
+---
+
+## Slide 1
+
+An Evaluation of CDTI Dynamic Predictor Display Technology
+
+> Walter W. Johnson, Lisa Thomas, and Vernol Battiste
+>
+> Human Information Research and Technology Division
+>
+> NASA Ames Research Center
+
+## Slide 2
+
+Background
+
+> Free Flight proposes to place some or all of the responsibility for conflict resolutions in the hands of the flight crew
+>
+> In order to effectively perform this function the flight crew will need displays and tools that aid in evaluating proposed resolutions
+
+## Slide 3
+
+Purpose
+
+> Compare and contrast the relative utility of two CDTI-based tools for resolving conflicts
+>
+> - Dynamic Conflict Alerting
+> - Dynamic Trajectory Pulse Prediction
+
+## Slide 4
+
+Design
+
+> Manipulations
+>
+> 3 Scenario Variables
+>
+>     - Conflict Angle
+>     - Initial Ownship Distance from Conflict
+>     - Initial Traffic Distance from Conflict
+>
+> 2 Display Variables
+>
+>     - Dynamic Trajectory Pulse Prediction
+>     - Dynamic Conflict Alerting
+
+## Slide 5
+
+![NASA Logo](tika/testPPT_skipBadCompressedObject.ppt#img1 "PNG, 75x65, 13.9 KB")
+
+Conflict Scenarios
+
+> **Ownship**
+>
+> **Speed = 320 kts**
+>
+> **Initial Distance from Conflict:**
+>
+> **Near – 30 NM**
+>
+> **Mid – 45 NM**
+>
+> **Far – 60 NM**
+
+<embedded id="emb1" ref="tika/testPPT_skipBadCompressedObject.ppt#emb1" type="vsd" size="87.5 KB">
+
+### Page 1: Page-1
+
+Shapes:
+- 83
+  - 5 [Triangle]
+  - 86 "20 deg"
+  - 87 "40 deg"
+  - 90 "120 deg"
+  - 91 "80 deg"
+  - 92 "60 deg"
+  - 93 "140 deg"
+  - 94 "160 deg"
+  - 95 "180 deg"
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testPPT_skipBadCompressedObject.ppt#emb2" type="vsd" size="9.5 KB">
+
+### Page 1: Page-1
+
+Shapes:
+- 89 "100 deg"
+
+</embedded>
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img2 "WMF, 234 B")
+
+**Near (2/3 Ownship Distance/Speed)**
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img3 "WMF, 234 B")
+
+**Mid (1.0 x Ownship Distance/Speed)**
+
+<embedded id="emb3" ref="tika/testPPT_skipBadCompressedObject.ppt#emb3" type="vsd" size="9.5 KB">
+
+### Page 1: Page-1
+
+*(1 shape without text)*
+
+</embedded>
+
+**Far (1.5 x Ownship Distance/Speed)**
+
+**Traffic**
+
+## Slide 6
+
+Design (cont.)
+
+> Dependent Variables
+>
+> Response Time
+>
+> Resolution Conflict Probability (how often resolution worked)
+>
+> Distance to Traffic at Closest Approach
+>
+> Cost of Resolution (path deviation size in miles)
+>
+> Subjects
+>
+> 8 General Aviation Pilots
+
+## Slide 7
+
+Procedure
+
+> Trials were blocked by Dynamic Conflict Alerting and Dynamic Trajectory Pulse Prediction
+>
+> Each block showed all combinations of Conflict Angle, Initial Ownship Distance-to-Conflict, and Initial Traffic Distance-to-Conflict
+>
+> Subjects were instructed to solve each conflict with a primary emphasis on safety and a secondary emphasis on efficiency
+
+## Slide 8
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img4 "EMF, 23.6 KB")
+
+### Notes
+
+There is a need for aiding only for intercept angles less than 90 degrees.
+
+The lack of any aiding led to substantially inferior performance for intercept angles less than 90 degrees
+
+Alerting was the most effective aid for avoiding LOS. The addition of trajectory pulse prediction was not of value.
+
+Trajectory pulse prediction was important for avoiding LOS only when alerting was not present
+
+## Slide 9
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img5 "EMF, 24.3 KB")
+
+### Notes
+
+Alerting led to substantially smaller separations overall
+
+Approximately equal separations both with and without alerting were found for the smallest and the largest angles. This may be due to different mechanisms. For the near head-on encounters (large angles), path separation at the conflict point will be the largest separation. For the low conflict angles this is not the case and too small of a deviation will bring the aircraft close where their paths cross.
+
+Substantially larger separations were generated when resolving more lateral conflicts (those closer to 90 degrees)
+
+Smaller conflict angles require larger deviations, and the desire to minimize the size of the deviations would lead to closer approaches for smaller conflict angles
+
+Conflict angles greater than 90 degrees require smaller deviations
+
+## Slide 10
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img6 "EMF, 23.9 KB")
+
+### Notes
+
+Without alerting, resolution costs rise to a peak at 60 degrees and then fall. The smaller path deviations are correlated with higher conflict probabilities
+
+With alerting resolution costs are mostly monotonically decreasing with intercept angle
+
+For intercept angles greater than 60 degrees, alerting solely determines the overall size of the deviation, with alerting yielding better efficiency
+
+For intercept angles less than 60 degrees, pulse prediction decreases the “efficiency” of performance with and without alerting.
+
+## Slide 11
+
+![image](tika/testPPT_skipBadCompressedObject.ppt#img7 "EMF, 24.4 KB")
+
+### Notes
+
+Alerting led to faster response times
+
+Response times were approximately monotonic with conflict angle, with longer response times for more acute intercept angles
+
+Pulse prediction led to longer response times for the most acute intercept angles when no alerting was present. This was probably due to the difficult nature of the solution, and the time needed to make effective use of the pulse prediction
+
+## Slide 12
+
+Summary
+
+> Loss of Separation (LOS):
+>
+> - Tools to avoid LOS were needed for conflict angles of 60 degrees or less.
+> - Dynamic alerting was the most effective aid for avoiding LOS.
+>
+> Closest Approach Distance:
+>
+> - Dynamic alerting led to substantially smaller minimum separations
+> - Minimum separations were the least at the largest and smallest conflict angles.
+>   - Head-on encounters(large angle) can be resolved with only a path separation at the conflict point.
+>   - Small conflict angles require larger and less simple deviations. An attempt to minimize this deviation could lead to the observed closer approaches and the greater number of projected LOS events.
+
+## Slide 13
+
+> Resolution Costs:
+>
+> - Dynamic alerting was the most effective aid for creating efficient resolutions
+> - With dynamic alerting, resolution costs monotonically decreased with conflict angle
+> - Without dynamic alerting, resolution costs rose to a peak at 60 degrees and then fell. These smaller path deviations were correlated with higher conflict probabilities
+> - For intercept angles less than 60 degrees, dynamic trajectory prediction led pilots to generate resolutions with larger deviations (even when dynamic alerting was present)
+>
+> Response Time:
+>
+> - Dynamic alerting led to faster response times
+> - Response times increased as conflict angle decreased
+
+Summary (cont.)
+
+## Slide 14
+
+Conclusions
+
+> Pilots have difficulty in designing resolutions without a dynamic alert aid that tells them if the proposed resolution is clear of conflicts
+>
+> Dynamic trajectory predictors are helpful, but not sufficient. When combined with dynamic alerting, dynamic trajectory predictors lead pilots to add an extra “margin” to resolutions found acceptable using dynamic alerting alone.

@@ -1,0 +1,59 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/bitmaps.vsd
+---
+---
+source: libvisio/bitmaps.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: fstrba
+last_modified_by: fstrba
+modified: 2016-12-12T12:03:22Z
+application: Microsoft Visio
+company: Dummy Company
+pages: 1
+parts:
+  - img1: image/bmp (127x64, 1.1 KB, page "Page-1" shape 1)
+  - img2: image/bmp (127x64, 1.1 KB, page "Page-1" shape 2)
+  - img3: image/bmp (127x64, 1.1 KB, page "Page-1" shape 3)
+  - img4: image/bmp (127x64, 4.1 KB, page "Page-1" shape 4)
+  - img5: image/bmp (127x64, 4.1 KB, page "Page-1" shape 5)
+  - img6: image/bmp (127x64, 31.8 KB, page "Page-1" shape 6)
+  - img7: image/bmp (127x64, 9.1 KB, page "Page-1" shape 7)
+  - img8: image/bmp (127x64, 9.1 KB, page "Page-1" shape 8)
+  - img9: image/bmp (127x64, 9.1 KB, page "Page-1" shape 9)
+  - img10: image/bmp (127x64, 31.8 KB, page "Page-1" shape 10)
+  - img11: image/bmp (127x64, 9.1 KB, page "Page-1" shape 11)
+  - img12: image/bmp (127x64, 9.1 KB, page "Page-1" shape 12)
+  - img13: image/bmp (127x64, 9.1 KB, page "Page-1" shape 13)
+  - img14: image/bmp (127x64, 24.1 KB, page "Page-1" shape 14)
+  - img15: image/bmp (127x64, 31.8 KB, page "Page-1" shape 15)
+  - img16: image/bmp (127x64, 31.8 KB, page "Page-1" shape 16)
+  - img17: image/bmp (127x64, 24.1 KB, page "Page-1" shape 17)
+  - img18: image/bmp (127x64, 24.1 KB, page "Page-1" shape 18)
+  - img19: image/bmp (127x64, 31.8 KB, page "Page-1" shape 19)
+  - img20: image/bmp (127x64, 31.8 KB, page "Page-1" shape 20)
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 -> img1 (libvisio/bitmaps.vsd#img1)
+- 2 -> img2 (libvisio/bitmaps.vsd#img2)
+- 3 -> img3 (libvisio/bitmaps.vsd#img3)
+- 4 -> img4 (libvisio/bitmaps.vsd#img4)
+- 5 -> img5 (libvisio/bitmaps.vsd#img5)
+- 6 -> img6 (libvisio/bitmaps.vsd#img6)
+- 7 -> img7 (libvisio/bitmaps.vsd#img7)
+- 8 -> img8 (libvisio/bitmaps.vsd#img8)
+- 9 -> img9 (libvisio/bitmaps.vsd#img9)
+- 10 -> img10 (libvisio/bitmaps.vsd#img10)
+- 11 -> img11 (libvisio/bitmaps.vsd#img11)
+- 12 -> img12 (libvisio/bitmaps.vsd#img12)
+- 13 -> img13 (libvisio/bitmaps.vsd#img13)
+- 14 -> img14 (libvisio/bitmaps.vsd#img14)
+- 15 -> img15 (libvisio/bitmaps.vsd#img15)
+- 16 -> img16 (libvisio/bitmaps.vsd#img16)
+- 17 -> img17 (libvisio/bitmaps.vsd#img17)
+- 18 -> img18 (libvisio/bitmaps.vsd#img18)
+- 19 -> img19 (libvisio/bitmaps.vsd#img19)
+- 20 -> img20 (libvisio/bitmaps.vsd#img20)

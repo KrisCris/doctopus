@@ -1,0 +1,48 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_groups.ppt
+---
+---
+source: tika/testPPT_groups.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2018-02-09T14:28:47Z
+modified: 2018-02-09T14:36:13Z
+application: Microsoft Office PowerPoint
+revision: "2"
+total_editing_time: 7 minutes
+words: "23"
+slides: 1
+parts:
+  - img1: image/jpeg (100x68, 16.0 KB, slide 1)
+  - img2: image/png (459x488, 7.2 KB, slide 1)
+---
+
+## Slide 1: MyTitle
+
+|  |  |  |  |
+|---|---|---|---|
+|  |  |  |  |
+|  |  |  |  |
+
+Text box3
+
+Text box1
+
+Text box2
+
+Text box4
+
+![image](tika/testPPT_groups.ppt#img1 "JPG, 100x68, 16.0 KB")
+
+Text box5 [tika link](http://tika.apache.org/)
+
+![image](tika/testPPT_groups.ppt#img2 "PNG, 459x488, 7.2 KB")
+
+WordArt1
+
+WordArt2
+
+Ungrouped text box

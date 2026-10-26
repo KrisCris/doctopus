@@ -1,0 +1,25 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testComment.docx
+---
+---
+source: tika/testComment.docx
+format: docx (Word document (Office Open XML))
+author: Michael McCandless
+last_modified_by: Michael McCandless
+created: 2011-09-17T12:31:00Z
+modified: 2011-09-17T12:33:00Z
+application: Microsoft Office Word
+characters: "18"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 2 minutes
+words: "2"
+---
+
+Here is some text[^c1].
+
+## Comments
+
+[^c1]: **Michael McCandless** (2011-09-17 08:32) on "text": Here is a comment

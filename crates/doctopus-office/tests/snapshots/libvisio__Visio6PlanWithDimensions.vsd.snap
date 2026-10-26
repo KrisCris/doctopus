@@ -1,0 +1,29 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/Visio6PlanWithDimensions.vsd
+---
+---
+source: libvisio/Visio6PlanWithDimensions.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: Visio6PlanWithDimensions
+author: z
+template: C:\Visio6\Solutions\Office Layout\Office Layout.vst
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 ["L" Room] "80,00 sq. ft."
+- 2 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 120 in)
+- 8 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 72 in)
+- 14 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 60 in)
+- 20 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 48 in)
+- 26 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 60 in)
+- 32 [Wall] (Wall Thickness: 4 in; Reference Line Offset: 2 in; Wall Height: 8 ft; Wall Length: 120 in)
+- 38 [Dimension line] "Bold Custom Color 10'-0""
+- 39 [Dimension line] "6'-0""
+- 40 [Dimension line] "5'-0""
+- 41 [Dimension line] "4'-0""
+- 42 [Dimension line] "Indexed color 5'-0""
+- 43 [Dimension line] "Without Background color 10'-0""

@@ -1,0 +1,32 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_charts.pptx
+---
+---
+source: tika/testPPT_charts.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: PowerPoint Presentation
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2017-06-08T20:17:25Z
+modified: 2017-06-08T20:17:47Z
+application: Microsoft Office PowerPoint
+revision: "1"
+words: "3"
+slides: 1
+---
+
+## Slide 1
+
+**Chart: wants a peach (pie)**
+
+|  | NUMBER |
+|---|---|
+| January | 5 |
+| February | 8 |
+| March | 4 |
+| April | 7 |
+| May | 4 |
+| June | 2 |
+| July | 5 |
+| August | 6 |

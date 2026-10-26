@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_omml.docx
+---
+---
+source: tika/testWORD_omml.docx
+format: docx (Word document (Office Open XML))
+---
+
+area $A=πrr^{2}$ done
+
+$$
+x+y
+$$
+
+**bold** $z$ **after**
+
+$ac$
+
+empty

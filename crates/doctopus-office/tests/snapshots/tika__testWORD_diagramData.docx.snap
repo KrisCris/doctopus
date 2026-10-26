@@ -1,0 +1,25 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_diagramData.docx
+---
+---
+source: tika/testWORD_diagramData.docx
+format: docx (Word document (Office Open XML))
+author: Oytun Tez
+last_modified_by: Oytun Tez
+created: 2017-06-08T15:40:00Z
+modified: 2017-06-08T15:41:00Z
+application: Microsoft Macintosh Word
+characters: "39"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 1 minutes
+words: "6"
+---
+
+- From here
+- To here
+- And then here.
+
+This is a regular text in document body.

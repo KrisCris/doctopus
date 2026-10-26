@@ -1,0 +1,28 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_embedded_rtf.doc
+---
+---
+source: tika/testWORD_embedded_rtf.doc
+format: doc (Word 97-2003 document)
+author: IBMer
+last_modified_by: IBMer
+created: 2012-07-17T11:16:00Z
+modified: 2012-07-17T11:17:00Z
+application: Microsoft Office Word
+company: IBM
+characters: "55"
+pages: "1"
+revision: "2"
+template: Normal.dot
+total_editing_time: 1 minutes
+words: "10"
+parts:
+  - emb1: OLE object WordPad.Document.1 (application/rtf, 174 B, body)
+---
+
+The main doc
+
+<embedded id="emb1" ref="tika/testWORD_embedded_rtf.doc#emb1" type="application/rtf" size="174 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWORD_embedded_rtf.doc#emb1&quot; -o &lt;dir&gt;"/>
+
+Adding more text

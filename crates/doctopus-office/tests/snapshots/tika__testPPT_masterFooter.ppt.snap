@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_masterFooter.ppt
+---
+---
+source: tika/testPPT_masterFooter.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: Slide 1
+author: Michael McCandless
+last_modified_by: Michael McCandless
+created: 2011-09-09T16:51:53Z
+modified: 2011-09-13T14:57:23Z
+application: Microsoft Office PowerPoint
+revision: "2"
+total_editing_time: 101 minutes
+words: "4"
+slides: 1
+---
+
+## Slide 1
+
+*(empty)*

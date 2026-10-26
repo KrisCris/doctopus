@@ -1,0 +1,42 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_charts.xlsx
+---
+---
+source: tika/testEXCEL_charts.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+author: Microsoft Office User
+last_modified_by: Microsoft Office User
+created: 2017-01-30T14:30:54Z
+modified: 2017-01-30T14:34:29Z
+application: Microsoft Macintosh Excel
+sheets: 1
+---
+
+## Sheet 1: Sheet1
+
+|  | A | B |
+|---|---|---|
+| 1 | MONTH | NUMBER |
+| 2 | January | 5 |
+| 3 | February | 8 |
+| 4 | March | 4 |
+| 5 | April | 7 |
+| 6 | May | 4 |
+| 7 | June | 2 |
+| 8 | July | 5 |
+| 9 | August | 6 |
+| 10 | is a panda |  |
+
+**Chart: wants a peach (pie)**
+
+|  | NUMBER |
+|---|---|
+| January | 5 |
+| February | 8 |
+| March | 4 |
+| April | 7 |
+| May | 4 |
+| June | 2 |
+| July | 5 |
+| August | 6 |

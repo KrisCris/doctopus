@@ -1,0 +1,55 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_groups.pptx
+---
+---
+source: tika/testPPT_groups.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: PowerPoint Presentation
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2018-02-09T14:28:47Z
+modified: 2018-02-09T14:35:57Z
+application: Microsoft Office PowerPoint
+revision: "1"
+total_editing_time: 7 minutes
+words: "23"
+slides: 2
+parts:
+  - img1: image/jpeg "image1.jpg" (100x68, 16.0 KB, slide 2)
+---
+
+## Slide 1
+
+*(empty)*
+
+## Slide 2: MyTitle
+
+|  |  |  |  |
+|---|---|---|---|
+|  |  |  |  |
+|  |  |  |  |
+
+Text box3
+
+Text box1
+
+Text box2
+
+Text box4
+
+![image1.jpg](tika/testPPT_groups.pptx#img1 "JPG, 100x68, 16.0 KB")
+
+Text box5 [tika link](http://tika.apache.org/)
+
+- smart1
+- smart2
+- Smart3
+- smart4
+- Smart5
+
+WordArt1
+
+WordArt2
+
+Ungrouped text box

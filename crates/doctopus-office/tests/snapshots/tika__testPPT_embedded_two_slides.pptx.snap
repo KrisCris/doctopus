@@ -1,0 +1,141 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_embedded_two_slides.pptx
+---
+---
+source: tika/testPPT_embedded_two_slides.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Michael McCandless
+modified: 2012-11-26T13:52:33Z
+application: Microsoft Office PowerPoint
+custom.Version: "1"
+revision: "6"
+total_editing_time: 2 minutes
+words: "18"
+slides: 2
+parts:
+  - img1: image/png "image4.png" (189x55, 4.3 KB, slide 1)
+  - img2: image/gif "image5.gif" (100x75, 8.3 KB, slide 1)
+  - media1: audio/mpeg "empty.mp3" (0 B, slide 1, linked to file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3)
+  - emb1: Excel workbook (Office Open XML) "Microsoft_Office_Excel_Worksheet1.xlsx" (14.0 KB, slide 1)
+  - emb2: Word document (Office Open XML) "Microsoft_Office_Word_Document2.docx" (30.6 KB, slide 1)
+  - emb3: Word 97-2003 document "Microsoft_Office_Word_97_-_2003_Document1.doc" (14.0 KB, slide 1)
+  - emb4: Excel workbook (Office Open XML) "Microsoft_Office_Excel_Worksheet3.xlsx" (14.0 KB, slide 2)
+  - emb5: Word document (Office Open XML) "Microsoft_Office_Word_Document4.docx" (30.6 KB, slide 2)
+  - emb6: Word 97-2003 document "Microsoft_Office_Word_97_-_2003_Document2.doc" (14.0 KB, slide 2)
+---
+
+## Slide 1: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testPPT_embedded_two_slides.pptx#img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testPPT_embedded_two_slides.pptx#img2 "GIF, 100x75, 8.3 KB")
+
+<embedded id="media1" ref="tika/testPPT_embedded_two_slides.pptx#media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3"/>
+
+<embedded id="emb1" ref="tika/testPPT_embedded_two_slides.pptx#emb1" type="xlsx" name="Microsoft_Office_Excel_Worksheet1.xlsx" size="14.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testPPT_embedded_two_slides.pptx#emb1/img1 "PNG, 189x55, 4.3 KB")
+
+### Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testPPT_embedded_two_slides.pptx#emb2" type="docx" name="Microsoft_Office_Word_Document2.docx" size="30.6 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![A description...](tika/testPPT_embedded_two_slides.pptx#emb2/img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![A description...](tika/testPPT_embedded_two_slides.pptx#emb2/img2 "JPG, 64x64, 4.0 KB")![A description...](tika/testPPT_embedded_two_slides.pptx#emb2/img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+</embedded>
+
+<embedded id="emb3" ref="tika/testPPT_embedded_two_slides.pptx#emb3" type="doc" name="Microsoft_Office_Word_97_-_2003_Document1.doc" size="14.0 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testPPT_embedded_two_slides.pptx#emb3/img1 "PNG, 189x55, 4.3 KB")
+
+</embedded>
+
+## Slide 2: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testPPT_embedded_two_slides.pptx#img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testPPT_embedded_two_slides.pptx#img2 "GIF, 100x75, 8.3 KB")
+
+<embedded id="media1" ref="tika/testPPT_embedded_two_slides.pptx#media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3"/>
+
+<embedded id="emb4" ref="tika/testPPT_embedded_two_slides.pptx#emb4" type="xlsx" name="Microsoft_Office_Excel_Worksheet3.xlsx" size="14.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testPPT_embedded_two_slides.pptx#emb4/img1 "PNG, 189x55, 4.3 KB")
+
+### Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+
+</embedded>
+
+<embedded id="emb5" ref="tika/testPPT_embedded_two_slides.pptx#emb5" type="docx" name="Microsoft_Office_Word_Document4.docx" size="30.6 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![A description...](tika/testPPT_embedded_two_slides.pptx#emb5/img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![A description...](tika/testPPT_embedded_two_slides.pptx#emb5/img2 "JPG, 64x64, 4.0 KB")![A description...](tika/testPPT_embedded_two_slides.pptx#emb5/img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+</embedded>
+
+<embedded id="emb6" ref="tika/testPPT_embedded_two_slides.pptx#emb6" type="doc" name="Microsoft_Office_Word_97_-_2003_Document2.doc" size="14.0 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testPPT_embedded_two_slides.pptx#emb6/img1 "PNG, 189x55, 4.3 KB")
+
+</embedded>

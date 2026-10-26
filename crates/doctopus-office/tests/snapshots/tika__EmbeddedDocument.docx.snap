@@ -1,0 +1,41 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/EmbeddedDocument.docx
+---
+---
+source: tika/EmbeddedDocument.docx
+format: docx (Word document (Office Open XML))
+author: win user
+last_modified_by: win user
+created: 2010-12-10T08:30:00Z
+modified: 2010-12-10T10:05:00Z
+application: Microsoft Office Word
+characters: "66"
+pages: "1"
+revision: "5"
+template: Normal.dotm
+total_editing_time: 6 minutes
+words: "11"
+parts:
+  - emb1: Excel 97-2003 workbook "Microsoft_Office_Excel_97-2003_Worksheet1.bin" (18.0 KB, body)
+---
+
+Let me see what happens if I insert a worksheet.
+
+<embedded id="emb1" ref="tika/EmbeddedDocument.docx#emb1" type="xls" name="Microsoft_Office_Excel_97-2003_Worksheet1.bin" size="18.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C | D |
+|---|---|---|---|---|
+| 1 | 1 | 2 | 3 | 4 |
+
+### Sheet 2: Sheet2
+
+*(empty)*
+
+### Sheet 3: Sheet3
+
+*(empty)*
+
+</embedded>

@@ -1,0 +1,132 @@
+name: Release
+
+# Pushing a tag such as v0.2.0 builds self-contained binaries for six
+# targets and attaches them to a draft GitHub release. Running the workflow
+# by hand builds and checks the binaries without releasing anything.
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  # Do not set RUSTFLAGS here: it would replace the static-linking flags in
+  # .cargo/config.toml.
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  version:
+    name: Check the tag
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: The tag must match the crate version
+        run: |
+          crate=$(cargo pkgid -p doctopus | sed -E 's/.*[#@]//')
+          if [ "${GITHUB_REF_NAME#v}" != "$crate" ]; then
+            echo "tag $GITHUB_REF_NAME does not match crate version $crate" >&2
+            exit 1
+          fi
+
+  build:
+    name: Build ${{ matrix.target }}
+    needs: version
+    # Also run by hand, when the version check is skipped.
+    if: ${{ !failure() && !cancelled() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-musl
+            runner: ubuntu-latest
+            native: true
+          - target: aarch64-unknown-linux-musl
+            runner: ubuntu-24.04-arm
+            native: true
+          - target: x86_64-apple-darwin
+            runner: macos-latest
+            native: false
+          - target: aarch64-apple-darwin
+            runner: macos-latest
+            native: true
+          - target: x86_64-pc-windows-msvc
+            runner: windows-latest
+            native: true
+          - target: aarch64-pc-windows-msvc
+            runner: windows-latest
+            native: false
+    runs-on: ${{ matrix.runner }}
+    env:
+      EXE: ${{ contains(matrix.target, 'windows') && '.exe' || '' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build
+        run: cargo build --profile dist --locked --target ${{ matrix.target }} -p doctopus
+      - name: Check that the binary is self-contained
+        run: |
+          python=$(command -v python3 || command -v python)
+          "$python" scripts/check-binary.py "target/${{ matrix.target }}/dist/doctopus$EXE"
+      - name: Smoke test
+        if: matrix.native
+        run: |
+          bin="target/${{ matrix.target }}/dist/doctopus$EXE"
+          "$bin" --version
+          "$bin" formats
+      - name: Package
+        run: |
+          case "$GITHUB_REF" in
+            refs/tags/v*) version="${GITHUB_REF_NAME#v}" ;;
+            *) version="dev" ;;
+          esac
+          name="doctopus-$version-${{ matrix.target }}"
+          mkdir -p "dist/$name"
+          cp "target/${{ matrix.target }}/dist/doctopus$EXE" README.md LICENSE-MIT LICENSE-APACHE NOTICE "dist/$name/"
+          python=$(command -v python3 || command -v python)
+          "$python" scripts/third-party-licenses.py --target ${{ matrix.target }} > "dist/$name/THIRD-PARTY-LICENSES.txt"
+          cd dist
+          if [ -n "$EXE" ]; then
+            7z a -tzip "$name.zip" "$name" > /dev/null
+          else
+            tar -czf "$name.tar.gz" "$name"
+          fi
+          rm -r "$name"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: doctopus-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    name: Draft the GitHub release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        run: cd dist && sha256sum * > SHA256SUMS
+      - name: Create a draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            --draft

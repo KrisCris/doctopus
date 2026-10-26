@@ -1,0 +1,108 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_numbered_list.docx
+---
+---
+source: tika/testWORD_numbered_list.docx
+format: docx (Word document (Office Open XML))
+last_modified_by: Allison, Timothy B.
+created: 2015-04-15T18:24:00Z
+modified: 2015-05-06T18:15:00Z
+application: Microsoft Office Word
+characters: "513"
+pages: "3"
+revision: "17"
+template: Normal.dotm
+total_editing_time: 69 minutes
+words: "90"
+---
+
+1) This
+  a) Is
+    i) A multi
+    ii) Level
+
+| Intervening table | 1. Within cell 1<br>a. Cell a<br>b. Cell b |  |  |
+|---|---|---|---|
+|  |  |  |  |
+|  |  |  |  |
+
+    iii) List
+2) foo
+    i) bar
+    ii) baz
+
+This is another list
+
+I. yet
+  a) another
+    i) list
+
+Intervening paragraph
+
+    ii) foo
+II. bar
+  a) baz
+      (1) baq
+
+This is a new list that starts at 6, with a custom change of b. -> e.
+
+6. six
+7. seven
+  a. seven a
+e. seven e
+f. seven f
+
+> I’m a little text box
+>
+> 1. Short
+> 2. Stout
+>   a. 2 a
+>     i. 2 a i
+
+[^c1]
+
+[^1]
+
+How about a list over a section break
+
+1. list 1
+2. list 2
+
+Finally some missing items
+
+A. A
+    i. A i
+    ii. A ii
+        a. A ii a
+        b. A ii b
+      1. A ii 2
+3. page break list 3
+Some-1-CrazyFormat Greek numbering with crazy format - alpha
+Some-2-CrazyFormat Greek numbering with crazy format - beta
+1. 1
+    1.1.1. 1.1.1
+  1.1. 1.2->1.1 //set the value to 1 and “start new list”
+  1.2. 1.3 -> 1.2
+1. 2.
+  1.1. 2.1
+
+## Footnotes
+
+[^1]: Footnote list
+    
+    - Footnote list 1
+    
+    - Footnote list 2
+    
+    - Footnote list 2a
+
+## Comments
+
+[^c1]: **ISIS** (2015-04-15 17:03): Let’s add a list here
+    
+    - comment list 1.
+    
+    - comment list 2
+    
+    - comment list 2a

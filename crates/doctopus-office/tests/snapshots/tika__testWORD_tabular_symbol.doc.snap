@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_tabular_symbol.doc
+---
+---
+source: tika/testWORD_tabular_symbol.doc
+format: doc (Word 97-2003 document)
+title: Информационный бюллетень новых поступлений
+author: inmet1
+last_modified_by: inmet1
+created: 2009-04-15T06:50:00Z
+modified: 2009-04-15T07:22:00Z
+revision: "1"
+template: Normal.dot
+total_editing_time: 20 minutes
+---
+
+one
+two

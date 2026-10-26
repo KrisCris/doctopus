@@ -1,0 +1,27 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/dwg.vsd
+---
+---
+source: libvisio/dwg.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: Title test
+subject: Subject test
+author: Mihai Varga
+keywords: Tag_test
+description: Comments test
+application: Microsoft Visio
+company: Company test
+category: Category test
+manager: Manager test
+template: C:\Program Files\Microsoft Office\Office15\visio content\1033\BASICD_M.VSTX
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 [Square]
+- 2 [Right Triangle]
+- 3 [Octagon]
+- 4 [Decagon]

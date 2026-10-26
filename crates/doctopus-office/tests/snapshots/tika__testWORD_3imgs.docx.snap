@@ -1,0 +1,33 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_3imgs.docx
+---
+---
+source: tika/testWORD_3imgs.docx
+format: docx (Word document (Office Open XML))
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Derek Hulley
+created: 2005-05-26T13:57:00.00Z
+modified: 2005-09-20T18:25:00.00Z
+revision: "6"
+template: Normal.dot
+total_editing_time: 120 minutes
+parts:
+  - img1: image/png "image2.png" (189x55, 4.3 KB, body)
+  - img2: image/jpeg "image3.jpeg" (64x64, 4.0 KB, body)
+  - img3: image/png "image4.png" (180x171, 18.5 KB, body)
+---
+
+The quick brown fox jumps over the lazy dog
+
+![A description...](tika/testWORD_3imgs.docx#img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![A description...](tika/testWORD_3imgs.docx#img2 "JPG, 64x64, 4.0 KB")![A description...](tika/testWORD_3imgs.docx#img3 "PNG, 180x171, 18.5 KB")
+
+The end!

@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_features.doc
+---
+---
+source: tika/testWORD_features.doc
+format: doc (Word 97-2003 document)
+last_modified_by: Kyle Reese
+created: 2025-06-26T18:10:39Z
+modified: 2025-06-26T18:28:55Z
+revision: "2"
+total_editing_time: 9 minutes
+tracked_changes: 3 insertions, 3 deletions (text is shown with insertions applied and deletions removed)
+---
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tincidunt pretium dapibus[^c1]. Fusce quis dolor dui. Nullam eleifend nibh non dui sodales vulputate. Mauris id mollis velit. Fusce in sagittis nisl. Maecenas eget elit insert this fringilla, est eu, volutpat urna.ad litoraMaecenas ornare tortor velit, non ullamcorper turpis dapibus quis. While euismod posuere rhoncus. Duis mollis faucibus tincidunt. Praesent non facilisis orci, sodales hendrerit ipsum. Class aptent taciti sociosqutorquent himenaeos.[^c2]
+
+## Comments
+
+[^c1]: **Kyle Reese** (2025-06-26 14:17) on "apibus": This is another comment
+
+[^c2]: **Unknown Author** (2025-06-26 14:12) on "himenaeos.": This is a comment

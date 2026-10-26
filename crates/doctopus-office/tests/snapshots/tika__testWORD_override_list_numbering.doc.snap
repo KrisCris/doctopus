@@ -1,0 +1,75 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_override_list_numbering.doc
+---
+---
+source: tika/testWORD_override_list_numbering.doc
+format: doc (Word 97-2003 document)
+created: 2015-05-27T21:02:00Z
+modified: 2015-05-27T21:02:00Z
+application: Microsoft Office Word
+characters: "428"
+pages: "2"
+revision: "1"
+template: Normal.dotm
+words: "75"
+---
+
+**Test 1:** List with arbitrary text inserted and a bullet in between
+
+0 0th
+1 1st
+  1.1 1st.1
+  1.2 1st.2
+    1.2.1someText 1st.2.1someText
+    1.2.2someText 1st.2.2someText
+      1.2.2someOtherText.1 1st.2.2someOtherText.1
+        - ·
+            1.1.1.1...1 1.1.1.1...1
+    1.2.3someText 1st.2.3someText
+  1.3 1st.3
+2 2nd
+3 3rd
+4 4th
+5 5th
+
+**Test 2:** List with restartAt modified and skipped levels
+
+1 1
+  1.a 1.a
+    1.a.I 1.a.I
+    1.a.II 1.a.II
+  1.b 1.b
+    1.b.I 1.b.III
+2 2
+    2.a.I 2.a.I
+  2.a 2.b
+
+**Test 3:** List with LegalNumbering and modified startAt value
+
+(1)) (1))
+(2)) (2))
+  2.17 2.17
+  2.18 2.18
+    2.18.i 2.18.i
+    2.18.ii 2.18.ii
+      2.18.ii.1 2.18.2.1
+2 2
+
+**Test 4:** ListFormatOverride
+
+1 1
+B B
+C C
+A A
+B B
+4 4
+
+Test 5: More formatting variants
+
+00 00
+01 01
+  - 01.
+  - 01.
+    01..1 01..1
+02 02

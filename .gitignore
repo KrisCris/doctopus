@@ -1,0 +1,7 @@
+target/
+testdata/corpus/
+*.part
+.DS_Store
+# insta: snapshots waiting for review
+*.snap.new
+*.pending-snap

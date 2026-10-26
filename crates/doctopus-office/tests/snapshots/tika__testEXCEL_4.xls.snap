@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_4.xls
+---
+error: unsupported file type (Excel 2.x-4.0 worksheet)

@@ -1,0 +1,38 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_specialControlCharacter1415.doc
+---
+---
+source: tika/testWORD_specialControlCharacter1415.doc
+format: doc (Word 97-2003 document)
+created: 2017-09-05T22:23:00Z
+modified: 2017-09-05T22:23:00Z
+application: Microsoft Office Word
+characters: "164"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+words: "28"
+---
+
+Something
+
+One: Else
+
+Two: Here
+
+Three: Four
+
+Paragraph one
+
+Paragraph two
+
+Paragraph three
+
+Paragraph four
+
+cc: Somebody
+
+Somebody else
+
+Something here too

@@ -1,0 +1,27 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT.ppt
+---
+---
+source: tika/testPPT.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: Sample Powerpoint Slide
+author: Keith Bennett
+last_modified_by: Keith Bennett
+created: 2007-09-14T17:33:12Z
+modified: 2007-09-14T19:16:39Z
+application: Microsoft PowerPoint
+company: "-"
+revision: "1"
+total_editing_time: 103 minutes
+words: "13"
+slides: 1
+---
+
+## Slide 1: Sample Powerpoint Slide
+
+Created with Microsoft
+
+Powerpoint X for Mac
+
+Service Release 1

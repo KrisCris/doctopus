@@ -1,0 +1,25 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/headerPic.docx
+---
+---
+source: tika/headerPic.docx
+format: docx (Word document (Office Open XML))
+title: СПИСОК ОСНОВНЫХ СЧЕТОВ “НОСТРО” РОСБАНКА
+author: Уколов А. В.
+last_modified_by: jet
+created: 2011-03-21T12:06:00Z
+modified: 2011-03-21T12:06:00Z
+application: Microsoft Office Word
+company: ROSBANK
+pages: "1"
+revision: "2"
+template: Normal
+total_editing_time: 1 minutes
+parts:
+  - img1: image/jpeg "image1.jpeg" (80x80, 2.1 KB, header)
+---
+
+## Headers and footers
+
+**Header:** ![DOZOR](tika/headerPic.docx#img1 "JPG, 80x80, 2.1 KB")

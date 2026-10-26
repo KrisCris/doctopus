@@ -1,0 +1,12 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testAltChunkMHT.docx
+---
+---
+source: tika/testAltChunkMHT.docx
+format: docx (Word document (Office Open XML))
+parts:
+  - emb1: embedded file "htmlDoc.mht" (message/rfc822, 1.5 KB, body)
+---
+
+<embedded id="emb1" ref="tika/testAltChunkMHT.docx#emb1" type="message/rfc822" name="htmlDoc.mht" size="1.5 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testAltChunkMHT.docx#emb1&quot; -o &lt;dir&gt;"/>

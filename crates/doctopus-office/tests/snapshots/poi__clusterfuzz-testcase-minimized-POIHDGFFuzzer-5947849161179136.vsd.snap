@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/clusterfuzz-testcase-minimized-POIHDGFFuzzer-5947849161179136.vsd
+---
+error: unsupported file type (OLE compound file)

@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/ShortChunk1.vsd
+---
+---
+source: poi/ShortChunk1.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: rgarrett
+last_modified_by: rgarrett
+modified: 2008-02-26T21:26:45Z
+application: Microsoft Visio
+company: Lockheed Martin
+template: C:\Program Files\Microsoft Office\Office12\1033\UMLMOD_U.VST
+pages: 1
+---
+
+## Page 1: Static Structure-1
+
+Shapes:
+- 10 [Watermark Title] "Static Structure"

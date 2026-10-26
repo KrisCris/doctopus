@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/44594.vsd
+---
+---
+source: poi/44594.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: Yury Batrakov
+last_modified_by: Yury Batrakov
+modified: 2008-03-13T08:23:55Z
+application: Microsoft Visio
+company: Mera
+template: C:\Program Files\Microsoft Office\Visio11\1033\DTLNET_M.VST
+pages: 1
+---
+
+## Page 1: Page-1
+
+*(empty)*

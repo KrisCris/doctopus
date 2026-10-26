@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/fdo86729-ms1252.vsd
+---
+---
+source: libvisio/fdo86729-ms1252.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: mytitleéá
+subject: mysubject
+author: vmiklos creator
+keywords: mytag
+description: mycomment
+application: Microsoft Visio
+company: mycompany
+category: mycategory
+manager: mymanager
+template: C:\Program Files\Microsoft Office\Office15\visio content\1033\BASICD_U.VSTX
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 [Rectangle] "aaa"
+- 2 [Circle]
+- 3 [Right Triangle]

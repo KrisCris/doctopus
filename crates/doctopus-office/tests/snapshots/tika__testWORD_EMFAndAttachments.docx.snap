@@ -1,0 +1,36 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_EMFAndAttachments.docx
+---
+---
+source: tika/testWORD_EMFAndAttachments.docx
+format: docx (Word document (Office Open XML))
+author: Chetan Bikire
+last_modified_by: Chetan Bikire
+created: 2022-10-06T05:16:00Z
+modified: 2022-11-30T13:38:00Z
+application: Microsoft Office Word
+company: NICE
+characters: "104"
+pages: "1"
+revision: "11"
+template: Normal
+total_editing_time: 3 minutes
+words: "18"
+parts:
+  - emb1: OLE object Package "TestText.txt" (text/plain, 17 B, body)
+  - emb2: OLE object AcroExch.Document.DC (application/pdf, 37.3 KB, body)
+  - emb3: Word document (Office Open XML) "Microsoft_Word_Document.docx" (11.7 KB, body)
+---
+
+This is test word document for parser.
+
+<embedded id="emb1" ref="tika/testWORD_EMFAndAttachments.docx#emb1" type="text/plain" name="TestText.txt" size="17 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWORD_EMFAndAttachments.docx#emb1&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb2" ref="tika/testWORD_EMFAndAttachments.docx#emb2" type="application/pdf" size="37.3 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWORD_EMFAndAttachments.docx#emb2&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb3" ref="tika/testWORD_EMFAndAttachments.docx#emb3" type="docx" name="Microsoft_Word_Document.docx" size="11.7 KB">
+
+This is test word document for parser.
+
+</embedded>

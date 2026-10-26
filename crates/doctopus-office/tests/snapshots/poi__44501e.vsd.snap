@@ -1,0 +1,157 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/44501e.vsd
+---
+---
+source: poi/44501e.vsd
+format: vsd (Visio 2003-2010 drawing)
+modified: 2008-03-11T06:16:34Z
+application: Microsoft Visio
+template: C:\Program Files\Microsoft Office\Office12\1033\UMLMOD_U.VST
+pages: 2
+---
+
+## Page 1: Q2-assignment-1
+
+Shapes:
+- 1 [Class]
+  - 8 "Routes"
+- 10 [Watermark Title] "Static Structure"
+- 11 [Class]
+  - 18 "BusStatus"
+- 20 [Binary Association]
+  - 21 "-have"
+  - 22 "1"
+  - 24 "1..*"
+- 25 [Class]
+  - 32 "Schedule"
+- 34 [Class]
+  - 41 "WeekdaySchedule"
+- 43 [Class]
+  - 50 "WeekendSchedule"
+- 52 [Class]
+  - 59 "Bus Station"
+- 61 [Class]
+  - 68 "Fare"
+- 70 [Class]
+  - 77 "Pass"
+- 83 [Binary Association]
+  - 85 "1..*"
+  - 86 "-lists"
+  - 87 "1"
+- 88 [Binary Association]
+  - 90 "1..*"
+  - 91 "-includes"
+  - 92 "1"
+- 93 [Binary Association]
+  - 95 "0..*"
+  - 96 "-provides"
+  - 97 "1"
+- 98 [Binary Association]
+  - 100 "1..*"
+  - 101 "-has"
+  - 102 "1"
+- 103 [Binary Association]
+  - 104 "-accepts"
+  - 105 "1"
+  - 107 "0..*"
+- 108 [Binary Association]
+  - 109 "-comprises"
+  - 110 "1"
+  - 112 "1"
+- 113 [Binary Association]
+  - 115 "1..*"
+  - 116 "-keeps"
+  - 117 "1"
+- 118 [Binary Association]
+  - 120 "1..*"
+  - 121 "-consists"
+  - 122 "1"
+- 123 [Class]
+  - 130 "TrafficCondition"
+- 132 [Binary Association]
+  - 133 "-gives"
+  - 134 "1"
+  - 136 "1..*"
+- 137 [Binary Association]
+  - 138 "-has different"
+  - 139 "1"
+  - 141 "1..*"
+- 142 [Binary Association]
+  - 143 "-different"
+  - 144 "1"
+  - 146 "0..*"
+- 147 [Pipe flow arrow]
+- 148 [Pipe flow arrow]
+- 149 [Pipe flow arrow]
+- 150 [Pipe flow arrow]
+- 151 [Pipe flow arrow]
+- 152 [Pipe flow arrow]
+- 153 [Pipe flow arrow]
+- 154 [Pipe flow arrow]
+- 155 [Pipe flow arrow]
+- 156 [Pipe flow arrow]
+- 157 [Pipe flow arrow]
+
+Connections:
+- 1 [Class] -> 11 [Class] via 20
+- 25 [Class] -> 34 [Class]
+- 25 [Class] -> 43 [Class]
+- 61 [Class] -> 25 [Class] via 83
+- 70 [Class] -> 25 [Class] via 88
+- 11 [Class] -> 52 [Class] via 93
+- 61 [Class] -> 1 [Class] via 98
+- 1 [Class] -> 70 [Class] via 103
+- 1 [Class] -> 25 [Class] via 108
+- 25 [Class] -> 52 [Class] via 113
+- 52 [Class] -> 1 [Class] via 118
+- 34 [Class] -> 123 [Class] via 132
+- 43 [Class] -> 123 [Class] via 137
+- 1 [Class] -> 123 [Class] via 142
+
+## Page 2: basketball-game
+
+Shapes:
+- 1 [Watermark Title] "Static Structure"
+- 2 [Watermark Title] "Static Structure"
+- 3 [Class]
+  - 10 "Game"
+- 12 [Class]
+  - 19 "Team"
+- 21 [Class]
+  - 28 "Player"
+- 30 [Class]
+  - 37 "Position"
+- 39 [Binary Association]
+  - 40 "-includes"
+  - 41 "1"
+  - 43 "5"
+- 44 [Binary Association]
+  - 45 "-has"
+  - 46 "1"
+  - 48 "5"
+- 49 [Binary Association]
+  - 50 "-plays at"
+  - 51 "1"
+  - 53 "1..5"
+- 54 [Binary Association]
+  - 55 "-consists"
+  - 56 "1"
+  - 58 "1..*"
+- 59 [Binary Association]
+  - 60 "-played by"
+  - 61 "1"
+  - 63 "1..*"
+- 64 [Directions]
+- 68 [Pipe flow arrow]
+- 70 [Pipe flow arrow]
+- 71 [Pipe flow arrow]
+- 72 [Pipe flow arrow]
+- 74 [Pipe flow arrow]
+
+Connections:
+- 12 [Class] -> 21 [Class] via 39
+- 3 [Class] -> 30 [Class] via 44
+- 21 [Class] -> 30 [Class] via 49
+- 3 [Class] -> 12 [Class] via 54
+- 3 [Class] -> 21 [Class] via 59

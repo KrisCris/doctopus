@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_dateFormats.xlsx
+---
+---
+source: tika/testEXCEL_dateFormats.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+author: Gábor
+last_modified_by: Precognox Kft
+created: 2019-05-07T06:21:24Z
+modified: 2020-02-21T07:20:23Z
+application: Microsoft Excel
+sheets: 1
+---
+
+## Sheet 1: Munka1
+
+|  | A |
+|---|---|
+| 1 | date |
+| 2 | 2018-09-20 |
+| 3 | 1996-08-10 |

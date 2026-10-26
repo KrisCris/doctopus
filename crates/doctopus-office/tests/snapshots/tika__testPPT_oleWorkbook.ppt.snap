@@ -1,0 +1,38 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_oleWorkbook.ppt
+---
+---
+source: tika/testPPT_oleWorkbook.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+author: Brian McColgan
+last_modified_by: Allison, Timothy B.
+created: 2018-02-20T01:59:40Z
+modified: 2018-02-26T19:17:21Z
+application: Microsoft Office PowerPoint
+revision: "1"
+words: "1"
+slides: 2
+parts:
+  - emb1: Excel workbook (Office Open XML) (8.2 KB, slide 2)
+---
+
+## Slide 1
+
+*(empty)*
+
+## Slide 2: MFL
+
+<embedded id="emb1" ref="tika/testPPT_oleWorkbook.ppt#emb1" type="xlsx" size="8.2 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C |
+|---|---|---|---|
+| 1 | 1 | 5 | 9 |
+| 2 | 2 | 6 | 0 |
+| 3 | 3 | 7 | A |
+| 4 | 4 | 8 | B |
+
+</embedded>

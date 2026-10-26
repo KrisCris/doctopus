@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_protected_passtika.doc
+---
+error: Word 97-2003 document is encrypted or password-protected

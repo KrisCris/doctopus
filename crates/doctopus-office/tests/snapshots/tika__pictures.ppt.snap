@@ -1,0 +1,43 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/pictures.ppt
+---
+---
+source: tika/pictures.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+author: Yegor Kozlov
+last_modified_by: Yegor Kozlov
+created: 2005-06-15T12:52:32Z
+modified: 2005-06-21T07:36:41Z
+application: Microsoft PowerPoint
+company: DINOM
+revision: "4"
+slides: 5
+parts:
+  - img1: image/jpeg (192x176, 11.7 KB, slide 1)
+  - img2: image/png (130x92, 3.0 KB, slide 2)
+  - img3: image/wmf (28.0 KB, slide 3)
+  - img4: image/pict (41.4 KB, slide 4)
+  - img5: image/emf (6.0 KB, slide 5)
+---
+
+## Slide 1
+
+![image](tika/pictures.ppt#img1 "JPG, 192x176, 11.7 KB")
+
+## Slide 2
+
+![image](tika/pictures.ppt#img2 "PNG, 130x92, 3.0 KB")
+
+## Slide 3
+
+![image](tika/pictures.ppt#img3 "WMF, 28.0 KB")
+
+## Slide 4
+
+![image](tika/pictures.ppt#img4 "41.4 KB")
+
+## Slide 5
+
+![image](tika/pictures.ppt#img5 "EMF, 6.0 KB")

@@ -1,0 +1,76 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_various.ppt
+---
+---
+source: tika/testPPT_various.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: Slide 1
+subject: Subject is here
+author: Michael McCandless
+last_modified_by: Michael McCandless
+created: 2011-09-05T13:54:41Z
+modified: 2011-09-05T14:25:28Z
+keywords: Keyword1 Keyword2
+application: Microsoft Office PowerPoint
+revision: "6"
+total_editing_time: 30 minutes
+words: "140"
+slides: 1
+---
+
+## Slide 1
+
+| Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
+|---|---|---|
+| Row 2 Col 1 | Row 2 Col 2 | Row 2 Col 3 |
+
+Here is a text box
+
+> Footnote appears here[<sup>1</sup>](#_ftn1)
+>
+> **Bold** *italic* underline <sup>superscript</sup> <sub>subscript</sub>
+>
+> Here is a list:
+>
+> - Bullet 1
+> - Bullet 2
+> - Bullet 3
+>
+> Here is a numbered list:
+>
+> - Number bullet 1
+> - Number bullet 2
+> - Number bullet 3
+>
+> Keyword1 Keyword2
+>
+> [This is a hyperlink](http://tika.apache.org/)
+>
+> Subject is here
+>
+> Suddenly some Japanese text:
+>
+> ゾルゲと尾崎、淡々と最期
+>
+> （ＧＨＱ）
+>
+> And then some Gothic text:
+>
+> 𐌲𐌿𐍄𐌹𐍃𐌺
+>
+> Here is a citation:
+>
+> (Kramer)
+>
+> **Figure 1 This is a caption for Figure 1**
+>
+> Row 1 column 1
+>
+> Row 2 column 1
+>
+> Row 1 column 2
+>
+> Row 2 column 2
+
+[<sup>1</sup>](#_ftnref1) This is a footnote.

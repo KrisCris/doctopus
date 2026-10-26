@@ -1,0 +1,34 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_text_box.docx
+---
+---
+source: tika/testWORD_text_box.docx
+format: docx (Word document (Office Open XML))
+author: Windows User
+last_modified_by: Windows User
+created: 2012-10-12T11:17:00Z
+modified: 2012-10-12T11:22:00Z
+application: Microsoft Office Word
+company: JDI
+characters: "45"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 5 minutes
+words: "7"
+---
+
+This text is directly in the body of the document.
+
+> This text is inside of a text box in the body of the document.
+
+## Headers and footers
+
+**Header:**
+
+> This text is inside of a text box in the header of the document.
+
+**Footer:**
+
+> This text is inside of a text box in the footer of the document.

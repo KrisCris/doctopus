@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/Visio6TextFieldsWithUnits.vsd
+---
+---
+source: libvisio/Visio6TextFieldsWithUnits.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: kosiorek
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 "Text with [cm] units 1.0 cm"
+- 2 "Text without any units 1.0"
+- 3 "Text with [cm] units hidden 1.0"
+- 4 "Number 1 formatted as rad 1 rad"
+- 5 "1 rad 1 rad"
+- 6 "Number 1 formatted as degree 57.29578 deg"
+- 7 "1 elapsed minute 1 em."
+- 8 "1 picas 1.0 p"
+- 9 "1 picapoints 12 pt"
+- 10 "1 ciceros and didots 12.000 d"
+- 11 "1000.1 feet and inch 1000'-1.200""
+- 12 "Example testing text"

@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_protected_passtika.docx
+---
+error: Word document (Office Open XML) is encrypted or password-protected

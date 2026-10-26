@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_1img.doc
+---
+---
+source: tika/testWORD_1img.doc
+format: doc (Word 97-2003 document)
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Derek Hulley
+created: 2005-05-26T12:57:00Z
+modified: 2005-09-20T17:25:00Z
+revision: "6"
+template: Normal.dot
+total_editing_time: 2 minutes
+parts:
+  - img1: image/png (189x55, 4.3 KB, body)
+---
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testWORD_1img.doc#img1 "PNG, 189x55, 4.3 KB")

@@ -1,0 +1,52 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/test_embedded_zip.pptx
+---
+---
+source: tika/test_embedded_zip.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: PowerPoint Presentation
+author: Oren Paikowsky
+last_modified_by: Michael McCandless
+created: 2011-08-21T15:42:21Z
+modified: 2012-09-26T10:07:23Z
+application: Microsoft Office PowerPoint
+company: IBM
+revision: "192"
+template: Centennial_Presentation_Template_White
+total_editing_time: 10839 minutes
+words: "163"
+slides: 3
+parts:
+  - img1: image/png "image2.png" (900x750, 56.9 KB, slide 1)
+  - emb1: OLE object Package "SendSignal64.zip" (application/zip, 27.0 KB, slide 2)
+---
+
+## Slide 1: JConsole (Java monitoring and Management Console)
+
+![image2.png](tika/test_embedded_zip.pptx#img1 "PNG, 900x750, 56.9 KB")
+
+  - Application for real-time monitoring of Java apps
+  - Located at <JDK>\bin\JConsole(.exe)
+  - Bundled with the JDK since 6.0 (not with the JRE)
+  - JConsole User Guide: <http://download.oracle.com/javase/6/docs/technotes/guides/management/jconsole.html>
+
+## Slide 2: Java Dump
+
+- Easiest way to see what’s going on in a running application (or one that has exited abnormally)
+- Usually named like this: javacore.20110604.072156.336.0002.txt (date.time, time, and serial number)
+- By default, it’s created on fatal native exceptions or out of memory
+- Can be triggered inside the application using com.ibm.jvm.Dump.JavaDump()
+- Manually induced by sending a break signal to the JRE:
+  - **Hitting Ctrl+Break** on an interactive Java console
+  - ***kill -3 <pid>*** (UNIX)
+  - **SendSignal.exe <pid>** (Win32)
+    - <http://www.latenighthacking.com/projects/2003/sendSignal/SendSignal.exe>
+  - **SendSignal64.exe <pid>** (Win7/64bit)
+- Send me a note if SendSignal doesn’t work on your Win platform
+
+<embedded id="emb1" ref="tika/test_embedded_zip.pptx#emb1" type="application/zip" name="SendSignal64.zip" size="27.0 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/test_embedded_zip.pptx#emb1&quot; -o &lt;dir&gt;"/>
+
+## Slide 3: No title
+
+Final slide

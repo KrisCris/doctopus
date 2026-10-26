@@ -1,0 +1,46 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_5.xls
+---
+---
+source: tika/testEXCEL_5.xls
+format: xls (Excel 97-2003 workbook)
+title: Simple Excel document
+author: Keith Bennett
+last_modified_by: RIBEN9
+created: 2007-10-01T16:13:56Z
+modified: 2007-10-01T16:31:43Z
+revision: "0"
+sheets: 3
+---
+
+## Sheet 1: Feuil1
+
+|  | A | B | C |
+|---|---|---|---|
+| 1 | Sample Excel Worksheet - Numbers and their Squares |  |  |
+| 4 |  | Number | Square |
+| 6 |  | 1 | 1 |
+| 7 |  | 2 | 4 |
+| 8 |  | 3 | 9 |
+| 9 |  | 4 | 16 |
+| 10 |  | 5 | 25 |
+| 11 |  | 6 | 36 |
+| 12 |  | 7 | 49 |
+| 13 |  | 8 | 64 |
+| 14 |  | 9 | 81 |
+| 15 |  | 10 | 100 |
+| 16 |  | 11 | 121 |
+| 17 |  | 12 | 144 |
+| 18 |  | 13 | 169 |
+| 19 |  | 14 | 196 |
+| 20 |  | 15 | 225 |
+| 22 | Written and saved in Microsoft Excel X for Mac Service Release 1. |  |  |
+
+## Sheet 2: Feuil2
+
+*(empty)*
+
+## Sheet 3: Feuil3
+
+*(empty)*

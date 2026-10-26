@@ -1,0 +1,66 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_embedded_pics.docx
+---
+---
+source: tika/testWORD_embedded_pics.docx
+format: docx (Word document (Office Open XML))
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-12-06T12:50:00Z
+modified: 2016-12-06T12:58:00Z
+application: Microsoft Office Word
+characters: "253"
+pages: "4"
+revision: "1"
+template: Normal.dotm
+total_editing_time: 8 minutes
+tracked_changes: 0 insertions, 1 deletions (text is shown with insertions applied and deletions removed)
+words: "44"
+parts:
+  - img1: image/jpeg "image1.jpeg" (100x75, 7.5 KB, body)
+  - img2: image/jpeg "image2.jpeg" (100x75, 7.5 KB, body)
+---
+
+This is a ![C:\Users\tallison\AppData\Local\Microsoft\Windows\INetCache\Content.Word\body_pic.jpg](tika/testWORD_embedded_pics.docx#img1 "JPG, 100x75, 7.5 KB")paragraph with an image
+
+This is a comment[^c1]
+
+This is a footnote[^1]
+
+This is an endnote[^e1]
+
+This is a ![C:\Users\tallison\AppData\Local\Microsoft\Windows\INetCache\Content.Word\sdt_pic.jpg](tika/testWORD_embedded_pics.docx#img1 "JPG, 100x75, 7.5 KB")rich text sdt
+
+![image1.jpeg](tika/testWORD_embedded_pics.docx#img1 "JPG, 100x75, 7.5 KB")
+
+|  |  |  |  |
+|---|---|---|---|
+|  | /  /  /  / ;  /  /  /  / ;  / /  /  /  / ;  / Deeply embedded![deeply_embedded_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB") /  /  / ;  /  /  /  / ;  /  /  /  / ;  /  /  /  / /  /  / ;  /  /  /  / ;  /  /  /  / |  |  |
+|  |  |  |  |
+
+## Headers and footers
+
+**Header (even pages):** ![header2_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+**Header:** ![header3_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+**Footer (even pages):** ![footer2_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+**Footer:** ![footer3_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+**Header (first page):** ![header1_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+**Footer (first page):** ![footer1_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+## Footnotes
+
+[^1]: ![footnotes_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+## Endnotes
+
+[^e1]: ![endnotes_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")
+
+## Comments
+
+[^c1]: **Allison, Timothy B.** (2016-12-06 07:54) on "a comment": ![comments_pic](tika/testWORD_embedded_pics.docx#img2 "JPG, 100x75, 7.5 KB")

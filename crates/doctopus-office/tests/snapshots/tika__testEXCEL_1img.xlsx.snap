@@ -1,0 +1,38 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_1img.xlsx
+---
+---
+source: tika/testEXCEL_1img.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Nick Burch
+created: 1996-10-14T23:33:28Z
+modified: 2010-09-08T15:55:49Z
+application: Microsoft Excel
+sheets: 2
+parts:
+  - img1: image/png "image1.png" (189x55, 4.3 KB, sheet "Sheet1" cell A12)
+---
+
+## Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testEXCEL_1img.xlsx#img1 "PNG, 189x55, 4.3 KB")
+
+## Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |

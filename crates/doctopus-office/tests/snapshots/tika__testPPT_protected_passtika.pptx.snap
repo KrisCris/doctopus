@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_protected_passtika.pptx
+---
+error: PowerPoint presentation (Office Open XML) is encrypted or password-protected

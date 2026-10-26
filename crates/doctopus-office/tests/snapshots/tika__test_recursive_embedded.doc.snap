@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/test_recursive_embedded.doc
+---
+---
+source: tika/test_recursive_embedded.doc
+format: doc (Word 97-2003 document)
+created: 2016-06-29T12:05:00Z
+modified: 2016-06-29T12:05:00Z
+application: Microsoft Office Word
+characters: "27"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+words: "4"
+parts:
+  - emb1: OLE object Package "embed1.zip" (application/zip, 4.7 KB, body)
+---
+
+embed_0
+
+<embedded id="emb1" ref="tika/test_recursive_embedded.doc#emb1" type="application/zip" name="embed1.zip" size="4.7 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/test_recursive_embedded.doc#emb1&quot; -o &lt;dir&gt;"/>

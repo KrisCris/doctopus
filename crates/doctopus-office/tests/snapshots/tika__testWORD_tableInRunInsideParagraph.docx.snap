@@ -1,0 +1,35 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_tableInRunInsideParagraph.docx
+---
+---
+source: tika/testWORD_tableInRunInsideParagraph.docx
+format: docx (Word document (Office Open XML))
+title: РЕЗЮМЕ
+author: Admin
+last_modified_by: Microsoft-Konto
+created: 2015-06-22T07:49:00Z
+modified: 2015-06-22T07:49:00Z
+application: Microsoft Office Word
+characters: "629"
+pages: "1"
+revision: "2"
+template: Normal.dotm
+words: "110"
+---
+
+**aliquyam**
+
+> | **gubergre** |  |  |
+> |---|---|---|
+> | **accusam et justo duo** | AAAA |  |
+> | **takimata sanctus** | **aliquyam** |  |
+> | **diam voluptua** | **aliquyam** |  |
+> | **diam nonumy** | **aliquyam** |  |
+> | **duo dolores et ea** | **aliquyam** |  |
+> | **Lorem ipsum**: |  |  |
+
+| **dolores et** |  |  |
+|---|---|---|
+| **aliquyam** | **aliquyam – aliquyam** | **aliquyam** |
+| Lorem ipsum dolor sit amet, consetetur | **Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.**-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. | Lorem ipsum dolor sit amet, consetetur |

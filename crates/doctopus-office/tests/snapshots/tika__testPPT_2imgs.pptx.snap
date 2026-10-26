@@ -1,0 +1,31 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_2imgs.pptx
+---
+---
+source: tika/testPPT_2imgs.pptx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Nick Burch
+modified: 2010-09-08T16:03:53Z
+application: Microsoft Office PowerPoint
+custom.Version: "1"
+revision: "4"
+total_editing_time: 1 minutes
+words: "9"
+slides: 1
+parts:
+  - img1: image/png "image1.png" (189x55, 4.3 KB, slide 1)
+  - img2: image/gif "image2.gif" (100x75, 8.3 KB, slide 1)
+  - media1: audio/mpeg "empty.mp3" (0 B, slide 1, linked to file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3)
+---
+
+## Slide 1: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testPPT_2imgs.pptx#img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testPPT_2imgs.pptx#img2 "GIF, 100x75, 8.3 KB")
+
+<embedded id="media1" ref="tika/testPPT_2imgs.pptx#media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3"/>

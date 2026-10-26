@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testComment.xls
+---
+---
+source: tika/testComment.xls
+format: xls (Excel 97-2003 workbook)
+created: 2006-09-16T00:00:00Z
+modified: 2014-08-04T15:39:51Z
+application: Microsoft Excel
+sheets: 1
+---
+
+## Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | Here is some text |
+
+Cell notes:
+- A1: Author: Here is a comment

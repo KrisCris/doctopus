@@ -1,0 +1,30 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/Doc1_ole.doc
+---
+---
+source: tika/Doc1_ole.doc
+format: doc (Word 97-2003 document)
+author: pavel
+last_modified_by: pavel
+created: 2009-07-29T11:52:00Z
+modified: 2009-07-29T11:55:00Z
+application: Microsoft Office Word
+company: Jet Infosystem
+characters: "43"
+pages: "1"
+revision: "1"
+template: Normal
+total_editing_time: 3 minutes
+words: "7"
+parts:
+  - img1: image/jpeg (208x177, 9.0 KB, body)
+  - emb1: OLE object Package "MSj00974840000[1].wav" (audio/wav, 11.8 KB, body)
+  - emb2: OLE object Package "MSj00748450000[1].wav" (audio/wav, 33.6 KB, body)
+---
+
+![j1.jpg](tika/Doc1_ole.doc#img1 "JPG, 208x177, 9.0 KB")
+
+<embedded id="emb1" ref="tika/Doc1_ole.doc#emb1" type="audio/wav" name="MSj00974840000[1].wav" size="11.8 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/Doc1_ole.doc#emb1&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb2" ref="tika/Doc1_ole.doc#emb2" type="audio/wav" name="MSj00748450000[1].wav" size="33.6 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/Doc1_ole.doc#emb2&quot; -o &lt;dir&gt;"/>

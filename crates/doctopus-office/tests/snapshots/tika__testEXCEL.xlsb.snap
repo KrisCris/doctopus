@@ -1,0 +1,35 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL.xlsb
+---
+---
+source: tika/testEXCEL.xlsb
+format: xlsb (Excel binary workbook)
+title: Example document
+subject: testing document extractors
+author: Microsoft
+last_modified_by: Christiaan Fluit
+created: 2006-03-30T19:39:22Z
+modified: 2006-07-13T13:48:56Z
+keywords: extractor, test, rdf
+description: These are some sample comments.
+application: Microsoft Excel
+company: Microsoft
+category: myCategory
+status: myStatus
+sheets: 3
+---
+
+## Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | This is an example spreadsheet created with Microsoft Excel 2007 Beta 2. |
+
+## Sheet 2: Sheet2
+
+*(empty)*
+
+## Sheet 3: Sheet3
+
+*(empty)*

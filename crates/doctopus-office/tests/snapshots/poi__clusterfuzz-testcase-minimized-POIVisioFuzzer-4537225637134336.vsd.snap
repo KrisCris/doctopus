@@ -1,0 +1,57 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/clusterfuzz-testcase-minimized-POIVisioFuzzer-4537225637134336.vsd
+---
+---
+source: poi/clusterfuzz-testcase-minimized-POIVisioFuzzer-4537225637134336.vsd
+format: vsdx (Visio drawing (Office Open XML))
+pages: 1
+warnings:
+  - the file is truncated or damaged (zip directory missing); content was recovered from what is left and may be incomplete
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 111
+  - 2 [Rounded Rectangle] "HousingConnections.ca"
+  - 3 [Ellipse] "Add webpages"
+  - 4 [Ellipse] "Edit webpage"
+  - 5 [Ellipse] "Remove webpage"
+  - 9 [Ellipse] "Approve webpages"
+  - 11 [Ellipse] "Add Content Authors"
+  - 12 [Ellipse] "Edit Content Authors"
+  - 13 [Ellipse] "Remove Content Authors"
+  - 14 [Ellipse] "Delegate security permissions"
+  - 15 [Ellipse] "Submit Application"
+  - 81 [User] "Content Authors"
+  - 83 [User] "Content Approvers"
+  - 85 [User] "Site Administrators"
+  - 89 [Ellipse] "Update Application"
+  - 87 [User] "Applicants"
+  - 97 [Ellipse] "Update Property Information"
+  - 103 [Ellipse] "Upload Arrears file"
+  - 95 [User] "Housing Providers"
+- 112 [User] "Community Partner"
+- 114 [Ellipse] "Upload document on behalf of applicant"
+- 120 [User] "Arrears Admin"
+- 122 [Ellipse] "Access Arrears portal and template"
+- 128 [User] "AUYA User"
+- 130 [Ellipse] "Run AUYA reports"
+
+Connections:
+- 81 "Content Authors" -> 3 "Add webpages"
+- 81 "Content Authors" -> 4 "Edit webpage"
+- 81 "Content Authors" -> 5 "Remove webpage"
+- 83 "Content Approvers" -> 9 "Approve webpages"
+- 85 "Site Administrators" -> 13 "Remove Content Authors"
+- 85 "Site Administrators" -> 14 "Delegate security permissions"
+- 85 "Site Administrators" -> 11 "Add Content Authors"
+- 85 "Site Administrators" -> 12 "Edit Content Authors"
+- 87 "Applicants" -> 15 "Submit Application"
+- 87 "Applicants" -> 89 "Update Application"
+- 95 "Housing Providers" -> 97 "Update Property Information"
+- 95 "Housing Providers" -> 103 "Upload Arrears file"
+- 112 "Community Partner" -> 114 "Upload document on behalf of applicant"
+- 122 "Access Arrears portal and template" -> 120 "Arrears Admin"
+- 128 "AUYA User" -> 130 "Run AUYA reports"

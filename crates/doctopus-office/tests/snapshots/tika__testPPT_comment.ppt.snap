@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_comment.ppt
+---
+---
+source: tika/testPPT_comment.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: title
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2015-09-30T17:58:06Z
+modified: 2015-09-30T18:02:50Z
+application: Microsoft Office PowerPoint
+revision: "1"
+words: "2"
+slides: 1
+---
+
+## Slide 1: title
+
+subtitle
+
+[^c1]: **Allison, Timothy B.** (2015-09-30 13:57): I'm afraid I'm going to have to ask you to add some content to this tps deck

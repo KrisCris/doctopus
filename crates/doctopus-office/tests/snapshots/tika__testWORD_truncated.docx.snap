@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_truncated.docx
+---
+error: malformed Word document (Office Open XML): the file is truncated and its main part `word/document.xml` is lost

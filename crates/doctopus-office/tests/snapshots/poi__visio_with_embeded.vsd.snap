@@ -1,0 +1,73 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/visio_with_embeded.vsd
+---
+---
+source: poi/visio_with_embeded.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: биргина ўзи, один, ahold
+subject: икки ўн, два, ahorse
+author: кўрмоқ, три, ahorseback
+last_modified_by: Маҳбуба1, десять1, ail1
+modified: 2008-01-23T09:53:00Z
+keywords: Саёҳат, семь, ahum
+description: Қўшиқларидан, восемь, Ahvenanmaa
+application: Microsoft Visio
+company: қор бўлса-да, пять, AHQ
+category: йўллари, шесть, ahull
+manager: ёғиб, четыре, ahoy
+pages: 2
+parts:
+  - img1: image/png (96x96, 17.6 KB, page "Қўллаб, одиннацать, aileron" shape 1)
+  - emb1: Excel 97-2003 workbook (32.0 KB, page "Қўллаб, одиннацать, aileron" shape 3)
+  - emb2: OLE object Equation.3 (application/x-ole-storage, 8.0 KB, page "Қўллаб, одиннацать, aileron" shape 4)
+  - emb3: OLE object Equation.3 (application/x-ole-storage, 8.0 KB, page "Қўллаб, одиннацать, aileron" shape 5)
+  - emb4: embedded file (image/x-icon, 16 B, page "Қўллаб, одиннацать, aileron" shape 6)
+  - emb5: Excel 97-2003 workbook (16.0 KB, page "Қўллаб, одиннацать, aileron" shape 7)
+---
+
+## Page 1: Қўллаб, одиннацать, aileron
+
+Shapes:
+- 2 "Ўтмоқчиман, двадцать четыре, zed" (Иқтисодиёт, четырнадцать, zoic: 12)
+  - 1 (Иқтисодиёт, четырнадцать, zoic: 1) -> img1 (poi/visio_with_embeded.vsd#img1)
+- 3 "Тўхталиб, двадцать пять, zeitgeber" (Соғлом, девятнадцать, zealot: 13) -> emb1 (poi/visio_with_embeded.vsd#emb1)
+- 4 -> emb2 (poi/visio_with_embeded.vsd#emb2)
+- 5 -> emb3 (poi/visio_with_embeded.vsd#emb3)
+- 6 "Қўйинг, двадцать один, zealous" (Ниҳоят, двадцать два, zebra: 134) -> emb4 (poi/visio_with_embeded.vsd#emb4)
+- 7 "Ўзи1, один1, ahold1" (Кўрмоқ3, три3, ahorseback3: 2) <www.бўлса-да5, пять5, AHQ5#www.Саёҳат1, семь1, ahum1> -> emb5 (poi/visio_with_embeded.vsd#emb5)
+- 8 [Cross] "Иқтисодиёт1, четырнадцать1, zoic1"
+- 9 "Рўй1, шестнадцать1, zombie1"
+- 10 "Ҳужжат1, семнадцать1, zonal1"
+
+<embedded id="emb1" ref="poi/visio_with_embeded.vsd#emb1" type="xls" size="32.0 KB">
+
+warnings: 1 chart(s) not shown: charts in .xls files are not read; save the workbook as .xlsx to include them
+
+### Sheet 1
+
+*type: chart sheet*
+
+*(empty)*
+
+</embedded>
+
+<embedded id="emb2" ref="poi/visio_with_embeded.vsd#emb2" type="application/x-ole-storage" size="8.0 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;poi/visio_with_embeded.vsd#emb2&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb3" ref="poi/visio_with_embeded.vsd#emb3" type="application/x-ole-storage" size="8.0 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;poi/visio_with_embeded.vsd#emb3&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb4" ref="poi/visio_with_embeded.vsd#emb4" type="image/x-icon" size="16 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;poi/visio_with_embeded.vsd#emb4&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb5" ref="poi/visio_with_embeded.vsd#emb5" type="xls" size="16.0 KB">
+
+### Sheet 1: Лист1
+
+|  | A |
+|---|---|
+| 2 | Ўн2, два2, ahorse2 |
+
+</embedded>
+
+## Page 2: Ҳар, двенадцать, dyadic
+
+*(empty)*

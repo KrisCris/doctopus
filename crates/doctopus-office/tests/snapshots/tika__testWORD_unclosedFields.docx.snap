@@ -1,0 +1,12 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_unclosedFields.docx
+---
+---
+source: tika/testWORD_unclosedFields.docx
+format: docx (Word document (Office Open XML))
+---
+
+[afterLink](http://example.com/after)
+
+afterPic

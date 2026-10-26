@@ -1,0 +1,100 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_embeded.xls
+---
+---
+source: tika/testEXCEL_embeded.xls
+format: xls (Excel 97-2003 workbook)
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Nick Burch
+created: 1996-10-14T23:33:28Z
+modified: 2010-09-08T16:16:07Z
+application: Microsoft Excel
+sheets: 2
+parts:
+  - img1: image/png (189x55, 4.3 KB, sheet "Sheet1" cell A12)
+  - emb1: PowerPoint 97-2003 presentation (172.0 KB, sheet "Sheet1" cell A18)
+  - emb2: Word 97-2003 document (28.0 KB, sheet "Sheet1" cell J18)
+---
+
+## Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testEXCEL_embeded.xls#img1 "PNG, 189x55, 4.3 KB")
+
+<embedded id="emb1" ref="tika/testEXCEL_embeded.xls#emb1" type="ppt" size="172.0 KB">
+
+### Slide 1: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testEXCEL_embeded.xls#emb1/img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testEXCEL_embeded.xls#emb1/img2 "PNG, 100x75, 7.7 KB")
+
+<embedded id="media1" ref="tika/testEXCEL_embeded.xls#emb1/media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: C:\Documents and Settings\Nick\Desktop\Embeded\empty.mp3"/>
+
+<embedded id="emb1" ref="tika/testEXCEL_embeded.xls#emb1/emb1" type="xls" size="22.0 KB">
+
+#### Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testEXCEL_embeded.xls#emb1/emb1/img1 "PNG, 189x55, 4.3 KB")
+
+#### Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testEXCEL_embeded.xls#emb1/emb2" type="doc" size="36.0 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testEXCEL_embeded.xls#emb1/emb2/img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![image](tika/testEXCEL_embeded.xls#emb1/emb2/img2 "JPG, 64x64, 1.8 KB")![image](tika/testEXCEL_embeded.xls#emb1/emb2/img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+</embedded>
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testEXCEL_embeded.xls#emb2" type="doc" size="28.0 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testEXCEL_embeded.xls#emb2/img1 "PNG, 189x55, 4.3 KB")
+
+</embedded>
+
+## Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |

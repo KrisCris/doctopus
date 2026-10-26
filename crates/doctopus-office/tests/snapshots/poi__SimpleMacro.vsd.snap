@@ -1,0 +1,18 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/SimpleMacro.vsd
+---
+---
+source: poi/SimpleMacro.vsd
+format: vsd (Visio 2003-2010 drawing)
+author: Javen ONeal
+last_modified_by: Javen ONeal
+modified: 2016-04-11T02:32:20Z
+application: Microsoft Visio
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 "This is a macro vector graphics drawing"

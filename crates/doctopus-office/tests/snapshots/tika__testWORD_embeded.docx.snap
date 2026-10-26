@@ -1,0 +1,84 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_embeded.docx
+---
+---
+source: tika/testWORD_embeded.docx
+format: docx (Word document (Office Open XML))
+title: The quick brown fox jumps over the lazy dog
+subject: Gym class featuring a brown fox and lazy dog
+author: Nevin Nollop
+last_modified_by: Nick Burch
+created: 2005-05-26T13:57:00Z
+modified: 2010-09-08T16:12:00Z
+application: Microsoft Office Word
+characters: "179"
+pages: "2"
+revision: "7"
+template: Normal.dotm
+total_editing_time: 121 minutes
+words: "31"
+parts:
+  - img1: image/png "image1.png" (189x55, 4.3 KB, body)
+  - img2: image/jpeg "image2.jpeg" (64x64, 4.0 KB, body)
+  - img3: image/png "image3.png" (180x171, 18.5 KB, body)
+  - emb1: Excel workbook (Office Open XML) "Microsoft_Office_Excel_Worksheet1.xlsx" (14.0 KB, body)
+  - emb2: PowerPoint presentation (Office Open XML) "Microsoft_Office_PowerPoint_Presentation2.pptx" (57.9 KB, body)
+  - emb3: Word 97-2003 document "Microsoft_Office_Word_97_-_2003_Document1.doc" (14.5 KB, body)
+---
+
+The quick brown fox jumps over the lazy dog
+
+![A description...](tika/testWORD_embeded.docx#img1 "PNG, 189x55, 4.3 KB")
+
+The Alfresco logo is above this
+
+More images follow....
+
+![A description...](tika/testWORD_embeded.docx#img2 "JPG, 64x64, 4.0 KB")![A description...](tika/testWORD_embeded.docx#img3 "PNG, 180x171, 18.5 KB")
+
+The end!
+
+<embedded id="emb1" ref="tika/testWORD_embeded.docx#emb1" type="xlsx" name="Microsoft_Office_Excel_Worksheet1.xlsx" size="14.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+| 5 | Special characters: !"£$%^&*() |  |  |  |  |  |  |  |  |
+| 7 | 1 | 2 | 2 |  |  |  |  |  |  |
+| 8 | A | B | AB |  |  |  |  |  |  |
+| 10 |  | SKIP1 |  | SKIP2 |  |  |  |  |  |
+
+![alfresco-logo.png](tika/testWORD_embeded.docx#emb1/img1 "PNG, 189x55, 4.3 KB")
+
+### Sheet 2: Sheet2
+
+|  | A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | The quick brown fox jumps over the lazy dog |  |  |  |  |  |  |  |  |
+| 3 | The | quick | brown | fox | jumps | over | the | lazy | dog |
+
+</embedded>
+
+<embedded id="emb2" ref="tika/testWORD_embeded.docx#emb2" type="pptx" name="Microsoft_Office_PowerPoint_Presentation2.pptx" size="57.9 KB">
+
+### Slide 1: The quick brown fox jumps over the lazy dog
+
+![alfresco-logo.png](tika/testWORD_embeded.docx#emb2/img1 "PNG, 189x55, 4.3 KB")
+
+![testGIF.gif](tika/testWORD_embeded.docx#emb2/img2 "GIF, 100x75, 8.3 KB")
+
+<embedded id="media1" ref="tika/testWORD_embeded.docx#emb2/media1" type="audio/mpeg" name="empty.mp3" size="0 B" note="linked, not embedded: file:///C:\Documents%20and%20Settings\Nick\Desktop\Embeded\empty.mp3"/>
+
+</embedded>
+
+<embedded id="emb3" ref="tika/testWORD_embeded.docx#emb3" type="doc" name="Microsoft_Office_Word_97_-_2003_Document1.doc" size="14.5 KB">
+
+The quick brown fox jumps over the lazy dog
+
+![image](tika/testWORD_embeded.docx#emb3/img1 "PNG, 189x55, 4.3 KB")
+
+</embedded>

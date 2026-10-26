@@ -1,0 +1,10 @@
+# Release binaries must run on a bare system with nothing installed.
+#
+# Linux builds target musl, which links statically by default. On Windows
+# the MSVC C runtime is linked in as well, so the binary does not need the
+# Visual C++ Redistributable. macOS only supports linking the system
+# libraries dynamically, and those are present on every Mac.
+#
+# Note: a RUSTFLAGS environment variable replaces these flags entirely.
+[target.'cfg(all(windows, target_env = "msvc"))']
+rustflags = ["-C", "target-feature=+crt-static"]

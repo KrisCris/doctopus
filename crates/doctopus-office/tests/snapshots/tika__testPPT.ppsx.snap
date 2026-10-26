@@ -1,0 +1,47 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT.ppsx
+---
+---
+source: tika/testPPT.ppsx
+format: pptx (PowerPoint presentation (Office Open XML))
+title: Attachment Test
+author: Rajiv
+last_modified_by: Rajiv
+created: 2010-05-04T06:43:54Z
+modified: 2010-06-29T06:35:07Z
+application: Microsoft Office PowerPoint
+company: Pegasystems
+revision: "2"
+total_editing_time: 1 minutes
+words: "38"
+slides: 3
+---
+
+## Slide 1: Attachment Test
+
+Rajiv
+
+## Slide 2
+
+This is a test file data with the same content as every other file being tested for tika content parsing. This has been developed by Rajiv Kumar Nistala.
+
+## Slide 3
+
+Different words to test against
+
+Quest
+
+Hello
+
+Watershed
+
+Avalanche
+
+Black Panther
+
+Mystery
+
+Banking
+
+Investment

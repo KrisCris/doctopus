@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testInstrLink.docx
+---
+---
+source: tika/testInstrLink.docx
+format: docx (Word document (Office Open XML))
+title: Document Shared
+author: Administrator
+last_modified_by: Administrator
+created: 2026-01-11T16:08:00Z
+modified: 2026-01-14T09:28:01Z
+application: WPS Office_12.9.0.21549_F1E327BC-269C-435d-A152-05C5408002CA
+pages: "1"
+revision: "0"
+total_editing_time: 1182 minutes
+---
+
+| **Invoice document shared with your Gmail Workspace.**<br>**Gmail**<br>Shared from OneDrive<br>**2026_Amended_invoice.docx**<br>Word Document • 2.4 MB; ; ; ; ; ;<br>[**Access Document(s)**](https://exmaple.com/file)<br>**Expires:** 48 hours<br>© 2026 Cooperate Google Workspace |
+|---|

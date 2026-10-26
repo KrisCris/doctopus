@@ -1,0 +1,4 @@
+* text=auto
+# Snapshots are compared byte for byte on every platform.
+*.snap text eol=lf
+*.md text eol=lf

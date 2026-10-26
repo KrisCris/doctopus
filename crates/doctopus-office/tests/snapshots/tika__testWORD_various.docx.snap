@@ -1,0 +1,89 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_various.docx
+---
+---
+source: tika/testWORD_various.docx
+format: docx (Word document (Office Open XML))
+subject: Subject is here
+author: Michael McCandless
+created: 2011-09-05T11:00:00Z
+modified: 2017-11-24T00:00:52Z
+keywords: Keyword1 Keyword2
+application: LibreOffice/5.3.1.2$Linux_X86_64 LibreOffice_project/30m0$Build-2
+characters: "527"
+language: en-GB
+pages: "2"
+revision: "6"
+template: Normal.dotm
+total_editing_time: 4 minutes
+words: "152"
+---
+
+Footnote appears here[^1]
+
+> Here is a text box
+
+**Bold** *italic* underline <sup>superscript</sup> <sub>subscript</sub> ~~<sub>strikethrough</sub>~~
+
+*ita**~~li~~**c*
+
+*ita**~~li~~**c*
+
+*unde**~~r~~**line*
+
+Here is a list:
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+Here is a numbered list:
+
+1) Number bullet 1
+2) Number bullet 2
+3) Number bullet 3
+
+Keyword1 Keyword2
+
+[This is a hyperlink](http://tika.apache.org/)
+
+Subject is here
+
+| Row 1 Col 1 | Row 1 Col 2 | Row 1 Col 3 |
+|---|---|---|
+| Row 2 Col 1 | Row 2 Col 2 | Row 2 Col 3 |
+
+Suddenly some Japanese text:
+
+ゾルゲと尾崎、淡々と最期
+
+（ＧＨＱ）
+
+And then some Gothic text:
+
+𐌲𐌿𐍄𐌹𐍃𐌺
+
+Here is a citation:
+
+(Kramer)
+
+Figure 1 This is a caption for Figure 1
+
+Row 1 column 1
+
+Row 2 column 1
+
+Row 1 column 2
+
+Row 2 column 2
+
+## Headers and footers
+
+**Header:** This is the header text.
+
+**Footer:** This is the footer text.
+
+## Footnotes
+
+[^1]: This is a footnote.

@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD6.doc
+---
+error: unsupported file type (Word 6.0/95 document; save it in a newer format to read it)

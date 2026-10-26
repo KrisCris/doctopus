@@ -1,0 +1,115 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_headers_footers.xlsx
+---
+---
+source: tika/testEXCEL_headers_footers.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+title: Internal spreadsheet
+author: Aeham Abushwashi
+last_modified_by: Aeham Abushwashi
+created: 2015-06-30T09:33:18Z
+modified: 2015-06-30T10:20:38Z
+application: Microsoft Excel
+sheets: 3
+---
+
+## Sheet 1: Sheet1
+
+|  | A | B |
+|---|---|---|
+| 1 | Name | Address |
+| 2 | John Smith1 | 1 Corporate HQ |
+| 3 | John Smith2 | 2 Corporate HQ |
+| 4 | John Smith3 | 3 Corporate HQ |
+| 5 | John Smith4 | 4 Corporate HQ |
+| 6 | John Smith5 | 5 Corporate HQ |
+| 7 | John Smith6 | 6 Corporate HQ |
+| 8 | John Smith7 | 7 Corporate HQ |
+| 9 | John Smith8 | 8 Corporate HQ |
+| 10 | John Smith9 | 9 Corporate HQ |
+| 11 | John Smith10 | 10 Corporate HQ |
+| 12 | John Smith11 | 11 Corporate HQ |
+| 13 | John Smith12 | 12 Corporate HQ |
+| 14 | John Smith13 | 13 Corporate HQ |
+| 15 | John Smith14 | 14 Corporate HQ |
+| 16 | John Smith15 | 15 Corporate HQ |
+| 17 | John Smith16 | 16 Corporate HQ |
+| 18 | John Smith17 | 17 Corporate HQ |
+| 19 | John Smith18 | 18 Corporate HQ |
+| 20 | John Smith19 | 19 Corporate HQ |
+| 21 | John Smith20 | 20 Corporate HQ |
+| 22 | John Smith21 | 21 Corporate HQ |
+| 23 | John Smith22 | 22 Corporate HQ |
+| 24 | John Smith23 | 23 Corporate HQ |
+| 25 | John Smith24 | 24 Corporate HQ |
+| 26 | John Smith25 | 25 Corporate HQ |
+| 27 | John Smith26 | 26 Corporate HQ |
+| 28 | John Smith27 | 27 Corporate HQ |
+| 29 | John Smith28 | 28 Corporate HQ |
+| 30 | John Smith29 | 29 Corporate HQ |
+| 31 | John Smith30 | 30 Corporate HQ |
+| 32 | John Smith31 | 31 Corporate HQ |
+| 33 | John Smith32 | 32 Corporate HQ |
+| 34 | John Smith33 | 33 Corporate HQ |
+| 35 | John Smith34 | 34 Corporate HQ |
+| 36 | John Smith35 | 35 Corporate HQ |
+| 37 | John Smith36 | 36 Corporate HQ |
+| 38 | John Smith37 | 37 Corporate HQ |
+| 39 | John Smith38 | 38 Corporate HQ |
+| 40 | John Smith39 | 39 Corporate HQ |
+| 41 | John Smith40 | 40 Corporate HQ |
+| 42 | John Smith41 | 41 Corporate HQ |
+| 43 | John Smith42 | 42 Corporate HQ |
+| 44 | John Smith43 | 43 Corporate HQ |
+| 45 | John Smith44 | 44 Corporate HQ |
+| 46 | John Smith45 | 45 Corporate HQ |
+| 47 | John Smith46 | 46 Corporate HQ |
+| 48 | John Smith47 | 47 Corporate HQ |
+| 49 | John Smith48 | 48 Corporate HQ |
+| 50 | John Smith49 | 49 Corporate HQ |
+| 51 | John Smith50 | 50 Corporate HQ |
+| 52 | John Smith51 | 51 Corporate HQ |
+| 53 | John Smith52 | 52 Corporate HQ |
+| 54 | John Smith53 | 53 Corporate HQ |
+| 55 | John Smith54 | 54 Corporate HQ |
+| 56 | John Smith55 | 55 Corporate HQ |
+| 57 | John Smith56 | 56 Corporate HQ |
+| 58 | John Smith57 | 57 Corporate HQ |
+| 59 | John Smith58 | 58 Corporate HQ |
+| 60 | John Smith59 | 59 Corporate HQ |
+| 61 | John Smith60 | 60 Corporate HQ |
+| 62 | John Smith61 | 61 Corporate HQ |
+| 63 | John Smith62 | 62 Corporate HQ |
+| 64 | John Smith63 | 63 Corporate HQ |
+| 65 | John Smith64 | 64 Corporate HQ |
+| 66 | John Smith65 | 65 Corporate HQ |
+| 67 | John Smith66 | 66 Corporate HQ |
+| 68 | John Smith67 | 67 Corporate HQ |
+| 69 | John Smith68 | 68 Corporate HQ |
+| 70 | John Smith69 | 69 Corporate HQ |
+| 71 | John Smith70 | 70 Corporate HQ |
+| 72 | John Smith71 | 71 Corporate HQ |
+| 73 | John Smith72 | 72 Corporate HQ |
+| 74 | John Smith73 | 73 Corporate HQ |
+| 75 | John Smith74 | 74 Corporate HQ |
+| 76 | John Smith75 | 75 Corporate HQ |
+| 77 | John Smith76 | 76 Corporate HQ |
+| 78 | John Smith77 | 77 Corporate HQ |
+| 79 | John Smith78 | 78 Corporate HQ |
+| 80 | John Smith79 | 79 Corporate HQ |
+| 81 | John Smith80 | 80 Corporate HQ |
+| 82 | John Smith81 | 81 Corporate HQ |
+| 83 | John Smith82 | 82 Corporate HQ |
+
+**Header:** left: Header - Corporate Spreadsheet; center: Header - For Internal Use Only; right: Header - Author: John Smith
+
+**Footer:** left: Footer - Corporate Spreadsheet; center: Footer - For Internal Use Only; right: Footer - Author: John Smith
+
+## Sheet 2: Sheet2
+
+*(empty)*
+
+## Sheet 3: Sheet3
+
+*(empty)*

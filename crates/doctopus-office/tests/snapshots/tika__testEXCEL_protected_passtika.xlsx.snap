@@ -1,0 +1,5 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_protected_passtika.xlsx
+---
+error: Excel workbook (Office Open XML) is encrypted or password-protected

@@ -1,0 +1,17 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/blue-box.vsdx
+---
+---
+source: libvisio/blue-box.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+created: 2015-05-12T07:01:27Z
+modified: 2023-12-28T22:16:54Z
+application: Microsoft Visio
+language: en-US
+pages: 1
+---
+
+## Page 1: Page-1
+
+*(1 shape without text)*

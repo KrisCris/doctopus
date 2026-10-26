@@ -1,0 +1,95 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWPSAttachment.doc
+---
+---
+source: tika/testWPSAttachment.doc
+format: doc (Word 97-2003 document)
+author: dsx
+last_modified_by: 段
+created: 2021-08-18T03:32:06Z
+modified: 2021-08-18T04:30:32Z
+application: WPS Office_11.1.0.10700_F1E327BC-269C-435d-A152-05C5408002CA
+pages: "1"
+template: Normal.dotm
+parts:
+  - emb1: OLE object Package "TXT.txt" (text/plain, 11 B, body)
+  - emb2: OLE object Package "PDF.pdf" (application/pdf, 22.4 KB, body)
+  - emb3: OLE object Package "XML.xml" (application/xml, 75 B, body)
+  - emb4: Word 97-2003 document (24.0 KB, body)
+  - emb5: Word document (Office Open XML) (10.9 KB, body)
+  - emb6: Excel 97-2003 workbook (36.0 KB, body)
+  - emb7: Excel workbook (Office Open XML) (9.8 KB, body)
+  - emb8: PowerPoint 97-2003 presentation (104.0 KB, body)
+  - emb9: PowerPoint presentation (Office Open XML) (32.0 KB, body)
+---
+
+<embedded id="emb1" ref="tika/testWPSAttachment.doc#emb1" type="text/plain" name="TXT.txt" size="11 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWPSAttachment.doc#emb1&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb2" ref="tika/testWPSAttachment.doc#emb2" type="application/pdf" name="PDF.pdf" size="22.4 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWPSAttachment.doc#emb2&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb3" ref="tika/testWPSAttachment.doc#emb3" type="application/xml" name="XML.xml" size="75 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/testWPSAttachment.doc#emb3&quot; -o &lt;dir&gt;"/>
+
+<embedded id="emb4" ref="tika/testWPSAttachment.doc#emb4" type="doc" size="24.0 KB">
+
+doc_content
+
+</embedded>
+
+<embedded id="emb5" ref="tika/testWPSAttachment.doc#emb5" type="docx" size="10.9 KB">
+
+docx_content
+
+</embedded>
+
+<embedded id="emb6" ref="tika/testWPSAttachment.doc#emb6" type="xls" size="36.0 KB">
+
+### Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | xls_content |
+
+### Sheet 2: Sheet2
+
+*(empty)*
+
+### Sheet 3: Sheet3
+
+*(empty)*
+
+</embedded>
+
+<embedded id="emb7" ref="tika/testWPSAttachment.doc#emb7" type="xlsx" size="9.8 KB">
+
+### Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | xlsx_content |
+
+### Sheet 2: Sheet2
+
+*(empty)*
+
+### Sheet 3: Sheet3
+
+*(empty)*
+
+</embedded>
+
+<embedded id="emb8" ref="tika/testWPSAttachment.doc#emb8" type="ppt" size="104.0 KB">
+
+### Slide 1: ppt_content
+
+*(empty)*
+
+</embedded>
+
+<embedded id="emb9" ref="tika/testWPSAttachment.doc#emb9" type="pptx" size="32.0 KB">
+
+### Slide 1: pptx_content
+
+*(empty)*
+
+</embedded>

@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_header_hyperlink.doc
+---
+---
+source: tika/testWORD_header_hyperlink.doc
+format: doc (Word 97-2003 document)
+author: Lutz Theurer
+last_modified_by: Lutz Theurer
+created: 2014-02-04T10:29:00Z
+modified: 2014-02-04T11:29:00Z
+application: Microsoft Office Word
+company: Microsoft
+characters: "3"
+pages: "1"
+revision: "5"
+template: Normal.dotm
+---
+
+## Headers and footers
+
+**Header:**
+
+[ab@example.com](mailto:ab@example.com)
+
+<http://tw-systemhaus.de>

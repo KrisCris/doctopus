@@ -1,0 +1,32 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testEXCEL_hyperlinks.xlsx
+---
+---
+source: tika/testEXCEL_hyperlinks.xlsx
+format: xlsx (Excel workbook (Office Open XML))
+author: Allison, Timothy B.
+last_modified_by: Allison, Timothy B.
+created: 2016-05-12T13:21:38Z
+modified: 2016-05-13T12:56:04Z
+application: Microsoft Excel
+sheets: 1
+---
+
+## Sheet 1: Sheet1
+
+|  | A | B | C | D | E |
+|---|---|---|---|---|---|
+| 1 | this is a | http_tika_link | Sheet1!C2 | mailto:user@tika.apache.org?subject=help | C:\data\linked_file.txt.htm |
+
+Cell links:
+- B1: http://tika.apache.org/
+- C1: #Sheet1!C2
+- D1: mailto:user@tika.apache.org?subject=help
+- E1: linked_file.txt.htm
+
+> Text box
+>
+> should have link to Tika's getting started page
+>
+> Link: <http://tika.apache.org/1.12/gettingstarted.html>

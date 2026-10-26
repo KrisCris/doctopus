@@ -1,0 +1,25 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/EmbeddedOutlook.docx
+---
+---
+source: tika/EmbeddedOutlook.docx
+format: docx (Word document (Office Open XML))
+author: Jeremy Anderson
+last_modified_by: Jeremy Anderson
+created: 2011-08-30T15:32:00Z
+modified: 2011-09-07T13:18:00Z
+application: Microsoft Office Word
+characters: "57"
+pages: "1"
+revision: "6"
+template: Normal.dotm
+total_editing_time: 1 minutes
+words: "10"
+parts:
+  - emb1: OLE object Package "licensedTestMsgwAtt.msg" (application/x-ole-storage, 118.5 KB, body)
+---
+
+This is a test with embedded outlook message:
+
+<embedded id="emb1" ref="tika/EmbeddedOutlook.docx#emb1" type="application/x-ole-storage" name="licensedTestMsgwAtt.msg" size="118.5 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika/EmbeddedOutlook.docx#emb1&quot; -o &lt;dir&gt;"/>

@@ -1,0 +1,227 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/poi/60973.vsdx
+---
+---
+source: poi/60973.vsdx
+format: vsdx (Visio drawing (Office Open XML))
+created: 2016-03-22T10:39:10Z
+modified: 2017-04-12T07:42:58Z
+application: Microsoft Visio
+pages: 4
+parts:
+  - img1: image/x-emf "image4.emf" (6.6 KB, page "Physical" shape 2)
+  - img2: image/x-emf "image5.emf" (8.6 KB, page "Physical" shape 3)
+  - img3: image/x-emf "image3.emf" (4.1 KB, page "Physical" shape 4)
+  - img4: image/x-emf "image2.emf" (3.6 KB, page "Physical" shape 1)
+---
+
+## Page 1: Structural
+
+Shapes:
+- 11
+- 1 "WAN"
+- 2 "WAN acc"
+- 4 "Wired"
+- 5 "Wireless"
+- 9 "DCx"
+- 12 "ho"
+
+Connections:
+- 11 -> 9 "DCx" [inferred from positions]
+
+## Page 2: Physical
+
+Shapes:
+- 847 [Location] "Virtual Devices"
+- 526 [WAAS v2]
+  - 568 "Inband MGMT: Q.q.q.q"
+  - 570 "Nzzzzz vWzzzz Location: Nzzzz blade"
+- 571 [WAN/Edge Device]
+  - 595 "Inband MGMT: Y.y.y.y"
+  - 600 "Lo0:x.x.x.x"
+  - 601 "Nxxx2x xxxx Location:xxxx"
+- 633 [Access Device v2]
+  - 681 "Inband MGMT: E.e.e.e"
+  - 683 "Neeeee WS-eee Location: eeee"
+- 780 [Wireless Controller]
+  - 781
+    - 2 -> img1 (poi/60973.vsdx#img1)
+  - 783 "Inband MGMT: R.r.r.r"
+  - 785 "Nwwww vww Location: Nwww0 blade"
+- 792
+  - 786 [Wireless Controller]
+    - 789 "Inband MGMT: T.t.t.t"
+    - 791 "CN-tttttt AIRttt Location: ttt"
+  - 3 [Wireless Router] -> img2 (poi/60973.vsdx#img2)
+- 793 [Shape #2]
+- 4 [Router] -> img3 (poi/60973.vsdx#img3)
+- 794 "Nxxxx CxxxxX Location: xxxx"
+- 795 "Lo0: X.x.x.x"
+- 800 [1G Port]
+- 801 [1G Port]
+- 802 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: G0/0/3; Port_A IP Address: 10.200.223.2; Port_B Port Name: G0/0/0; Port_B IP Address: 10.200.223.1)
+  - 803 "G0/0/3" (Port_B: G0/0/0; Port_A: G0/0/3)
+  - 804 "G0/0/0" (Port_A: G0/0/3; Port_B: G0/0/0)
+- 1 [Cloud] "wan" -> img4 (poi/60973.vsdx#img4)
+- 5 [Cloud] "LAN" -> img4 (poi/60973.vsdx#img4)
+- 807 [1G Port]
+- 808 [1G Port]
+- 809 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: G0/0/1; Port_A IP Address: 10.200.220.129; Port_B Port Name: G1/0/1; Port_B IP Address: 10.200.220.240)
+  - 810 "G0/0/1" (Port_B: G1/0/1; Port_A: G0/0/1)
+  - 811 "G1/0/1" (Port_A: G0/0/1; Port_B: G1/0/1)
+- 812 [1G Port]
+- 813 [1G Port]
+- 814 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: G1/0/2; Port_B Port Name: G0/0; Port_B IP Address: 10.200.218.x)
+  - 815 "G1/0/2" (Port_B: G0/0; Port_A: G1/0/2)
+  - 816 "G0/0" (Port_A: G1/0/2; Port_B: G0/0)
+- 823 [1G Port]
+- 824 [1G Port]
+- 828 [1G Port]
+- 829 [1G Port]
+- 830 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: Vi1; Port_A IP Address: 10.200.219.1; Port_B Port Name: U1/0/0; Port_B IP Address: 10.200.219.10)
+  - 831 "Vi1" (Port_B: U1/0/0; Port_A: Vi1)
+  - 832 "U1/0/0" (Port_A: Vi1; Port_B: U1/0/0)
+- 833 [1G Port]
+- 834 [1G Port]
+- 835 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: Tunnel2; Port_A IP Address: 10.200.223.6; Port_B Port Name: Tunnel0; Port_B IP Address: 10.200.223.5)
+  - 836 "Tunnel2" (Port_B: Tunnel0; Port_A: Tunnel2)
+  - 837 "Tunnel0" (Port_A: Tunnel2; Port_B: Tunnel0)
+- 838 "VTI"
+- 825 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: Vi1; Port_A IP Address: 10.200.218.140; Port_B Port Name: U1/0/1; Port_B IP Address: 10.200.218.129)
+  - 826 "Vi1" (Port_B: U1/0/1; Port_A: Vi1)
+  - 827 "U1/0/1" (Port_A: Vi1; Port_B: U1/0/1)
+- 849
+  - 850 [Wireless Controller]
+    - 853 "Inband MGMT: U.u.u.u"
+    - 854 "CN-uuuuu AIRuuu Location: uuu"
+  - 6 [Wireless Router] -> img2 (poi/60973.vsdx#img2)
+- 855 [1G Port]
+- 856 [1G Port]
+- 857 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: G1/0/3; Port_B Port Name: G0/0; Port_B IP Address: 10.200.218.x)
+  - 858 "G1/0/3" (Port_B: G0/0; Port_A: G1/0/3)
+  - 859 "G0/0" (Port_A: G1/0/3; Port_B: G0/0)
+
+Connections:
+- 801 [1G Port] -> 800 [1G Port] via 802 [inferred from positions]
+- 793 [Shape #2] -> 5 "LAN"
+- 808 [1G Port] -> 807 [1G Port] via 809 [inferred from positions]
+- 812 [1G Port] -> 813 [1G Port] via 814
+- 828 [1G Port] -> 829 [1G Port] via 830
+- 834 [1G Port] -> 833 [1G Port] via 835 [inferred from positions]
+- 823 [1G Port] -> 824 [1G Port] via 825
+- 855 [1G Port] -> 856 [1G Port] via 857
+
+## Page 3: Logical
+
+Shapes:
+- 292 [BGP AS] "BGP AS 1xxxx"
+- 289 [BGP AS] "BGP AS 6qqqq"
+- 288 [Location] "Virtual Devices"
+- 247 [Location] "Access VLANS"
+- 1 [WAAS v2]
+  - 43 "Inband MGMT: 6.6.6.6"
+  - 44 "Nhhhhh vWhhh Location: Nhhhh blade"
+- 45 [WAN/Edge Device]
+  - 69 "Inband MGMT: S.s.s.s"
+  - 70 "Lo0:q.q.q.q"
+  - 71 "Nssss sssss Location:ssss"
+- 72 [Access Device v2]
+  - 120 "Inband MGMT: 8.8.8.8"
+  - 121 "Nbbbb WSbbbb Location: bbbb"
+- 122 [Wireless Controller]
+  - 123
+    - 125 -> img1 (poi/60973.vsdx#img1)
+  - 126 "Inband MGMT: 7.7.7.7"
+  - 127 "Noooo vWooo Location: Noooo blade"
+- 128
+  - 129 [Wireless Controller]
+    - 132 "Inband MGMT: 1.1.1.1"
+    - 133 "CN-mmmmm AIRmmmm Location: mmmm"
+  - 134 [Wireless Router] -> img2 (poi/60973.vsdx#img2)
+- 135 [Shape #2]
+- 136 [Router] -> img3 (poi/60973.vsdx#img3)
+- 137 "Nxxxx xxx Location:xxx"
+- 138 "Lo0: X.x.x.x"
+- 139 [1G Port]
+- 140 [1G Port]
+- 141 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: wwwww; Port_B Port Name: wwwww)
+  - 142 "wwwww" (Port_B: wwwww; Port_A: wwwww)
+  - 143 "wwwww" (Port_A: wwwww; Port_B: wwwww)
+- 144 [Cloud] "wan" -> img4 (poi/60973.vsdx#img4)
+- 145 [Cloud] "LAN" -> img4 (poi/60973.vsdx#img4)
+- 147 [1G Port]
+- 148 [1G Port]
+- 149 [1G Physical] (ShapeTypeName: Physical_Connect; Port_A Port Name: G0/0/1; Port_A IP Address: 10.200.220.129; Port_B Port Name: G1/0/1; Port_B IP Address: 10.200.220.240)
+  - 150 "G0/0/1" (Port_B: G1/0/1; Port_A: G0/0/1)
+  - 151 "G1/0/1" (Port_A: G0/0/1; Port_B: G1/0/1)
+- 162 [1G Port] "U1/0/0.86 R.r.r.r"
+- 163 [1G Port] "Vi1 .10"
+- 174 [Vlan]
+  - 175
+    - 176 (Network Type: Straight bus)
+  - 177 "Vlan 86 WAAS-MGMT 4.4.4.4/25"
+- 185 [Vlan]
+- 215 [Vlan]
+  - 216
+    - 217 (Network Type: Straight bus)
+  - 218 "Vlan 85 WIFI-MGMT 5.5.5.5/25"
+- 226 [1G Port] "G0/0 .21"
+- 227 [1G Port] "Vi1 .140"
+- 231 [Vlan]
+  - 232
+    - 233 (Network Type: Straight bus)
+  - 234 "Vlan DATA 5.5.5.5/25"
+- 235 [Vlan]
+  - 236
+    - 237 (Network Type: Straight bus)
+  - 238 "Vlan TP 9.9.9.9/25"
+- 239 [Vlan]
+  - 240
+    - 241 (Network Type: Straight bus)
+  - 242 "Vlan Server 7.7.7.7/25"
+- 243 [Vlan]
+  - 244
+    - 245 (Network Type: Straight bus)
+  - 246 "Vlan Server-MGMT 8.8.8.8/25"
+- 256 [Callout] "G0/0/1.89 IP: z.zz..z G0/0/1.90 IP q.q.q.q G0/0/1.91 IP: 1.1.1.1 G0/0/1.200 IP: 2.2.2.2 G0/0/1.215 IP: 3.3.3.3 G0/0/1.265 IP: 4.4.4.4"
+- 267 [1G Port] "U1/0/1.85 G.g.g.g"
+- 270 [Vlan]
+  - 271
+    - 272 (Network Type: Straight bus)
+  - 273 "Vlan 84 WIFI-AP 9.9.9.9/25"
+- 278
+  - 279 [Wireless Controller]
+    - 282 "Inband MGMT: 2.2.2.2"
+    - 283 "CN-nnnnnn AIRnnnn Location: nnnn"
+  - 284 [Wireless Router] -> img2 (poi/60973.vsdx#img2)
+- 285 [1G Port] "G0/0 .22"
+- 293 [BGP Connection] (ShapeTypeName: BGP Connection; Port_A Device Name: Nxxxx; Port_A Port Name: Tunnel2 zzzzz; Port_A IP Address: x.x.x.x; Port_B Device Name: Nyyyy; Port_B Port Name: Tunnel0 zzzzz; Port_B IP Address: y.y.y.y)
+  - 294 "Tunnel2 zzzzz" (Port_B: Tunnel0 zzzzz; Port_A: Tunnel2 zzzzz)
+  - 295 "Tunnel0 zzzzz" (Port_A: Tunnel2 zzzzz; Port_B: Tunnel0 zzzzz)
+- 299 [Vlan]
+  - 300
+    - 301 (Network Type: Straight bus)
+  - 302 "Vlan WIFI-USR 6.6.6.6/25"
+
+Connections:
+- 140 [1G Port] -> 139 [1G Port] via 141 [inferred from positions]
+- 135 [Shape #2] -> 145 "LAN"
+- 148 [1G Port] -> 147 [1G Port] via 149 [inferred from positions]
+- 174 [Vlan] -> 174 [Vlan]
+- 215 [Vlan] -> 267 "U1/0/1.85 G.g.g.g"
+- 227 "Vi1 .140" -> 215 [Vlan]
+- 72 [Access Device v2] -> 247 "Access VLANS"
+- 177 "Vlan 86 WAAS-MGMT 4.4.4.4/25" -> 163 "Vi1 .10"
+- 270 [Vlan] -> 72 [Access Device v2]
+- 273 "Vlan 84 WIFI-AP 9.9.9.9/25" -> 226 "G0/0 .21"
+- 285 "G0/0 .22" -> 273 "Vlan 84 WIFI-AP 9.9.9.9/25"
+- 294 "Tunnel2 zzzzz" -> 295 "Tunnel0 zzzzz" via 293 [inferred from positions]
+
+## Page 4: Rack
+
+Shapes:
+- 1 [Cabinet] (Height in U's: 15.45331833520804; Width between holes: 19; Height: 801.9 mm)
+  - 6 "15 U"
+- 16 "Nwwww"
+- 17 "Neeeee"

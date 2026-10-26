@@ -1,0 +1,22 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testWORD_refFields.docx
+---
+---
+source: tika/testWORD_refFields.docx
+format: docx (Word document (Office Open XML))
+---
+
+Target heading
+
+see Target heading above
+
+toc Target heading 7 end
+
+simple 1 done
+
+wrapped inner tail
+
+noref 5
+
+quoted qref

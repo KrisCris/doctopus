@@ -1,0 +1,55 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika/testPPT_embedded2.ppt
+---
+---
+source: tika/testPPT_embedded2.ppt
+format: ppt (PowerPoint 97-2003 presentation)
+title: PowerPoint Presentation
+last_modified_by: IBMer
+modified: 2012-07-16T08:58:29Z
+application: Microsoft PowerPoint
+custom.Version: "1"
+revision: "5"
+total_editing_time: 22 minutes
+words: "9"
+slides: 1
+parts:
+  - emb1: Excel 97-2003 workbook (9.5 KB, slide 1)
+  - img1: image/wmf (35.2 KB, slide 1)
+  - emb2: Word 97-2003 document (45.5 KB, slide 1)
+---
+
+## Slide 1: Title of presentation
+
+- Text for viewing
+
+<embedded id="emb1" ref="tika/testPPT_embedded2.ppt#emb1" type="xls" size="9.5 KB">
+
+warnings: 1 chart(s) not shown: charts in .xls files are not read; save the workbook as .xlsx to include them
+
+### Sheet 1
+
+*type: chart sheet*
+
+*(empty)*
+
+</embedded>
+
+![image](tika/testPPT_embedded2.ppt#img1 "WMF, 35.2 KB")
+
+The graph
+
+diskette
+
+<embedded id="emb2" ref="tika/testPPT_embedded2.ppt#emb2" type="doc" size="45.5 KB">
+
+Embedded document for powerpoint
+
+-
+
+More text
+
+And more
+
+</embedded>

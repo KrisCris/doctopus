@@ -1,0 +1,31 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/libvisio/Visio11PlanWithDimensions.vsd
+---
+---
+source: libvisio/Visio11PlanWithDimensions.vsd
+format: vsd (Visio 2003-2010 drawing)
+title: Visio6PlanWithDimensions
+author: z
+last_modified_by: z
+modified: 2024-11-08T13:28:29Z
+template: C:\Visio6\Solutions\Office Layout\Office Layout.vst
+pages: 1
+---
+
+## Page 1: Page-1
+
+Shapes:
+- 1 ["L" Room] "Text Background with 20% Transparency Geometry Width (0#/## units): 300 in Geometry Height (Feet & Inches): 20'-6" Geometry Angle (Degrees): -5 deg"
+  - 2 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 70.110236 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 3 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 8 "5'-10 1/8"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
+  - 9 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 153.787402 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 3 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 15 "12'-9 13/16"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
+  - 16 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 229.889764 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 0 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 22 "19'-1 7/8"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
+  - 23 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 92.212598 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 3 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 29 "7'-8 3/16"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
+  - 30 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 300 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 0 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 36 "25'-0"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
+  - 37 (Wall thickness: 150 mm; Reference Line Offset: 0 mm; Wall height: 2.6 m; Wall length: 246 in; Wall justification: Edge; Wall segment: Straight; Wall radius: 0 m; Shape class: Building Component; Shape type: Wall; Base elevation: 0 mm)
+    - 43 "20'-6"" (Precision: 0.00; Units: .Feet-Inch (1'-0"); Units display: Show Units)
