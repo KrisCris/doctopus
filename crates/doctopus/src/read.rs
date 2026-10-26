@@ -51,7 +51,7 @@ pub(crate) fn run(args: &ReadArgs, max_depth: u32) -> Result<(), Failure> {
         options.extracted = report
             .files
             .into_iter()
-            .map(|saved| (saved.path, saved.file.display().to_string()))
+            .map(|saved| (saved.path, link_path(&saved.file)))
             .collect();
     }
 
@@ -153,6 +153,17 @@ impl Context<'_> {
 
 fn primary_kind(document: &Document) -> Option<SectionKind> {
     document.primary_sections().next().map(|s| s.kind)
+}
+
+/// A saved file as a Markdown reference: links separate path components
+/// with `/`, also on Windows.
+fn link_path(path: &Path) -> String {
+    let path = path.to_string_lossy();
+    if cfg!(windows) {
+        path.replace('\\', "/")
+    } else {
+        path.into_owned()
+    }
 }
 
 /// The note printed after a page: what it covers and how to go on.
@@ -385,5 +396,11 @@ mod tests {
     fn offsets_become_line_numbers() {
         let text = "a\nbb\nccc\n";
         assert_eq!(line_numbers(text, &[0, 2, 5, 9]), [1, 2, 3, 4]);
+    }
+
+    #[test]
+    fn links_to_saved_files_use_slashes() {
+        let file = Path::new("saved").join("emb1").join("image 1.png");
+        assert_eq!(link_path(&file), "saved/emb1/image 1.png");
     }
 }
