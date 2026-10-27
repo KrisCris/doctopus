@@ -116,8 +116,16 @@ To make the command line read the new format, add the crate to
 
 ```rust
 doctopus_office::register(&mut registry);
+doctopus_pdf::register(&mut registry);
 doctopus_csv::register(&mut registry);
+// Last: both only claim files that no other reader recognises.
+doctopus_archive::register(&mut registry);
+doctopus_text::register(&mut registry);
 ```
+
+Register it before `doctopus_text`, which reads `.csv` files as plain
+text with the same low confidence: of two equally confident readers, the
+one registered first wins.
 
 From then on `doctopus read budget.csv` works. So do `info`, `extract`,
 `--sheet`, `--range` and paging, and so does a CSV file embedded in a Word
@@ -150,8 +158,8 @@ registered first wins.
   as the application shows them. Use `Body` for flowing text. Headers and
   footers, footnotes, endnotes and comments get sections of their own.
 - **Blocks.** Headings, paragraphs, list items, tables (rich cells),
-  grids (typed spreadsheet cells), images, embeds, charts, diagrams, math
-  and notes. `Group` labels a container such as speaker notes or a text
+  grids (typed spreadsheet cells), images, embeds, charts, diagrams, math,
+  code (text kept exactly as written) and notes. `Group` labels a container such as speaker notes or a text
   box. Keep the order a person reads in.
 - **Parts.** Every image, embedded document or attached file is a `Part`
   added with `Document::add_part`. Reference it from the content with

@@ -3,8 +3,10 @@
 
 use super::props::{CharStyle, ParaStyle};
 use crate::binary::{Cursor, u16_at, u32_at};
+use crate::fonts::is_monospace;
 use crate::numbering::{CounterStyle, Instance, Level, Numbering};
 use crate::ole::text::utf16le;
+use crate::word::{Role, role_by_name};
 
 /// How far `istdBase` chains are followed; the limit guards against cycles.
 const MAX_INHERITANCE: usize = 16;
@@ -99,6 +101,32 @@ impl<'t> Styles<'t> {
             .get(usize::from(istd))
             .copied()
             .unwrap_or_default()
+    }
+
+    /// Whether a paragraph style holds code or quotations, by its name or
+    /// the name of a style it is based on.
+    pub(super) fn role(&self, istd: u16) -> Role {
+        let mut current = istd;
+        for _ in 0..MAX_INHERITANCE {
+            let Some(Some(std)) = self.styles.get(usize::from(current)) else {
+                break;
+            };
+            if let Some(role) = role_by_name(&std.name) {
+                return role;
+            }
+            if std.base == NO_BASE {
+                break;
+            }
+            current = std.base;
+        }
+        Role::Text
+    }
+
+    /// Whether a font, or the default font for `None`, is fixed-width.
+    pub(super) fn is_mono(&self, font: Option<u16>, fonts: &[String]) -> bool {
+        font.or(self.default_font)
+            .and_then(|i| fonts.get(usize::from(i)))
+            .is_some_and(|name| is_monospace(name))
     }
 
     /// The heading level a paragraph style gives, if it is a heading: by

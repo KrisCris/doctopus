@@ -67,14 +67,14 @@ Design
 >
 > 3 Scenario Variables
 >
->     - Conflict Angle
->     - Initial Ownship Distance from Conflict
->     - Initial Traffic Distance from Conflict
+> - Conflict Angle
+> - Initial Ownship Distance from Conflict
+> - Initial Traffic Distance from Conflict
 >
 > 2 Display Variables
 >
->     - Dynamic Trajectory Pulse Prediction
->     - Dynamic Conflict Alerting
+> - Dynamic Trajectory Pulse Prediction
+> - Dynamic Conflict Alerting
 
 ## Slide 5
 

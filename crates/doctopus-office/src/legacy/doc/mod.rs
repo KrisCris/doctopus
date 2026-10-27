@@ -35,7 +35,7 @@ use super::context::Context;
 use super::officeart::{self, BlipStore, Records, Shape, rt};
 use crate::binary::{Cursor, i32_at, u16_at, u32_at};
 use crate::ole::text::utf16le;
-use crate::word::{anchor_text, prepend, record_tracked_changes};
+use crate::word::{anchor_text, keep_heading_links, prepend, record_tracked_changes};
 
 /// Read a `.doc` document.
 pub(crate) fn read(input: &Input<'_>) -> Result<Document> {
@@ -105,6 +105,7 @@ pub(crate) fn read(input: &Input<'_>) -> Result<Document> {
             sections[0].blocks.push(Block::Embed(EmbedRef { part }));
         }
     }
+    keep_heading_links(&mut sections);
     cx.doc.sections = sections;
     Ok(cx.doc)
 }

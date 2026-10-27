@@ -1,8 +1,13 @@
 //! Conventions of Word shared by the `.docx` and `.doc` readers: field
-//! instructions, the characters of symbol fonts, and how paragraphs become
-//! headings, list items and paragraphs.
+//! instructions, the characters of symbol fonts, how paragraphs become
+//! headings, list items, code, quotations and paragraphs, and links to
+//! bookmarks.
 
-use doctopus_core::{Block, Document, Inline, ListItem, plain_text};
+use std::collections::HashSet;
+
+use doctopus_core::{
+    Block, Code, Document, Group, GroupKind, Inline, Link, ListItem, Section, plain_text, push_text,
+};
 
 use crate::numbering::ListLabel;
 
@@ -37,6 +42,128 @@ pub(crate) fn paragraph_block(
         ListLabel::Number(n) => list_item(list_level, Some(n), content),
     };
     (block, None)
+}
+
+/// What a paragraph style makes its paragraphs, besides headings and list
+/// items.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum Role {
+    Text,
+    /// Lines of code, kept as written.
+    Code,
+    /// A quotation set off from the text.
+    Quote,
+}
+
+/// The role a paragraph style's name gives it (`Quote`, `Intense Quote`,
+/// `Block Text`; `Code`, `HTML Preformatted`, `Source Code`).
+pub(crate) fn role_by_name(name: &str) -> Option<Role> {
+    let name = name.to_ascii_lowercase();
+    if name.contains("quot") || name == "block text" {
+        return Some(Role::Quote);
+    }
+    ["code", "preformatted", "verbatim", "listing"]
+        .iter()
+        .any(|w| name.contains(w))
+        .then_some(Role::Code)
+}
+
+/// Add a paragraph in a code style as a line of the code block just
+/// before, or as a new code block. Empty lines only count inside code.
+pub(crate) fn push_code(out: &mut Vec<Block>, line: &str) {
+    if let Some(Block::Code(code)) = out.last_mut() {
+        code.text.push('\n');
+        code.text.push_str(line);
+    } else if !line.trim().is_empty() {
+        out.push(Block::Code(Code {
+            language: None,
+            text: line.to_string(),
+        }));
+    }
+}
+
+/// Add a paragraph in a quotation style to the quotation just before, or
+/// start one.
+pub(crate) fn push_quote(out: &mut Vec<Block>, block: Block) {
+    if let Some(Block::Group(group)) = out.last_mut()
+        && group.kind == GroupKind::Quote
+    {
+        group.blocks.push(block);
+        return;
+    }
+    out.push(Block::Group(Group {
+        kind: GroupKind::Quote,
+        title: None,
+        blocks: vec![block],
+    }));
+}
+
+/// Keep links to bookmarks (`#name`) where a heading carries the bookmark,
+/// as in a table of contents. Other bookmarks mark places Markdown cannot
+/// link to, so their links become plain text.
+pub(crate) fn keep_heading_links(sections: &mut [Section]) {
+    let mut anchors = HashSet::new();
+    for section in sections.iter() {
+        heading_anchors(&section.blocks, &mut anchors);
+    }
+    for section in sections {
+        unlink_blocks(&mut section.blocks, &anchors);
+    }
+}
+
+fn heading_anchors(blocks: &[Block], out: &mut HashSet<String>) {
+    for block in blocks {
+        match block {
+            Block::Heading(h) => out.extend(h.anchors.iter().cloned()),
+            Block::Group(g) => heading_anchors(&g.blocks, out),
+            _ => {}
+        }
+    }
+}
+
+fn unlink_blocks(blocks: &mut [Block], anchors: &HashSet<String>) {
+    for block in blocks {
+        match block {
+            Block::Heading(h) => unlink(&mut h.content, anchors),
+            Block::Paragraph(p) => unlink(&mut p.content, anchors),
+            Block::ListItem(l) => unlink(&mut l.content, anchors),
+            Block::Table(t) => {
+                for cell in t.rows.iter_mut().flat_map(|r| r.cells.iter_mut()) {
+                    unlink_blocks(&mut cell.blocks, anchors);
+                }
+            }
+            Block::Group(g) => unlink_blocks(&mut g.blocks, anchors),
+            Block::Note(n) => unlink_blocks(&mut n.blocks, anchors),
+            _ => {}
+        }
+    }
+}
+
+fn unlink(content: &mut Vec<Inline>, anchors: &HashSet<String>) {
+    let dangling = |link: &Link| {
+        link.url
+            .strip_prefix('#')
+            .is_some_and(|name| !anchors.contains(name))
+    };
+    if !content
+        .iter()
+        .any(|i| matches!(i, Inline::Link(link) if dangling(link)))
+    {
+        return;
+    }
+    for inline in std::mem::take(content) {
+        let inlines = match inline {
+            Inline::Link(link) if dangling(&link) => link.content,
+            other => vec![other],
+        };
+        // Merge the link text with the text around it.
+        for inline in inlines {
+            match inline {
+                Inline::Text(text) => push_text(content, &text.text, text.style),
+                other => content.push(other),
+            }
+        }
+    }
 }
 
 fn list_item(level: u8, label: Option<String>, content: Vec<Inline>) -> Block {
@@ -99,12 +226,17 @@ pub(crate) fn record_tracked_changes(doc: &mut Document, insertions: usize, dele
     }
 }
 
-/// The target of a `HYPERLINK "url"` field instruction. Links to
-/// bookmarks (`\l`) are not kept.
+/// The target of a `HYPERLINK "url"` field instruction, or `#name` for a
+/// link to a bookmark (`HYPERLINK \l "name"`).
 pub(crate) fn hyperlink_target(instruction: &str) -> Option<String> {
     let rest = instruction.trim().strip_prefix("HYPERLINK")?.trim();
-    if rest.starts_with("\\l") {
-        return None;
+    if let Some(bookmark) = rest.strip_prefix("\\l") {
+        let bookmark = bookmark.trim();
+        let name = match bookmark.strip_prefix('"') {
+            Some(quoted) => quoted.split('"').next(),
+            None => bookmark.split_whitespace().next(),
+        };
+        return name.filter(|n| !n.is_empty()).map(|n| format!("#{n}"));
     }
     let target = if let Some(quoted) = rest.strip_prefix('"') {
         quoted.split('"').next().unwrap_or_default()
@@ -181,7 +313,10 @@ mod tests {
             hyperlink_target("HYPERLINK http://x.y").as_deref(),
             Some("http://x.y")
         );
-        assert_eq!(hyperlink_target(r#"HYPERLINK \l "_Toc1""#), None);
+        assert_eq!(
+            hyperlink_target(r#"HYPERLINK \l "_Toc1" \h"#).as_deref(),
+            Some("#_Toc1")
+        );
         assert_eq!(hyperlink_target("PAGE"), None);
     }
 

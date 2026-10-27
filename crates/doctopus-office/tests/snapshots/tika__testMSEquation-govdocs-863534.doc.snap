@@ -31,8 +31,8 @@ parts:
 1. The following is based on the developments of two options for the cost estimate: a) RT front end and b) SC front end.
 2. Define output energy of the RFQ. This energy depends from the fast chopper specifications. SNS traveling wave chopper has rise- fall time ~10 nsec. The 2.5 kV voltage switcher should run at ~1 MHz. It would be technically difficult to develop similar chopper to use at energies higher than 2.5 MeV. If the chopper requirements for FNAL driver are more relaxed, the RFQ energy 5 MeV is preferable, especially for SC front end. Higher RFQ energy is also good to suppress possible source of beam halo formation due to the space charge in the MEBT (Medium Energy Beam Transport). MEBT has irregular focusing structure (long drift spaces) to accommodate chopper.
 3. Select frequency of the front end.
-  a) For RT front end it should be 1300:3=433 MHz
-  b) For SC option it can be either 433 MHz or 325 MHz. The option 325 MHz will have less number of resonators and couplers, single spoke can be designed directly from 3 MeV (beta_geometrical=0.15). The 325 MHz rf system will be more expensive due to the larger waveguides, I guess. Klystrons are available from Toshiba, they have been developed for Japanese Hadron Facility (JHF).
+   - a) For RT front end it should be 1300:3=433 MHz
+   - b) For SC option it can be either 433 MHz or 325 MHz. The option 325 MHz will have less number of resonators and couplers, single spoke can be designed directly from 3 MeV (beta_geometrical=0.15). The 325 MHz rf system will be more expensive due to the larger waveguides, I guess. Klystrons are available from Toshiba, they have been developed for Japanese Hadron Facility (JHF).
 4. Select transition energy between RT front end and TESLA SC sections. This is not trivial. During the design of JHF linac we have done beam dynamics studies (see, for example, <http://accelconf.web.cern.ch/accelconf/l98/PAPERS/TU4106.PDF> ) of the 1:3 frequency transition as an option for the JHF 50 mA H-minus linac. The transition energy was 50 MeV and we have seen particle losses even with low number of simulated particles. The design of the JHF linac has been improved and now they are building linac with the transition energy 190 MeV. This energy is quite reasonable for 1:3 frequency jump. The RT linac up to ~190 MeV can include the SNS-style DTL up to ~80 MeV and on RT section based on so-called Separated DTL (SDTL). The SDTL is similar to individual SC resonators. SDTLs can be coupled through the rf bridges as proposed by CERN SPL group, in this case it is called “CDTL”- coupled DTL. By the way, the SDTL/CDTL will consume at least 15 MW rf power for copper heating in the energy range from 80 MeV to 180 MeV, the length will be ~60 m.
 5. From my point of view everything above 5 MeV should be definitely based on the spoke resonators. At 325 MHz the input energy can be ~3 MeV. Select transition energy between SC front end and SC TESLA sections. This is simple. If SC front end operates at 433 MHz the transition can be anywhere above 180 MeV. For 325 MHz the transition is ~400 MeV. The triple-spoke definitely will be tested this year. It should provide operational (which means conservative) 25 MV/m surface field in cw mode for the RIA. The design of the TSL can be improved for the pulsed operation: lower peak magnetic field can be provided by geometry optimization of the TSR at the cost of lower shunt impedance. Operational surface field ~30-32 MV/m seems visible. If 433 MHz SC front end is selected, the design of the spoke resonator directly from 3 MeV is not trivial. The energy range from 3 MeV to ~15 MeV can be covered either with one drift tube resonator (like in the SNS) or with several separated RT resonators with SC solenoid focusing between them. High-current beam optics call for low-gradient acceleration below~15 MeV due to: a) to match to the RFQ low accelerating field; b) to be close to the “equipartitioning” condition (definition is given below).
 6. After the selection of transition energies to the TESLA cavities one can design the squeezed TESLA (S-TESLA) cavity/cryostat. It will be one β<sub>G</sub> for the SC front end option and 2 betas for RT front end option.
@@ -40,8 +40,8 @@ parts:
 8. If the chopper specifications are defined, start the designing of the MEBT. This way the design of the focusing/accelerating lattice can be followed from the beginning. Define beam Twiss parameters as in the entrance of the SNS-MEBT.
 9. Start designing of the accelerating/focusing lattice. In the beta=1.0 section the existing proposal (FCCCDCCC structure, C= cavity) seems OK. In the S-TESLA section either FCCDCC or FCCCDCCC should be OK. The preference must be done on the base of following considerations for design of high-current linacs. The beam current above ~5 mA should be considered as a high-current up to ~1 GeV. This is not “space charge dominated beam”, however, bunch size becomes small due to the phase damping and beam can be sensitive to the space charge forces, especially to the transverse-longitudinal coupling and beam mismatch.
 10. Many useful recommendations for high-current linac design have been developed during last 15 years (see, for example, M. Reiser’s book “ theory and design…”). Particularly important recommendations are:
-  a. σ<sub>T0</sub>, transverse phase advance per focusing period for I=0, should be less than 90 deg.
-  b. Unlike in RT structures, in SC linac the length of the focusing period can not be changed adiabatically. However σ can be changed adiabatically. Usually the matching between the different sections is “current independent” if the condition is fulfilled (for I=0):
+    - a. σ<sub>T0</sub>, transverse phase advance per focusing period for I=0, should be less than 90 deg.
+    - b. Unlike in RT structures, in SC linac the length of the focusing period can not be changed adiabatically. However σ can be changed adiabatically. Usually the matching between the different sections is “current independent” if the condition is fulfilled (for I=0):
 
 (1)
 
@@ -49,13 +49,13 @@ parts:
 
 where *L**<sub>f</sub>* is the focusing period.
 
-  c. Equipartitioning. Minimize the temperature difference between the longitudinal and transverse oscillations. This is especially important up to ~ 1 GeV.
-  d. Avoid irregular focusing structure, it can produce structure resonances.
+- c. Equipartitioning. Minimize the temperature difference between the longitudinal and transverse oscillations. This is especially important up to ~ 1 GeV.
+- d. Avoid irregular focusing structure, it can produce structure resonances.
 11. Write a FORTRAN or C code for preliminary finding of σ<sub>T0</sub>, σ<sub>L0</sub> ,σ<sub>T</sub>, σ<sub>L</sub> for the given profile of accelerating gradients, length of focusing periods. “Equipartitioning” should be taken into account. At this stage realistic distributions of axial fields in all type of SC resonators must be known from electrodynamics codes. The goal is to define final focusing structure or validate the selected option. In the case of SC Front end the following structure is recommended:
-  a. SSR section: FsC =Focusing solenoid+cavity
-  b. DSR section: FsC
-  c. TSR section: quadrupole focusing, FCDC, maybe reasonable FCCDCC after ~180-200 MeV;
-  d. S-TESLA section: FCCDCC or even FCCCDCCC.
+    - a. SSR section: FsC =Focusing solenoid+cavity
+    - b. DSR section: FsC
+    - c. TSR section: quadrupole focusing, FCDC, maybe reasonable FCCDCC after ~180-200 MeV;
+    - d. S-TESLA section: FCCDCC or even FCCCDCCC.
 
 In the transitions between different sections the condition (1) should be satisfied. σ<sub>T0</sub> can not be higher than 90°. Also if σ<sub>T0</sub>, is lower than 30° the focusing is too weak. Therefore the “jumps” between the focusing period lengths should be less than ~2.5.
 

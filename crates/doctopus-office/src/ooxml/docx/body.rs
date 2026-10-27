@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 use doctopus_core::{
     Block, EmbedRef, Group, GroupKind, ImageRef, Inline, Link, Math, NoteKind, NoteRef, Style,
-    Table, TableCell, TableRow, push_text,
+    Table, TableCell, TableRow, plain_text, push_text,
 };
 
 use super::styles::{Styles, toggle};
@@ -17,7 +17,8 @@ use crate::ooxml::math;
 use crate::ooxml::package::Relationships;
 use crate::ooxml::xml::Element;
 use crate::word::{
-    MAX_ANCHOR, hyperlink_target, is_blank, paragraph_block, symbol_char, trim_inlines,
+    MAX_ANCHOR, Role, hyperlink_target, is_blank, paragraph_block, push_code, push_quote,
+    symbol_char, trim_inlines,
 };
 
 /// A field (`w:fldChar` begin ... separate ... end) being read.
@@ -79,6 +80,12 @@ pub(crate) struct Walker<'c, 'a> {
     /// Comments whose anchor range is open, and the text collected for each.
     open_comments: Vec<String>,
     pub(crate) anchors: HashMap<String, String>,
+    /// Bookmarks opened since the last paragraph; on a heading they become
+    /// its anchors.
+    bookmarks: Vec<String>,
+    /// Whether the paragraph being read is in a fixed-width font, so its
+    /// fixed-width runs are not code.
+    paragraph_mono: bool,
     fields: Vec<Field>,
     /// Blocks met inside the current paragraph (charts, text boxes,
     /// objects) that are emitted after it.
@@ -105,6 +112,8 @@ impl<'c, 'a> Walker<'c, 'a> {
             notes: NoteLabels::default(),
             open_comments: Vec::new(),
             anchors: HashMap::new(),
+            bookmarks: Vec::new(),
+            paragraph_mono: false,
             fields: Vec::new(),
             floats: Vec::new(),
             insertions: 0,
@@ -134,6 +143,7 @@ impl<'c, 'a> Walker<'c, 'a> {
                     }
                 }
                 "w:customXml" | "w:ins" | "w:moveTo" | "w:smartTag" => self.blocks(child, out),
+                "w:bookmarkStart" => self.bookmark(child),
                 "w:altChunk" => {
                     if let Some(id) = child.attr("r:id") {
                         let location = self.location();
@@ -176,12 +186,25 @@ impl<'c, 'a> Walker<'c, 'a> {
             })
             .or_else(|| style.and_then(|s| self.styles.numbering(s)))
             .filter(|n| !n.num_id.is_empty() && n.num_id != "0");
+        let role = match style {
+            Some(style) if heading.is_none() => self.styles.role(style),
+            _ => Role::Text,
+        };
 
         let mut content = Vec::new();
+        // Text boxes inside the paragraph have paragraphs of their own.
+        let outer = std::mem::replace(&mut self.paragraph_mono, self.styles.paragraph_mono(style));
         self.inlines(p, &mut content);
+        self.paragraph_mono = outer;
         self.close_paragraph_fields(&mut content);
         trim_inlines(&mut content);
         let floats = std::mem::take(&mut self.floats);
+        let bookmarks = std::mem::take(&mut self.bookmarks);
+        if role == Role::Code && num.is_none() {
+            push_code(out, &plain_text(&content));
+            out.extend(floats);
+            return;
+        }
 
         let label = match &num {
             Some(num) => self.counters.next(self.numbering, num),
@@ -197,14 +220,31 @@ impl<'c, 'a> Walker<'c, 'a> {
                 }
             } else {
                 let level = num.as_ref().and_then(|n| n.level).unwrap_or(0);
-                let (block, heading) = paragraph_block(content, heading, label, level);
+                let (mut block, heading) = paragraph_block(content, heading, label, level);
                 if heading.is_some() {
                     self.heading = heading;
                 }
-                out.push(block);
+                if let Block::Heading(h) = &mut block {
+                    h.anchors = bookmarks;
+                }
+                if role == Role::Quote {
+                    push_quote(out, block);
+                } else {
+                    out.push(block);
+                }
             }
         }
         out.extend(floats);
+    }
+
+    fn bookmark(&mut self, el: &Element) {
+        // `_GoBack` is where Word last edited, not a target.
+        if let Some(name) = el
+            .attr("w:name")
+            .filter(|n| !n.is_empty() && *n != "_GoBack")
+        {
+            self.bookmarks.push(name.to_string());
+        }
     }
 
     fn table(&mut self, tbl: &Element) -> Table {
@@ -316,10 +356,12 @@ impl<'c, 'a> Walker<'c, 'a> {
         for child in el.children() {
             match child.name() {
                 "w:r" => self.run(child, content),
+                "w:bookmarkStart" => self.bookmark(child),
                 "w:hyperlink" => {
                     let url = child
                         .attr("r:id")
-                        .and_then(|id| Context::hyperlink(&self.rels, id));
+                        .and_then(|id| Context::hyperlink(&self.rels, id))
+                        .or_else(|| child.attr("w:anchor").map(|name| format!("#{name}")));
                     let mut inner = Vec::new();
                     self.inlines(child, &mut inner);
                     match url {
@@ -381,7 +423,8 @@ impl<'c, 'a> Walker<'c, 'a> {
         for child in r.children() {
             match child.name() {
                 "w:t" => self.text(&child.text(), style, content),
-                "w:tab" | "w:ptab" => self.text(" ", style, content),
+                // Kept for code; elsewhere they are shown as spaces.
+                "w:tab" | "w:ptab" => self.text("\t", style, content),
                 "w:noBreakHyphen" => self.text("-", style, content),
                 "w:sym" => {
                     if let Some(c) = symbol(child) {
@@ -444,30 +487,42 @@ impl<'c, 'a> Walker<'c, 'a> {
         let Some(rpr) = rpr else {
             return Style::default();
         };
-        let (style_bold, style_italic) = rpr
+        let format = rpr
             .child_val("w:rStyle")
             .map(|id| self.styles.character(id))
             .unwrap_or_default();
         let vert = rpr.child_val("w:vertAlign");
         Style {
-            bold: rpr.child("w:b").map(toggle).or(style_bold).unwrap_or(false),
+            bold: rpr
+                .child("w:b")
+                .map(toggle)
+                .or(format.bold)
+                .unwrap_or(false),
             italic: rpr
                 .child("w:i")
                 .map(toggle)
-                .or(style_italic)
+                .or(format.italic)
                 .unwrap_or(false),
             strike: rpr.child("w:strike").is_some_and(toggle)
                 || rpr.child("w:dstrike").is_some_and(toggle),
             superscript: vert == Some("superscript"),
             subscript: vert == Some("subscript"),
+            code: !self.paragraph_mono
+                && rpr
+                    .child("w:rFonts")
+                    .and_then(Styles::font_mono)
+                    .or(format.code)
+                    .unwrap_or(false),
         }
     }
 
     /// Where run content goes: into a hyperlink field being collected, or
     /// straight into the paragraph.
     fn sink<'s>(&'s mut self, content: &'s mut Vec<Inline>) -> &'s mut Vec<Inline> {
-        match self.fields.last_mut() {
-            Some(field) if field.in_result && field.link.is_some() => &mut field.result,
+        // The innermost hyperlink: the result of a field inside it (a page
+        // number in a table of contents) is part of the link text.
+        match self.fields.iter_mut().rev().find(|f| f.link.is_some()) {
+            Some(field) if field.in_result => &mut field.result,
             _ => content,
         }
     }

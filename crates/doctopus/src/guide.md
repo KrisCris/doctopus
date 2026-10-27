@@ -5,7 +5,7 @@ doctopus prints Office and PDF files as text: Word (.doc .docx), Excel
 macro and template variants, and PDF (`doctopus formats` lists them all).
 Whatever is embedded in them is read too: a workbook in a slide, a
 document in that workbook, a file attached to a PDF, images,
-attachments.
+attachments, and the files in an embedded zip archive.
 
 ## Workflow
 
@@ -26,6 +26,20 @@ attachments.
 4. For a long output, `doctopus read FILE -o out.md` writes everything to a
    file. It prints the line where each sheet, slide or page (or each
    heading) starts, so you can read that file in chunks.
+5. To keep a document as Markdown, or to read it with ordinary file tools
+   from then on, `doctopus convert FILE -o DIR` writes it out: see below.
+
+## Converting to Markdown files
+
+`doctopus convert FILE... -o DIR` writes `DIR/NAME.md` for each file and
+saves its pictures and attachments in `DIR/NAME.parts/`. Every embedded
+document is converted too, to any depth, into
+`NAME.parts/<id>/<its name>.md` with its own parts beside it. Embedded
+documents are linked where they appear, not inlined, and all links are
+relative to the Markdown file that holds them. The command lists every
+file it wrote and which one to read first. Visio pages also get a Mermaid
+flowchart of their connections. Files doctopus cannot read are saved as
+they are and linked.
 
 ## Embedded content
 
@@ -50,6 +64,9 @@ some shells treat it specially.
 
 - Markdown output starts with a YAML header: source, format, properties,
   counts, parts and warnings. `--no-front-matter` leaves the header out.
+- Headings keep their levels: a Word Heading 1 is `#`. Quotation styles
+  become `>` quotes, code styles fenced code blocks, and text in a
+  fixed-width font `code`. Table-of-contents links point at their headings.
 - Embedded documents appear inline between `<embedded id=... ref=...>` and
   `</embedded>`. Below `--embed-depth` levels they are referenced instead.
 - Sheets become tables with column letters and row numbers. Sparse sheets
@@ -57,8 +74,9 @@ some shells treat it specially.
 - Diagrams list their shapes (`id [type] "text"`, with shape data and
   links) and then their connections (`from -> to`).
 - PDF pages hold their text as paragraphs and headings, rebuilt from where
-  the page draws it. Links to other pages read `#page-N`, for
-  `--page N`. Pages that are only pictures (scans) have no text: a
+  the page draws it. Links to other pages point at the page's heading
+  (`#page-N`, with the page name added when it has one); N is the number
+  for `--page N`. Pages that are only pictures (scans) have no text: a
   warning lists them with their picture ids, so you can extract the
   pictures and look at them. Bookmarks and form fields follow the pages.
 - Warnings say what could not be read, for example an unsupported object

@@ -441,7 +441,7 @@ impl Stats {
                     self.shapes += count_shapes(&d.shapes);
                     self.connections += d.connections.len();
                 }
-                Block::Math(_) => {}
+                Block::Math(_) | Block::Code(_) => {}
                 Block::Note(n) => {
                     self.notes += 1;
                     self.add_blocks(&n.blocks);

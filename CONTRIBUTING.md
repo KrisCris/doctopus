@@ -25,7 +25,9 @@ still runs.
 | `crates/doctopus-core` | The document model, the `Reader` trait, format detection, the engine that parses embedded content, containers (zip and OLE compound files), and the Markdown, text, JSON and info renderers. It knows no file format. |
 | `crates/doctopus-office` | Readers for Word, Excel, PowerPoint and Visio: Office Open XML in `src/ooxml`, the binary formats of Office 97-2003 in `src/legacy`. |
 | `crates/doctopus-pdf` | The PDF reader, on the hayro interpreter: page text and layout in `src/page.rs` and `src/layout.rs`, the catalog (links, bookmarks, forms, attachments) in `src/catalog.rs`. See [docs/pdf.md](docs/pdf.md). |
-| `crates/doctopus` | The command line. |
+| `crates/doctopus-archive` | The zip archive reader: each file in an archive becomes a part, read by its own reader. |
+| `crates/doctopus-text` | The plain-text reader. |
+| `crates/doctopus` | The command line. `src/convert.rs` writes documents out as linked Markdown files. |
 | `testdata/corpus.tsv` | The third-party test corpus: sources, file names and hashes. The files are downloaded, not committed. |
 | `scripts/` | Fetching the corpus, checking release binaries, collecting third-party licenses. |
 | `docs/adding-a-format.md` | How to add a reader for a new file type. |

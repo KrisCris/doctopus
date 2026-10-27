@@ -26,10 +26,10 @@ parts:
 
 ![image2.png](tika/test_embedded_zip.pptx#img1 "PNG, 900x750, 56.9 KB")
 
-  - Application for real-time monitoring of Java apps
-  - Located at <JDK>\bin\JConsole(.exe)
-  - Bundled with the JDK since 6.0 (not with the JRE)
-  - JConsole User Guide: <http://download.oracle.com/javase/6/docs/technotes/guides/management/jconsole.html>
+- Application for real-time monitoring of Java apps
+- Located at <JDK>\bin\JConsole(.exe)
+- Bundled with the JDK since 6.0 (not with the JRE)
+- JConsole User Guide: <http://download.oracle.com/javase/6/docs/technotes/guides/management/jconsole.html>
 
 ## Slide 2: Java Dump
 

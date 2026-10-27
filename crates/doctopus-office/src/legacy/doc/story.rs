@@ -7,7 +7,7 @@ use std::ops::Range;
 
 use doctopus_core::{
     Block, EmbedRef, Group, GroupKind, ImageRef, Inline, Link, NoteKind, NoteRef, Style, Table,
-    TableCell, TableRow, push_text,
+    TableCell, TableRow, plain_text, push_text,
 };
 
 use super::props::{CharProps, ParaProps, RowDef, VMerge};
@@ -16,7 +16,10 @@ use crate::binary::{Cursor, i16_at};
 use crate::legacy::context::Context;
 use crate::legacy::officeart::{self, Records, Shape, rt};
 use crate::numbering::{Counters, ListLabel, NumRef, Numbering};
-use crate::word::{hyperlink_target, is_blank, paragraph_block, symbol_char, trim_inlines};
+use crate::word::{
+    Role, hyperlink_target, is_blank, paragraph_block, push_code, push_quote, symbol_char,
+    trim_inlines,
+};
 
 /// Characters with a meaning of their own.
 mod ch {
@@ -91,6 +94,9 @@ pub(super) struct Walker<'w, 'a, 'd> {
     /// Text boxes shown, each once however many anchors refer to it.
     text_boxes: HashSet<(u32, u32)>,
     nesting: usize,
+    /// Whether the paragraph being read is in a fixed-width font, so its
+    /// fixed-width runs are not code.
+    paragraph_mono: bool,
 }
 
 impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
@@ -111,6 +117,7 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
             objects: HashSet::new(),
             text_boxes: HashSet::new(),
             nesting: 0,
+            paragraph_mono: false,
         }
     }
 
@@ -188,6 +195,10 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
             .or(style.ilfo)
             .filter(|&i| i > 0 && i <= MAX_LIST_INSTANCE);
         let level = props.own.ilvl.or(style.ilvl).unwrap_or(0).min(8);
+        let role = match heading {
+            None => doc.styles.role(props.istd),
+            Some(_) => Role::Text,
+        };
 
         self.revision = (false, false);
         let mut content = Vec::new();
@@ -195,6 +206,11 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
         self.close_paragraph_fields(&mut content);
         trim_inlines(&mut content);
         let floats = std::mem::take(&mut self.floats);
+        if role == Role::Code && list.is_none() {
+            push_code(out, &plain_text(&content));
+            out.extend(floats);
+            return;
+        }
 
         let label = match list {
             Some(ilfo) => {
@@ -211,7 +227,11 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
             if heading.is_some() {
                 self.heading = heading;
             }
-            out.push(block);
+            if role == Role::Quote {
+                push_quote(out, block);
+            } else {
+                out.push(block);
+            }
         }
         out.extend(floats);
     }
@@ -270,6 +290,7 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
     fn inlines(&mut self, range: Range<u32>, istd: u16, content: &mut Vec<Inline>) {
         let doc = self.doc;
         let para_style = doc.styles.chars(istd).unwrap_or_default();
+        self.paragraph_mono = doc.styles.is_mono(para_style.font, &doc.fonts);
         for (run, bin) in doc.text.char_runs(range, &doc.chpx) {
             let grpprl = bin.map_or(&[][..], |b| b.grpprl);
             let props = CharProps::resolve(
@@ -283,12 +304,17 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
 
     fn run(&mut self, range: Range<u32>, props: &CharProps, content: &mut Vec<Inline>) {
         let doc = self.doc;
+        let fonts = &doc.fonts;
         let style = Style {
             bold: props.bold,
             italic: props.italic,
             strike: props.strike,
             superscript: props.superscript,
             subscript: props.subscript,
+            // Fixed-width text in a paragraph that is not fixed-width.
+            code: !self.paragraph_mono
+                && props.font.is_some()
+                && doc.styles.is_mono(props.font, fonts),
         };
         let visible = !props.hidden && !props.deleted;
         if !range.is_empty() {
@@ -423,8 +449,10 @@ impl<'w, 'a, 'd> Walker<'w, 'a, 'd> {
     /// Where run content goes: into a hyperlink field being collected, or
     /// straight into the paragraph.
     fn sink<'s>(&'s mut self, content: &'s mut Vec<Inline>) -> &'s mut Vec<Inline> {
-        match self.fields.last_mut() {
-            Some(field) if field.in_result && field.link.is_some() => &mut field.result,
+        // The innermost hyperlink: the result of a field inside it (a page
+        // number in a table of contents) is part of the link text.
+        match self.fields.iter_mut().rev().find(|f| f.link.is_some()) {
+            Some(field) if field.in_result => &mut field.result,
             _ => content,
         }
     }

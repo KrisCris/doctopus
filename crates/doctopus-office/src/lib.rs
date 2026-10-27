@@ -14,6 +14,7 @@ mod binary;
 mod blocks;
 mod dates;
 mod diagram;
+mod fonts;
 pub mod formats;
 mod legacy;
 mod numbering;

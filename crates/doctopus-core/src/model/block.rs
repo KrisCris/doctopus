@@ -26,6 +26,8 @@ pub enum Block {
     Diagram(Diagram),
     /// A display equation.
     Math(Math),
+    /// Text kept exactly as written: a plain-text file, code.
+    Code(Code),
     /// Footnote, endnote or comment text.
     Note(Note),
     /// A labelled container: speaker notes, a text box, a header.
@@ -50,6 +52,7 @@ impl Block {
         Self::Heading(Heading {
             level: level.clamp(1, 6),
             content,
+            anchors: Vec::new(),
         })
     }
 
@@ -60,6 +63,7 @@ impl Block {
             Self::Heading(h) => inlines_are_blank(&h.content),
             Self::ListItem(l) => inlines_are_blank(&l.content),
             Self::Group(g) => g.blocks.iter().all(Block::is_blank),
+            Self::Code(c) => c.text.trim().is_empty(),
             _ => false,
         }
     }
@@ -72,6 +76,10 @@ pub struct Heading {
     pub level: u8,
     /// Heading text.
     pub content: Vec<Inline>,
+    /// Names that links inside the document reach the heading by: a link
+    /// to `#name` leads here.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub anchors: Vec<String>,
 }
 
 /// A paragraph.
@@ -373,6 +381,17 @@ pub struct Math {
     pub tex: String,
 }
 
+/// Text kept exactly as written, line breaks and spacing included.
+#[derive(Debug, Clone, Serialize)]
+pub struct Code {
+    /// What the text is, as a Markdown code fence names it (`csv`, `json`),
+    /// when known.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    /// The text, with lines separated by `\n`.
+    pub text: String,
+}
+
 /// Footnote, endnote or comment text.
 #[derive(Debug, Clone, Serialize)]
 pub struct Note {
@@ -429,6 +448,8 @@ pub enum GroupKind {
     Header,
     /// A page footer.
     Footer,
+    /// A quotation set off from the text.
+    Quote,
     /// Anything else.
     Other,
 }
@@ -497,6 +518,9 @@ pub struct Style {
     /// Subscript.
     #[serde(skip_serializing_if = "std::ops::Not::not")]
     pub subscript: bool,
+    /// In a fixed-width font: code, a file name, a command.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub code: bool,
 }
 
 /// A hyperlink.
@@ -573,6 +597,7 @@ pub fn blocks_plain_text(blocks: &[Block]) -> String {
                 }
             }
             Block::Math(m) => lines.push(m.tex.clone()),
+            Block::Code(c) => lines.push(c.text.clone()),
             _ => {}
         }
     }

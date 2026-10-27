@@ -293,11 +293,22 @@ name = "doctopus"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "doctopus-archive",
  "doctopus-core",
  "doctopus-office",
  "doctopus-pdf",
+ "doctopus-text",
  "serde",
  "serde_json",
+ "zip",
+]
+
+[[package]]
+name = "doctopus-archive"
+version = "0.1.0"
+dependencies = [
+ "doctopus-core",
+ "doctopus-text",
  "zip",
 ]
 
@@ -345,6 +356,14 @@ dependencies = [
  "quick-xml",
  "serde_json",
  "zip",
+]
+
+[[package]]
+name = "doctopus-text"
+version = "0.1.0"
+dependencies = [
+ "doctopus-core",
+ "encoding_rs",
 ]
 
 [[package]]

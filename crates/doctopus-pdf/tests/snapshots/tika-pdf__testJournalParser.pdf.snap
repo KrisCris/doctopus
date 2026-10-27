@@ -35,7 +35,7 @@ Vahid Foroutan1*, Ratul Majumdar1 1Department of Electrical and Computer Enginee
 
 **Keywords: multi-microrobot systems control, MEMS, underactuated system.**
 
-I. INTRODUCTION
+- I. INTRODUCTION
 
 Microscale robotic systems have many applications in areas such as biomedicine [1], surveillance [2], or microassembly [3]. In [4, 5, 6] a globally controllable 240 μm × 60 μm × 10 μm mobile stress-engineered microelectromechanical systems (MEMS) microrobot (MicroStressBot) is presented. A MicroStressBot contains an untethered scratch drive actuator (USDA) [7] which provides forward propulsion, and a steering-arm actuator which controls when the robot moves in straight line or turns. All these envisioned microrobotic applications rely on the combined actions of large number microrobots. The high level of underactuation presents in such systems (all robots are
 
@@ -51,7 +51,7 @@ The paper is structured as follows: in Sec. II, we introduce the stress-engineer
 
 ## Page 2
 
-II. STRESS-ENGINEERED MICROROBOT
+- II. STRESS-ENGINEERED MICROROBOT
 
 The stress-engineered MEMS microrobot, MicroStressBot for short, consists of an untethered scratch drive actuator (USDA) [7] that provides forward motion and a curved steering-arm actuator that determines whether the robot moves straight or turns. Fig. 1 shows the schematic of the MicroStressBot. The USDA is composed of a 120 *μ*m *×* 60 *μ*m backplate and a 1.5-*μ*m-tall bushing. The steering-arm actuator consists of a 120 to 160 *μ*m long cantilever beam with a circular pad and a 0.75 *μ*m-deep dimple.
 
@@ -61,13 +61,13 @@ The MicroStressBots are fabricated using surface micromachining PolyMUMPS foundr
 
 The microrobot operates on a grid of insulated interdigitated electrodes. When voltage is applied between sets of electrodes, the electrodes and the conductive chassis of the microrobot form a capacitive circuit, and an electric potential is induced on the microrobot. This potential causes the microrobot body to be bent to the substrate, and the scratch-drive converts this vertical motion into a forward step. This voltage (waveform) changes over time to provide power to the USDA and to control the state of the steering arm. This waveform is called the *control waveform*. The waveform is divided into two parts:
 
-a) *Control cycle:* containing control pulses, that sets the state of the steering-arm actuator, and *b) power-delivery cycle:* that provides power to the USDA. The power-delivery cycle consisting of stepping pulses, changing between a maximum (𝑉ℎ𝑖𝑔ℎ ) and a minimum (𝑉𝑙𝑜𝑤 ). In order for the USDA to actuate, 𝑉ℎ𝑖𝑔ℎ must be greater than the minimum voltage (𝑉𝑓𝑙𝑥) at which the backplate of the USDA obtains enough curvature to produce
-  b) a forward step, while 𝑉𝑙𝑜𝑤 must be less than the maximum voltage (𝑉𝑟𝑒𝑙) at which that curvature is sufficiently relieved to generate forward motion. 𝑉𝑓𝑙𝑥 and 𝑉𝑟𝑒𝑙 are described in more detail in [12, 13]. Similar to an electrostatic cantilever beam [14], the steering arm of each microrobot has two distinct voltage levels at which the arm suddenly changes states. This is the snap-down voltage at which the arm is pulled in contact with the substrate as the robot is turning and the release voltage at which the arm is released and the robot is commanded to move straight. We call these voltage levels the transition voltages of the steering arm. The transition voltages are determined by the steering-arm designs. The steering arm can be either raised to cause the robot to move in a straight line, or lowered to cause the robot to turn. We call the position of the steering-arm actuator the *hysteresis state* of the microrobot (arm raised, hysteresis state = 0; arm lowered, hysteresis state = 1). A system of 𝑛 MicroStressBots contains 2𝑛possible hysteresis states (all 2𝑛 combinations of *n* steering arms being raised or lowered).
-    III. GCSR: A STRATEGY FOR MULTI-MICROROBOT CONTROL AND ASSEMBLY
+- a) *Control cycle:* containing control pulses, that sets the state of the steering-arm actuator, and *b) power-delivery cycle:* that provides power to the USDA. The power-delivery cycle consisting of stepping pulses, changing between a maximum (𝑉ℎ𝑖𝑔ℎ ) and a minimum (𝑉𝑙𝑜𝑤 ). In order for the USDA to actuate, 𝑉ℎ𝑖𝑔ℎ must be greater than the minimum voltage (𝑉𝑓𝑙𝑥) at which the backplate of the USDA obtains enough curvature to produce
+  - b) a forward step, while 𝑉𝑙𝑜𝑤 must be less than the maximum voltage (𝑉𝑟𝑒𝑙) at which that curvature is sufficiently relieved to generate forward motion. 𝑉𝑓𝑙𝑥 and 𝑉𝑟𝑒𝑙 are described in more detail in [12, 13]. Similar to an electrostatic cantilever beam [14], the steering arm of each microrobot has two distinct voltage levels at which the arm suddenly changes states. This is the snap-down voltage at which the arm is pulled in contact with the substrate as the robot is turning and the release voltage at which the arm is released and the robot is commanded to move straight. We call these voltage levels the transition voltages of the steering arm. The transition voltages are determined by the steering-arm designs. The steering arm can be either raised to cause the robot to move in a straight line, or lowered to cause the robot to turn. We call the position of the steering-arm actuator the *hysteresis state* of the microrobot (arm raised, hysteresis state = 0; arm lowered, hysteresis state = 1). A system of 𝑛 MicroStressBots contains 2𝑛possible hysteresis states (all 2𝑛 combinations of *n* steering arms being raised or lowered).
+    - III. GCSR: A STRATEGY FOR MULTI-MICROROBOT CONTROL AND ASSEMBLY
 
 As mentioned in [6], GCSR is a strategy to control and maneuver robots to complete the microassembly. GCSR uses design-induced heterogeneity of MicroStressBots and resulting differences between their trajectories to maneuver the robots from an initial to a target goal configuration. As stated in [6], GCSR uses the control matrix to control the single robot sequentially while the other robots confined to the circular trajectories. A mapping between the control primitives (waveforms that program the hysteresis states of the system) and the motion of the individual robots is defined using a control matrix, where each entry contains the hysteresis state of one of the microrobot during the applied control primitive. The resulting sequence of control primitives is called the *control sequence*, usually denoted by *S* . Fig. 2 shows the trajectory of a microrobot *D1* from initial (i) to target (ii) configuration (docking with a seed-shape (iii)), during the application of control sequence *S=*{*P0,P2,P1,P2,P1,P2,P1,P2,P1*}. During this partial assembly robot *D2* orbits without advancing to goal. This type of STRING (STRIcly Non-nested hysteresis Gap) GCSR is designed to be sequential (i.e. one robot at a time is maneuvered towards the goal) to increase the number of controllable microrobot and enable robust colision avoidance. The control matrix denoting the correspopndens between control primitives in a STRING microaseembly is called a STRING control matrix. It has been shown in [6] that microassembly can be implemented on a group of MicroStressBots if a STRING matrix can be generated for such system.
 
-IV. BEYOND STRING CONTROL: ENABELING GCSR THROUGH CONTROL VOLTAGE DIFFERENTIATION
+- IV. BEYOND STRING CONTROL: ENABELING GCSR THROUGH CONTROL VOLTAGE DIFFERENTIATION
 
 Successful implementation of GCSR control relies on a set of control primitives that couple the motion of the microrobots in
 
@@ -87,7 +87,7 @@ Several steering-arm design configurations (*NHG*, *STRING*, and *SESat*) have b
 
 microassembly. *STRING* reduces the control bandwidth requirements from 𝜉𝑛 = 2𝑛 (*NHG*) to 𝜉𝑛 = 𝑛 + 1 . Further, sublinear reduction 𝜉𝑛 has been done under the *SESat* control strategy [6]. It has been shown in [6] that *SESat* needs 𝜉𝑛 = ⌈2√𝑛⌉ while it can access at least 𝑛 + 1hysteresis states which are essential for sequential microassembly algorithm. Although *SESat* could reduce the control bandwidth requirements to 𝑂 (2√𝑛), only 3 out of the 4 hysteresis states for the first two robots forming the seed-shape are accessible, making their independent control challenging. In this paper we present new set of control strategies (***String-cluster System*** **and** ***Electromechanically SATurated Cluster system (ESATC)*** ) that not only has the control voltage bandwidth 𝜉𝑛 *=* 𝑂(𝑛) and 𝜉𝑛 *=* 𝑂 (2√𝑛) but also are capable of controlling two microrobots simultaneously.
 
-A. *String-Cluster System* In this section we introduce a control strategy that is capable to control two microrobots simultaneously at each iteration of assembly process. We start with the following definitions: **Definition. I**: *Nested-Group-Microrbots (NGM) set:* Set of all groups of two Microrobots that forms a *Nested-Hysteresis-Gaps* (*NHGs*) structure is *Nested-Group-Microrbots (NGM)*. 𝑀 is the set of all microrobots in the system. 𝑀 = { 𝐷1, 𝐷2, … , 𝐷𝑛 }; where 𝐷𝑖 is ith Micorobot in the system.
+- A. *String-Cluster System* In this section we introduce a control strategy that is capable to control two microrobots simultaneously at each iteration of assembly process. We start with the following definitions: **Definition. I**: *Nested-Group-Microrbots (NGM) set:* Set of all groups of two Microrobots that forms a *Nested-Hysteresis-Gaps* (*NHGs*) structure is *Nested-Group-Microrbots (NGM)*. 𝑀 is the set of all microrobots in the system. 𝑀 = { 𝐷1, 𝐷2, … , 𝐷𝑛 }; where 𝐷𝑖 is ith Micorobot in the system.
 
 𝑁𝐺𝑀 = {(𝐷𝑖, 𝐷𝑗) |(𝐷𝑖, 𝐷𝑗 ∈ 𝑀 , 𝑉𝑑𝑗 > 𝑉𝑑𝑖, 𝑉𝑢𝑖 > 𝑉𝑢𝑗) 𝑖, 𝑗 ∈ 𝑁 }
 
@@ -273,7 +273,7 @@ As it can be seen, String-Cluster system needs a control voltage bandwidth of or
 
 Fig. 7. Illustration of control cycle in String-Cluster System
 
-B. *Electromechanically SATurated Cluster system (ESATC)*
+- B. *Electromechanically SATurated Cluster system (ESATC)*
 
 ***Lemma. 2***: *Any* ***M****-* ***Cluster*** *system with no degenerate pairs of clusters can be sorted such that all “****n+3=2M+3****”* ***String-Cluster*** *hysteresis states are accessible, where* ***M****= number of Clusters,* ***n*** *= number of Microrobots and* ***M=n/2***.
 
@@ -345,27 +345,27 @@ Fig. 8. Example of an *ESATC* system with *k* = 4 and *l* = 4.
 
 *> j)* are in state “00”. The 𝑉𝑢𝑙,𝑖 , 𝑉𝑢ℎ,𝑖and 𝑉𝑑𝑙,𝑖, 𝑉𝑑ℎ,𝑖*, i* ∈ *ZM* sorting implies that, for a cluster *Ck* , *k > j*, only six cases are possible with respect to its transition voltages:
 
-(a) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *<* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *=*𝑉𝑢𝑙,𝑘 *<*
+- (a) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *<* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *=*𝑉𝑢𝑙,𝑘 *<*
 
 𝑉𝑢ℎ,𝑗*=* 𝑉𝑑ℎ,𝑘 (e.g., *j* = 1 and *k* = 3 in Fig. 8)
 
-(b) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *<* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *<* 𝑉𝑢ℎ,𝑗 *<*
+- (b) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *<* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *<* 𝑉𝑢ℎ,𝑗 *<*
 
 𝑉𝑢𝑙,𝑘*<* 𝑉𝑢ℎ,𝑘 (e.g., *j* = 1 and *k* = 6 in Fig. 8)
 
-(c) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *=* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *=*𝑉𝑢𝑙,𝑘 *<*
+- (c) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *=* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *=*𝑉𝑢𝑙,𝑘 *<*
 
 𝑉𝑢ℎ,𝑗*=* 𝑉𝑢ℎ,𝑘 (e.g., *j* = 2 and *k* = 3 in Fig. 8)
 
-(d) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *=* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *<* 𝑉𝑢ℎ,𝑗 *<*
+- (d) 𝑉𝑑𝑙,𝑗 *<* 𝑉𝑑ℎ,𝑗 *=* 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗 *<* 𝑉𝑢ℎ,𝑗 *<*
 
 𝑉𝑢𝑙,𝑘*<* 𝑉𝑢ℎ,𝑘 (e.g., *j* = 2 and *k* = 6 in Fig. 8)
 
-(e) 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 ≤ 𝑉𝑑𝑙,𝑗*<* 𝑉𝑑ℎ,𝑗 and 𝑉𝑢𝑙,𝑗*<* 𝑉𝑢ℎ,𝑗 *<*
+- (e) 𝑉𝑑𝑙,𝑘 *<* 𝑉𝑑ℎ,𝑘 ≤ 𝑉𝑑𝑙,𝑗*<* 𝑉𝑑ℎ,𝑗 and 𝑉𝑢𝑙,𝑗*<* 𝑉𝑢ℎ,𝑗 *<*
 
 𝑉𝑢𝑙,𝑘 *<* 𝑉𝑢ℎ,𝑘 (e.g., *j* = 2 and *k* = 4 in Fig. 8)
 
-(f) 𝑉𝑑𝑙,𝑗*=* 𝑉𝑑𝑙,𝑘*= <* 𝑉𝑑ℎ,𝑗*=* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗*<* 𝑉𝑢ℎ,𝑗 *<*
+- (f) 𝑉𝑑𝑙,𝑗*=* 𝑉𝑑𝑙,𝑘*= <* 𝑉𝑑ℎ,𝑗*=* 𝑉𝑑ℎ,𝑘 and 𝑉𝑢𝑙,𝑗*<* 𝑉𝑢ℎ,𝑗 *<*
 
 𝑉𝑢𝑙,𝑘*<* 𝑉𝑢ℎ,𝑘 (e.g., *j* = 1 and *k* = 4 in Fig. 8).
 
@@ -431,25 +431,25 @@ Theorem 1 allows us to further reduce the control bandwidth requirements𝜉𝑛
 
 ## Page 10
 
-V. CONCLUSION
+- V. CONCLUSION
 
 In this paper, we presented a comprehensive analysis of the scalability of different methods for differentiating the behavior of MicroStressBots using electrostatic hysteresis. We have shown that by the two new control strategies not only we can have a highly underactuated system but also we will have robust controllable system which could complete any microassembly process started from any configuration. These control methods are sufficient to implement a reconfigurable system. These results lay the theoretical foundation for developing new methods to control of large number of MEMS microrobots.
 
 REFERENCES
 
-[1] P. Dario, R. Valeggi, M.C. Carozza, M.C. Montesi and M. Cocco,”Microactuators for microrobots:a critical survey,”*Journal of* Micromechanics and Microengineering 2,pp. 141-157,1992
-[2] J.M. Kahn,R.H. Katz and K.S.J. Pister, “Mobile networking for small dust,”ACM/IEEE international conference on mobile computing and *networking(MobiCom’99)*,Seattle, USA, pp. 17-19,August 15-19,1999.
-[3] D. Popa and H.E. Stephanou,“Micro and meso scale robotic assembly,”SME Journal of Manufacturing Process, vol. 6, issue 1,pp. 52-71,2004.
-[4] B.R. Donald,C.G. Levey,C. McGray,I. Paprotny and D. Rus, “An untethered,electrostatic,globally-controllable MEMS microrobot,” Journal of Microelectromechanical Systems,vol. 15,issue 1,pp.1-26,2006.
-[5] I. Paprotny, C. Levey, P. Wright, and B. Donald, “Turning-rate selective control: A new method for independent control of stressengineered MEMS microrobots,” in Robotics: Science and Systems VIII, 2012.
-[6] B. R. Donald, C. Levey, I. Paprotny, and D. Rus, “Planning and control for microassembly using stress-engineered,” International Journal of Robotics Research, vol. 32, pp. 218–246, January 2013.
-[7] B.R. Donald,C.G. Levey,C. McGray,D. Rus and M. Sinclair, “Power delivery and locomotion of untethered microactuators,” *Journal of Microelectromechanical Systems,*vol. 10 issue 6,pp. 947-959, 2003.
-[8] A. T. Becker, Ensemble Control of Robotic Systems. PhD thesis, University of Illinois at Urbana-Champaign, 2012
-[9] A. Becker, C. Onyuksel, and T. Bretl, “Feedback control of many differential-drive robots with uniform control inputs,” in Proceedings of IEEE International Conference on Intelligent Robots and Systems (IROS), 2012.
-[10] D. Koester, A. Cowen, R. Mahadevan, M. Stonefield, and B. Hardy, PolyMUMPs Design Handbook, A MUMPs Process, 10th ed. Grenoble, France: MEMSCAP, 2003.
-[11] R. Majumdar, V. Foroutan, and I. Paprotny, "Post-release stressengineering of surface-micromachined MEMS structures using evaporated Chromium and in-situ fabricated reconfigurable shadow masks." *Micro Electro Mechanical Systems (MEMS), 2015 28th IEEE International Conference on*. IEEE, 2015.
-[12] T. Akiyama and K. Shono, “Controlled stepwise motion in polysilicon microstructures”. *Journal of Microelectromechanical Systems* 2(3): 106–110, 1993
-[13] R.J. Linderman and V.M. Bright, “Optimized scratch drive actuator for tethered nanometer positioning of chip-sized components.” In: *Solid-state sensors, actuators and microsystems workshop*, pp. 214–
+- [1] P. Dario, R. Valeggi, M.C. Carozza, M.C. Montesi and M. Cocco,”Microactuators for microrobots:a critical survey,”*Journal of* Micromechanics and Microengineering 2,pp. 141-157,1992
+- [2] J.M. Kahn,R.H. Katz and K.S.J. Pister, “Mobile networking for small dust,”ACM/IEEE international conference on mobile computing and *networking(MobiCom’99)*,Seattle, USA, pp. 17-19,August 15-19,1999.
+- [3] D. Popa and H.E. Stephanou,“Micro and meso scale robotic assembly,”SME Journal of Manufacturing Process, vol. 6, issue 1,pp. 52-71,2004.
+- [4] B.R. Donald,C.G. Levey,C. McGray,I. Paprotny and D. Rus, “An untethered,electrostatic,globally-controllable MEMS microrobot,” Journal of Microelectromechanical Systems,vol. 15,issue 1,pp.1-26,2006.
+- [5] I. Paprotny, C. Levey, P. Wright, and B. Donald, “Turning-rate selective control: A new method for independent control of stressengineered MEMS microrobots,” in Robotics: Science and Systems VIII, 2012.
+- [6] B. R. Donald, C. Levey, I. Paprotny, and D. Rus, “Planning and control for microassembly using stress-engineered,” International Journal of Robotics Research, vol. 32, pp. 218–246, January 2013.
+- [7] B.R. Donald,C.G. Levey,C. McGray,D. Rus and M. Sinclair, “Power delivery and locomotion of untethered microactuators,” *Journal of Microelectromechanical Systems,*vol. 10 issue 6,pp. 947-959, 2003.
+- [8] A. T. Becker, Ensemble Control of Robotic Systems. PhD thesis, University of Illinois at Urbana-Champaign, 2012
+- [9] A. Becker, C. Onyuksel, and T. Bretl, “Feedback control of many differential-drive robots with uniform control inputs,” in Proceedings of IEEE International Conference on Intelligent Robots and Systems (IROS), 2012.
+- [10] D. Koester, A. Cowen, R. Mahadevan, M. Stonefield, and B. Hardy, PolyMUMPs Design Handbook, A MUMPs Process, 10th ed. Grenoble, France: MEMSCAP, 2003.
+- [11] R. Majumdar, V. Foroutan, and I. Paprotny, "Post-release stressengineering of surface-micromachined MEMS structures using evaporated Chromium and in-situ fabricated reconfigurable shadow masks." *Micro Electro Mechanical Systems (MEMS), 2015 28th IEEE International Conference on*. IEEE, 2015.
+- [12] T. Akiyama and K. Shono, “Controlled stepwise motion in polysilicon microstructures”. *Journal of Microelectromechanical Systems* 2(3): 106–110, 1993
+- [13] R.J. Linderman and V.M. Bright, “Optimized scratch drive actuator for tethered nanometer positioning of chip-sized components.” In: *Solid-state sensors, actuators and microsystems workshop*, pp. 214–
   217. June 1–5, 2008, Hilton Head Island, SC, San Deigo: TRF.
-    [14] H. C. Nathanson, W. E. Newell, R. A. Wickestrom, J. R. Davis, “ The resonant gate transistor,” *IEEE Transactions on Electron Devices* vol. 14, issue 3, pp. 117–133, 1967.
-    [15] B. R. Donald, C. G. Levey, and I. Paprotny, “Planar microassembly by parallel actuation of MEMS microrobots,” Journal of Microelectromechanical Systems, vol. 17, pp. 789–808, August 2008.
+       - [14] H. C. Nathanson, W. E. Newell, R. A. Wickestrom, J. R. Davis, “ The resonant gate transistor,” *IEEE Transactions on Electron Devices* vol. 14, issue 3, pp. 117–133, 1967.
+       - [15] B. R. Donald, C. G. Levey, and I. Paprotny, “Planar microassembly by parallel actuation of MEMS microrobots,” Journal of Microelectromechanical Systems, vol. 17, pp. 789–808, August 2008.

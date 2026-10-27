@@ -14,6 +14,7 @@ use crate::extract;
 use crate::failure::{Code, Failure};
 use crate::load::{engine, load};
 use crate::output::{note, print};
+use crate::paths;
 
 /// Lines of the `-o` section map listed before eliding the rest.
 const MAX_LISTED_SECTIONS: usize = 300;
@@ -48,10 +49,22 @@ pub(crate) fn run(args: &ReadArgs, max_depth: u32) -> Result<(), Failure> {
                 shell_quote(&dir.display().to_string())
             ));
         }
+        // Links are read from where the output is: the file written with
+        // -o, or the current directory.
+        let base = args
+            .output
+            .as_deref()
+            .map(|file| file.parent().unwrap_or(Path::new("")));
         options.extracted = report
             .files
             .into_iter()
-            .map(|saved| (saved.path, link_path(&saved.file)))
+            .map(|saved| {
+                let link = match base {
+                    Some(base) => paths::link(base, &saved.file),
+                    None => paths::slashes(&saved.file),
+                };
+                (saved.path, link)
+            })
             .collect();
     }
 
@@ -153,17 +166,6 @@ impl Context<'_> {
 
 fn primary_kind(document: &Document) -> Option<SectionKind> {
     document.primary_sections().next().map(|s| s.kind)
-}
-
-/// A saved file as a Markdown reference: links separate path components
-/// with `/`, also on Windows.
-fn link_path(path: &Path) -> String {
-    let path = path.to_string_lossy();
-    if cfg!(windows) {
-        path.replace('\\', "/")
-    } else {
-        path.into_owned()
-    }
 }
 
 /// The note printed after a page: what it covers and how to go on.
@@ -396,11 +398,5 @@ mod tests {
     fn offsets_become_line_numbers() {
         let text = "a\nbb\nccc\n";
         assert_eq!(line_numbers(text, &[0, 2, 5, 9]), [1, 2, 3, 4]);
-    }
-
-    #[test]
-    fn links_to_saved_files_use_slashes() {
-        let file = Path::new("saved").join("emb1").join("image 1.png");
-        assert_eq!(link_path(&file), "saved/emb1/image 1.png");
     }
 }

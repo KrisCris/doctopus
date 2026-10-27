@@ -15,10 +15,20 @@ follow [Semantic Versioning](https://semver.org/).
   links; pictures; bookmarks, page labels, form field values, document
   properties and attached files. Scanned pages are reported. PDF files
   embedded in Office documents are read too.
-- Embedded documents, images and attachments are read recursively. Each
-  one can be addressed as `FILE#id/id`.
+- Readers for zip archives, whose files are read by their own readers,
+  and for plain-text files, kept exactly as written.
+- Embedded documents, images and attachments are read recursively, 32
+  levels deep by default (`--max-depth`). Each one can be addressed as
+  `FILE#id/id`. Documents nested deeper are listed as not parsed.
 - `doctopus read`: Markdown, plain text or JSON output, paged, with
-  selection by sheet, slide, page and cell range.
+  selection by sheet, slide, page and cell range. Markdown keeps heading
+  levels, emphasis, nested lists, line breaks, quotations, code (Word code
+  styles and fixed-width text) and links from a table of contents to its
+  headings.
+- `doctopus convert`: a file and every document inside it, to any depth,
+  as Markdown files linked to each other and to the saved pictures and
+  attachments, to be read without doctopus. Visio pages also get a
+  Mermaid flowchart of their connections.
 - `doctopus info`, `doctopus extract`, `doctopus formats` and
   `doctopus guide`.
 - Self-contained release binaries for Linux, macOS and Windows on x86_64

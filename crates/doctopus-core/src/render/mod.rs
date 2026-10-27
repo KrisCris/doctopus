@@ -41,6 +41,12 @@ pub struct RenderOptions {
     /// Files that parts were extracted to, keyed by part path (`emb1/img2`).
     /// Rendered references point at these files instead of addresses.
     pub extracted: BTreeMap<String, String>,
+    /// Write Markdown that is read without doctopus, as `doctopus convert`
+    /// does: embedded documents are not inlined but linked as the files in
+    /// [`extracted`](Self::extracted) (their own conversions), output never
+    /// suggests doctopus commands, and diagrams with connections also get a
+    /// Mermaid flowchart.
+    pub standalone: bool,
 }
 
 impl RenderOptions {
@@ -52,6 +58,7 @@ impl RenderOptions {
             formulas: false,
             front_matter: true,
             extracted: BTreeMap::new(),
+            standalone: false,
         }
     }
 }

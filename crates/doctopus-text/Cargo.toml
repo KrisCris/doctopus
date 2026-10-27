@@ -1,0 +1,19 @@
+[package]
+name = "doctopus-text"
+description = "Plain-text reader for doctopus: text files, kept exactly as written"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+
+[dependencies]
+doctopus-core.workspace = true
+encoding_rs.workspace = true
+
+[lints]
+workspace = true

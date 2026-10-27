@@ -1,12 +1,12 @@
 //! Markdown and plain-text rendering.
 
-use std::collections::{BTreeSet, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::fmt::Write as _;
 
 use super::{RenderOptions, Rendered, SectionMark, human_size, shell_quote, yaml};
 use crate::{
-    Address, Block, Chart, Diagram, Document, Grid, Group, GroupKind, Inline, Note, NoteKind, Part,
-    PartId, Section, SectionKind, Shape, Style, Table,
+    Address, Block, Chart, Diagram, Document, Grid, Group, GroupKind, Inline, ListItem, Note,
+    NoteKind, Part, PartId, Section, SectionKind, Shape, Style, Table, plain_text,
 };
 
 /// Render a document as Markdown.
@@ -25,6 +25,9 @@ const FRONT_MATTER_PARTS: usize = 25;
 /// Grids whose table would have more positions than this, most of them
 /// empty, are listed cell by cell instead.
 const SPARSE_GRID_AREA: u64 = 1_000;
+/// Diagrams with more connections than this get no Mermaid flowchart in
+/// standalone output: drawn, it would be unreadable.
+const FLOWCHART_CONNECTIONS: usize = 200;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Flavor {
@@ -50,6 +53,11 @@ impl Scope {
         path.join("/")
     }
 
+    /// The key of an anchor named `name` in this document.
+    fn anchor(&self, name: &str) -> String {
+        format!("{}#{name}", self.path.join("/"))
+    }
+
     fn child(&self, id: &PartId) -> Self {
         let mut path = self.path.clone();
         path.push(id.to_string());
@@ -69,6 +77,17 @@ struct Writer<'o> {
     /// Part paths already referenced, so unplaced parts can be listed and
     /// embedded documents used twice are only inlined once.
     seen: BTreeSet<String>,
+    /// The list items just written, innermost last: their level and the
+    /// column their text starts at, where nested items must start.
+    list: Vec<(u8, usize)>,
+    /// How often each heading id was handed out, to number repeats the
+    /// way GitHub does (`notes`, `notes-1`).
+    slugs: HashMap<String, usize>,
+    /// Heading ids by [`Scope::anchor`] key, as found while writing.
+    anchors: HashMap<String, String>,
+    /// Heading ids by anchor key, from a first pass over the whole
+    /// document, so links can point forward.
+    resolved: HashMap<String, String>,
 }
 
 impl<'o> Writer<'o> {
@@ -79,7 +98,26 @@ impl<'o> Writer<'o> {
             options,
             marks: Vec::new(),
             seen: BTreeSet::new(),
+            list: Vec::new(),
+            slugs: HashMap::new(),
+            anchors: HashMap::new(),
+            resolved: HashMap::new(),
         }
+    }
+
+    /// A writer for content that is written apart and then quoted.
+    fn nested(&self) -> Self {
+        let mut sub = Self::new(self.flavor, self.options);
+        sub.slugs.clone_from(&self.slugs);
+        sub.resolved.clone_from(&self.resolved);
+        sub
+    }
+
+    /// Take over what a [`nested`](Self::nested) writer learned.
+    fn absorb(&mut self, sub: &mut Self) {
+        self.seen.append(&mut sub.seen);
+        self.slugs = std::mem::take(&mut sub.slugs);
+        self.anchors.extend(sub.anchors.drain());
     }
 
     fn finish(mut self, doc: &Document) -> Rendered {
@@ -88,6 +126,13 @@ impl<'o> Writer<'o> {
             path: Vec::new(),
             depth: 0,
         };
+        // Links to headings need the ids of headings further down: find
+        // them all first.
+        if self.md() && has_internal_links(doc) {
+            let mut first = Self::new(self.flavor, self.options);
+            first.document(doc, &scope);
+            self.resolved = first.anchors;
+        }
         if self.options.front_matter {
             self.front_matter(doc);
         }
@@ -153,11 +198,15 @@ impl<'o> Writer<'o> {
                 );
             }
             if doc.parts.len() > FRONT_MATTER_PARTS {
-                let more = format!(
-                    "... {} more; list them all with: doctopus info {}",
-                    doc.parts.len() - FRONT_MATTER_PARTS,
-                    shell_quote(&self.options.source.to_string())
-                );
+                let rest = doc.parts.len() - FRONT_MATTER_PARTS;
+                let more = if self.options.standalone {
+                    format!("... {rest} more, linked where they appear")
+                } else {
+                    format!(
+                        "... {rest} more; list them all with: doctopus info {}",
+                        shell_quote(&self.options.source.to_string())
+                    )
+                };
                 let _ = writeln!(fm, "  - {}", yaml::scalar(&more));
             }
         }
@@ -193,7 +242,12 @@ impl<'o> Writer<'o> {
                     },
                 ));
             }
-            self.heading(level, &title);
+            let slug = self.titled_heading(level, &title, &title);
+            // Readers link to sheets, slides and pages as `#slide-3`.
+            if let (true, Some(n)) = (section.kind.is_primary(), section.number) {
+                let name = format!("{}-{n}", section.kind.noun());
+                self.anchors.insert(scope.anchor(&name), slug);
+            }
             if !section.properties.is_empty() {
                 let props: Vec<String> = section
                     .properties
@@ -227,17 +281,47 @@ impl<'o> Writer<'o> {
     }
 
     fn heading(&mut self, level: u8, title: &str) {
+        self.titled_heading(level, title, title);
+    }
+
+    /// Write a heading whose text without Markdown syntax is `plain`, and
+    /// return the id viewers give it, for links.
+    fn titled_heading(&mut self, level: u8, title: &str, plain: &str) -> String {
         self.blank_line();
-        if self.md() {
-            let _ = writeln!(
-                self.out,
-                "{} {}",
-                "#".repeat(usize::from(level)),
-                one_line(title, 300)
-            );
-        } else {
+        if !self.md() {
             let _ = writeln!(self.out, "{}", one_line(title, 300));
+            return String::new();
         }
+        let _ = writeln!(
+            self.out,
+            "{} {}",
+            "#".repeat(usize::from(level)),
+            one_line(title, 300)
+        );
+        self.slug(&one_line(plain, 300))
+    }
+
+    /// The id GitHub gives a heading with this text: lower case, spaces
+    /// as `-`, punctuation dropped, and `-1`, `-2`... for repeats.
+    fn slug(&mut self, text: &str) -> String {
+        let base: String = text
+            .to_lowercase()
+            .chars()
+            .filter_map(|c| match c {
+                ' ' => Some('-'),
+                '-' | '_' => Some(c),
+                c if c.is_alphanumeric() => Some(c),
+                _ => None,
+            })
+            .collect();
+        let mut slug = base.clone();
+        while self.slugs.contains_key(&slug) {
+            let n = self.slugs.entry(base.clone()).or_default();
+            *n += 1;
+            slug = format!("{base}-{n}");
+        }
+        self.slugs.insert(slug.clone(), 0);
+        slug
     }
 
     fn blocks(&mut self, doc: &Document, blocks: &[Block], scope: &Scope, heading_base: u32) {
@@ -252,6 +336,9 @@ impl<'o> Writer<'o> {
             } else {
                 self.blank_line();
             }
+            if !is_list {
+                self.list.clear();
+            }
             in_list = is_list;
             self.block(doc, block, scope, heading_base);
         }
@@ -262,22 +349,18 @@ impl<'o> Writer<'o> {
             Block::Heading(h) => {
                 let text = self.inlines(doc, &h.content, scope, false);
                 let level = heading_level(u32::from(h.level), heading_base);
-                self.heading(level, &text);
+                let slug = self.titled_heading(level, &text, &plain_text(&h.content));
+                for anchor in &h.anchors {
+                    self.anchors.insert(scope.anchor(anchor), slug.clone());
+                }
             }
             Block::Paragraph(p) => {
                 let text = self.inlines(doc, &p.content, scope, false);
-                self.out
-                    .push_str(&escape_line_start(text.trim(), self.md()));
+                let text = hard_breaks(text.trim(), self.md());
+                self.out.push_str(&escape_line_start(&text, self.md()));
                 self.out.push('\n');
             }
-            Block::ListItem(item) => {
-                let text = self.inlines(doc, &item.content, scope, false);
-                let indent = "  ".repeat(usize::from(item.level));
-                let marker = item.label.as_deref().map_or("-", str::trim);
-                let marker = if is_bullet(marker) { "-" } else { marker };
-                let text = text.trim().replace('\n', &format!("\n{indent}  "));
-                let _ = writeln!(self.out, "{indent}{marker} {text}");
-            }
+            Block::ListItem(item) => self.list_item(doc, item, scope),
             Block::Table(table) => self.table(doc, table, scope),
             Block::Grid(grid) => self.grid(grid),
             Block::Image(image) => {
@@ -295,9 +378,55 @@ impl<'o> Writer<'o> {
                     let _ = writeln!(self.out, "{}", math.tex.trim());
                 }
             }
+            Block::Code(code) => {
+                let text = code.text.trim_end_matches(['\n', '\r']);
+                if self.md() {
+                    let fence = fence(text);
+                    let language = code.language.as_deref().unwrap_or_default();
+                    let _ = writeln!(self.out, "{fence}{language}\n{text}\n{fence}");
+                } else {
+                    let _ = writeln!(self.out, "{text}");
+                }
+            }
             Block::Note(note) => self.note(doc, note, scope),
             Block::Group(group) => self.group(doc, group, scope, heading_base),
         }
+    }
+
+    fn list_item(&mut self, doc: &Document, item: &ListItem, scope: &Scope) {
+        let text = self.inlines(doc, &item.content, scope, false);
+        let label = item
+            .label
+            .as_deref()
+            .map(str::trim)
+            .filter(|l| !is_bullet(l));
+        if !self.md() {
+            let indent = "  ".repeat(usize::from(item.level));
+            let text = text.trim().replace('\n', &format!("\n{indent}  "));
+            let _ = writeln!(self.out, "{indent}{} {text}", label.unwrap_or("-"));
+            return;
+        }
+        // A label Markdown has no list marker for (`a)`, `4.2`) stays in
+        // the text of a bullet.
+        let (marker, text) = match label {
+            Some(label) if is_ordered_marker(label) => (label, text.trim().to_string()),
+            Some(label) => ("-", format!("{label} {}", text.trim())),
+            None => ("-", text.trim().to_string()),
+        };
+        // Nested items start where their parent's text starts, which for
+        // `10.` is further in than for `-`.
+        while self
+            .list
+            .last()
+            .is_some_and(|&(level, _)| level >= item.level)
+        {
+            self.list.pop();
+        }
+        let indent = self.list.last().map_or(0, |&(_, column)| column);
+        let column = indent + marker.chars().count() + 1;
+        self.list.push((item.level, column));
+        let text = hard_breaks(&text, true).replace('\n', &format!("\n{}", " ".repeat(column)));
+        let _ = writeln!(self.out, "{}{marker} {text}", " ".repeat(indent));
     }
 
     // ----- tables -----------------------------------------------------------
@@ -368,6 +497,14 @@ impl<'o> Writer<'o> {
                 // Rendered in full after the content (see `unplaced_parts`).
                 Block::Embed(e) => format!("[embedded {}]", scope.address.child(e.part.as_str())),
                 Block::Math(m) => format!("${}$", m.tex),
+                Block::Code(c) if self.md() => c
+                    .text
+                    .lines()
+                    .filter(|line| !line.trim().is_empty())
+                    .map(code_span)
+                    .collect::<Vec<_>>()
+                    .join("<br>"),
+                Block::Code(c) => c.text.replace('\n', " "),
                 Block::Group(g) => self.cell_text(doc, &g.blocks, scope),
                 Block::Note(n) => self.cell_text(doc, &n.blocks, scope),
                 Block::Grid(_) | Block::Chart(_) | Block::Diagram(_) => String::new(),
@@ -462,7 +599,9 @@ impl<'o> Writer<'o> {
                 }
                 let address = crate::CellRef::new(row.row, cell.col);
                 let sep = if self.md() { "<br>" } else { " " };
-                let value = value.trim().replace("\r\n", "\n").replace('\n', sep);
+                let value = no_links(value.trim(), self.md())
+                    .replace("\r\n", "\n")
+                    .replace('\n', sep);
                 if sparse {
                     let _ = writeln!(self.out, "- {address}: {value}");
                 } else {
@@ -623,6 +762,12 @@ impl<'o> Writer<'o> {
                     name(&c.to)
                 );
             }
+            if self.options.standalone
+                && self.md()
+                && diagram.connections.len() <= FLOWCHART_CONNECTIONS
+            {
+                self.flowchart(diagram);
+            }
         }
         // Objects shown by shapes are rendered after the shape list; pictures
         // are fully described by the reference on the shape's line.
@@ -637,6 +782,47 @@ impl<'o> Writer<'o> {
                 self.embed(doc, &id, scope);
             }
         }
+    }
+
+    /// The connections of a diagram as a Mermaid flowchart, which Markdown
+    /// viewers draw. Shapes are numbered in order of first use; connections
+    /// inferred from positions are dotted.
+    fn flowchart(&mut self, diagram: &Diagram) {
+        fn node<'d>(nodes: &mut Vec<&'d str>, id: &'d str) -> usize {
+            match nodes.iter().position(|n| *n == id) {
+                Some(i) => i + 1,
+                None => {
+                    nodes.push(id);
+                    nodes.len()
+                }
+            }
+        }
+        let mut labels = Vec::new();
+        shape_labels(&diagram.shapes, &mut labels);
+        let mut nodes = Vec::new();
+        let mut edges = String::new();
+        for c in &diagram.connections {
+            let from = node(&mut nodes, &c.from);
+            let to = node(&mut nodes, &c.to);
+            let arrow = if c.inferred { "-.->" } else { "-->" };
+            let label = c
+                .label
+                .as_deref()
+                .map(|l| format!("|\"{}\"|", mermaid_text(&one_line(l, 60))))
+                .unwrap_or_default();
+            let _ = writeln!(edges, "    n{from} {arrow}{label} n{to}");
+        }
+        self.blank_line();
+        self.out.push_str("```mermaid\nflowchart TD\n");
+        for (i, id) in nodes.iter().enumerate() {
+            let label = labels
+                .iter()
+                .find(|(shape, _)| shape == id)
+                .map_or_else(|| format!("shape {id}"), |(_, label)| label.clone());
+            let _ = writeln!(self.out, "    n{}[\"{}\"]", i + 1, mermaid_text(&label));
+        }
+        self.out.push_str(&edges);
+        self.out.push_str("```\n");
     }
 
     fn shape_lines(
@@ -743,10 +929,10 @@ impl<'o> Writer<'o> {
                 self.heading(level, group.title.as_deref().unwrap_or("Notes"));
                 self.blocks(doc, &group.blocks, scope, u32::from(level));
             }
-            GroupKind::TextBox => {
-                let mut sub = Writer::new(self.flavor, self.options);
+            GroupKind::TextBox | GroupKind::Quote => {
+                let mut sub = self.nested();
                 sub.blocks(doc, &group.blocks, scope, heading_base);
-                self.seen.extend(sub.seen);
+                self.absorb(&mut sub);
                 let inner = sub.out.trim();
                 if inner.is_empty() {
                     return;
@@ -821,9 +1007,18 @@ impl<'o> Writer<'o> {
     }
 
     fn image(&mut self, doc: &Document, id: &PartId, alt: Option<&str>, scope: &Scope) -> String {
-        self.seen.insert(scope.part_path(id));
-        let reference = self.reference(scope, id);
+        let path = scope.part_path(id);
+        self.seen.insert(path.clone());
         let part = doc.part(id.as_str());
+        let mut reference = self.reference(scope, id);
+        // Without doctopus an address is no use; a linked picture is
+        // still found where it links to.
+        if self.options.standalone
+            && !self.options.extracted.contains_key(&path)
+            && let Some(link) = part.and_then(|p| p.link.clone())
+        {
+            reference = link;
+        }
         let alt = alt
             .map(|a| one_line(a, 200))
             .filter(|a| !a.is_empty())
@@ -831,11 +1026,7 @@ impl<'o> Writer<'o> {
             .unwrap_or_else(|| "image".into());
         let info = part.map(image_info).unwrap_or_default();
         if self.md() {
-            let target = if reference.contains([' ', '(', ')', '<', '>']) {
-                format!("<{reference}>")
-            } else {
-                reference
-            };
+            let target = link_target(reference);
             let alt = alt.replace(['[', ']'], "");
             if info.is_empty() {
                 format!("![{alt}]({target})")
@@ -856,6 +1047,10 @@ impl<'o> Writer<'o> {
             let _ = writeln!(self.out, "<embedded id=\"{id}\" note=\"missing part\"/>");
             return;
         };
+        if self.options.standalone {
+            self.linked_embed(part, &path);
+            return;
+        }
         let address = scope.address.child(id.as_str()).to_string();
         let mut attrs = vec![("id", id.to_string()), ("ref", self.reference(scope, id))];
         attrs.push(("type", part_type(part)));
@@ -909,6 +1104,45 @@ impl<'o> Writer<'o> {
         }
     }
 
+    /// An embedded part in standalone output: one line linking to the file
+    /// it was saved as, which for a document is its own Markdown conversion.
+    fn linked_embed(&mut self, part: &Part, path: &str) {
+        let name = part.name.clone().unwrap_or_else(|| part.id.to_string());
+        let linked = part.size == 0 && part.link.is_some();
+        let label = if part.document.is_some() {
+            "Embedded document"
+        } else if linked {
+            "Linked file"
+        } else {
+            "Embedded file"
+        };
+        let what = match &part.document {
+            Some(child) => child.format.name.to_string(),
+            None => part_type(part),
+        };
+        let info = if linked {
+            what
+        } else {
+            format!("{what}, {}", human_size(part.size))
+        };
+        let mut line = match self.options.extracted.get(path) {
+            Some(file) if self.md() => format!(
+                "{label}: [{}]({} \"{}\")",
+                name.replace(['[', ']'], ""),
+                link_target(file.clone()),
+                info.replace('"', "'")
+            ),
+            Some(file) => format!("{label}: {name} ({info}): {file}"),
+            None => format!("{label}: {name} ({info})"),
+        };
+        if let Some(err) = &part.error {
+            let _ = write!(line, "; it could not be read: {err}");
+        } else if let Some(link) = &part.link {
+            let _ = write!(line, "; it links to {link}");
+        }
+        let _ = writeln!(self.out, "{line}");
+    }
+
     /// Parts that no content block references (floating pictures the reader
     /// could not anchor, workbook-level objects) still deserve a mention.
     fn unplaced_parts(&mut self, doc: &Document, scope: &Scope) {
@@ -958,10 +1192,32 @@ impl<'o> Writer<'o> {
         let mut s = String::new();
         for inline in content {
             match inline {
-                Inline::Text(t) => s.push_str(&self.styled(&t.text.replace('\t', " "), t.style)),
+                Inline::Text(t) => {
+                    // Code spans show their text as it is.
+                    let text = if t.style.code {
+                        t.text.clone()
+                    } else {
+                        no_links(&t.text, self.md())
+                    };
+                    s.push_str(&self.styled(&text.replace('\t', " "), t.style));
+                }
                 Inline::Link(link) => {
                     let inner = self.inlines_raw(doc, &link.content, scope, in_table);
-                    s.push_str(&self.link(&inner, &link.url));
+                    let heading = link
+                        .url
+                        .strip_prefix('#')
+                        .and_then(|name| self.resolved.get(&scope.anchor(name)))
+                        .map(|slug| format!("#{slug}"));
+                    let url = heading.as_deref().unwrap_or(&link.url);
+                    // Plain text has nowhere to jump to, and neither has
+                    // standalone Markdown when no heading is the target.
+                    // `read` keeps `#page-3`, which says what to select.
+                    let nowhere = heading.is_none() && (!self.md() || self.options.standalone);
+                    if url.starts_with('#') && nowhere {
+                        s.push_str(&inner);
+                    } else {
+                        s.push_str(&self.link(&inner, url));
+                    }
                 }
                 Inline::LineBreak => s.push_str(if in_table && self.md() { "<br>" } else { "\n" }),
                 Inline::NoteRef(n) => {
@@ -995,6 +1251,9 @@ impl<'o> Writer<'o> {
         let end = text.trim_end().len();
         let (lead, core, trail) = (&text[..start], &text[start..end], &text[end..]);
         let mut core = core.to_string();
+        if style.code {
+            core = code_span(&core);
+        }
         if style.superscript {
             core = format!("<sup>{core}</sup>");
         } else if style.subscript {
@@ -1140,8 +1399,60 @@ fn image_info(part: &Part) -> String {
     if let Some((w, h)) = part.dimensions {
         bits.push(format!("{w}x{h}"));
     }
-    bits.push(human_size(part.size));
+    if part.size == 0 && part.link.is_some() {
+        bits.push("linked".into());
+    } else {
+        bits.push(human_size(part.size));
+    }
     bits.join(", ")
+}
+
+/// Flowchart labels of shapes, nested ones included: their text, else
+/// their type, else their id.
+fn shape_labels<'d>(shapes: &'d [Shape], out: &mut Vec<(&'d str, String)>) {
+    for shape in shapes {
+        let label = if !shape.text.trim().is_empty() {
+            one_line(&shape.text, 60)
+        } else if let Some(kind) = &shape.kind {
+            kind.clone()
+        } else {
+            format!("shape {}", shape.id)
+        };
+        out.push((&shape.id, label));
+        shape_labels(&shape.children, out);
+    }
+}
+
+/// Text for a quoted Mermaid label. Characters that would end the label,
+/// read as HTML or start an entity code are written as entity codes.
+fn mermaid_text(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    for c in text.chars() {
+        match c {
+            '"' => out.push_str("#quot;"),
+            '#' => out.push_str("#35;"),
+            '<' => out.push_str("#lt;"),
+            '>' => out.push_str("#gt;"),
+            '|' => out.push_str("#124;"),
+            _ => out.push(c),
+        }
+    }
+    out
+}
+
+/// A code fence longer than any run of backticks in `text`, so the text
+/// cannot close it.
+fn fence(text: &str) -> String {
+    "`".repeat((longest_run(text, '`') + 1).max(3))
+}
+
+/// A link destination, in angle brackets when it would otherwise end early.
+fn link_target(reference: String) -> String {
+    if reference.contains([' ', '(', ')', '<', '>']) {
+        format!("<{reference}>")
+    } else {
+        reference
+    }
 }
 
 fn shape_names(shapes: &[Shape]) -> Vec<(String, String)> {
@@ -1164,6 +1475,81 @@ fn is_bullet(marker: &str) -> bool {
     let m = marker.trim();
     // Word's second-level bullet is a Courier New "o".
     m.is_empty() || m == "o" || m.chars().count() == 1 && !m.chars().all(char::is_alphanumeric)
+}
+
+/// Whether a list label is also a Markdown list marker: an ordered list
+/// number (`3.`, `12)`) that viewers keep.
+fn is_ordered_marker(label: &str) -> bool {
+    let digits = label.trim_end_matches(['.', ')']);
+    label.len() == digits.len() + 1
+        && (1..=9).contains(&digits.len())
+        && digits.bytes().all(|b| b.is_ascii_digit())
+}
+
+/// Line breaks inside a paragraph as Markdown hard breaks (`\` at the end
+/// of the line), so viewers keep them. Empty lines, which would end the
+/// paragraph, are dropped.
+fn hard_breaks(text: &str, markdown: bool) -> String {
+    if !markdown || !text.contains('\n') {
+        return text.to_string();
+    }
+    text.split('\n')
+        .map(str::trim_end)
+        .filter(|line| !line.is_empty())
+        .collect::<Vec<_>>()
+        .join("\\\n")
+}
+
+/// Text as a Markdown code span, fenced with more backticks than it holds.
+fn code_span(text: &str) -> String {
+    let fence = "`".repeat(longest_run(text, '`') + 1);
+    let pad = if text.starts_with('`') || text.ends_with('`') {
+        " "
+    } else {
+        ""
+    };
+    format!("{fence}{pad}{text}{pad}{fence}")
+}
+
+/// The longest run of `c` in `text`.
+fn longest_run(text: &str, c: char) -> usize {
+    let (mut longest, mut run) = (0, 0);
+    for ch in text.chars() {
+        run = if ch == c { run + 1 } else { 0 };
+        longest = longest.max(run);
+    }
+    longest
+}
+
+/// Whether the document, or a document embedded in it, links to a place
+/// inside itself (`#name`).
+fn has_internal_links(doc: &Document) -> bool {
+    fn inlines(content: &[Inline]) -> bool {
+        content
+            .iter()
+            .any(|i| matches!(i, Inline::Link(link) if link.url.starts_with('#')))
+    }
+    fn blocks(list: &[Block]) -> bool {
+        list.iter().any(|block| match block {
+            Block::Heading(h) => inlines(&h.content),
+            Block::Paragraph(p) => inlines(&p.content),
+            Block::ListItem(l) => inlines(&l.content),
+            Block::Table(t) => t
+                .rows
+                .iter()
+                .flat_map(|r| &r.cells)
+                .any(|c| blocks(&c.blocks)),
+            Block::Group(g) => blocks(&g.blocks),
+            Block::Note(n) => blocks(&n.blocks),
+            _ => false,
+        })
+    }
+    doc.sections.iter().any(|s| blocks(&s.blocks))
+        || doc
+            .parts
+            .iter()
+            .filter_map(|p| p.document.as_deref())
+            .any(has_internal_links)
 }
 
 /// Collapse runs of spaces inside lines (they appear where emphasis markers
@@ -1195,6 +1581,16 @@ fn one_line(s: &str, max: usize) -> String {
     } else {
         let cut: String = joined.chars().take(max.saturating_sub(1)).collect();
         format!("{cut}…")
+    }
+}
+
+/// Stop text that looks like `[label](target)`, such as the number format
+/// `[Red]($#,##0.00)`, from being read as a link.
+fn no_links(text: &str, markdown: bool) -> String {
+    if markdown {
+        text.replace("](", "\\](")
+    } else {
+        text.to_string()
     }
 }
 
