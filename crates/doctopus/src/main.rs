@@ -7,11 +7,13 @@
 //! commands accept.
 
 mod cli;
+mod convert;
 mod extract;
 mod failure;
 mod info;
 mod load;
 mod output;
+mod paths;
 mod read;
 
 use std::process::ExitCode;
@@ -30,6 +32,7 @@ fn main() -> ExitCode {
             Command::Read(args) => read::run(args, cli.max_depth),
             Command::Info(args) => info::run(args, cli.max_depth),
             Command::Extract(args) => extract::run(args, cli.max_depth),
+            Command::Convert(args) => convert::run(args, cli.max_depth),
             Command::Formats(args) => info::formats(args),
             Command::Guide => output::print(GUIDE),
         };

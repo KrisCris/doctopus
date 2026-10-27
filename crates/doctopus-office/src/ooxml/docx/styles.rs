@@ -1,10 +1,13 @@
-//! Paragraph styles (for headings and list membership) and list numbering
-//! definitions, with the counters that turn them into labels.
+//! Paragraph styles (for headings, list membership, code and quotations),
+//! character styles, and list numbering definitions with the counters that
+//! turn them into labels.
 
 use std::collections::HashMap;
 
+use crate::fonts::is_monospace;
 use crate::numbering::{CounterStyle, Instance, Level, NumRef, Numbering};
 use crate::ooxml::xml::Element;
+use crate::word::{Role, role_by_name};
 
 /// How far `w:basedOn` chains are followed; real documents use a handful,
 /// the limit only guards against cycles.
@@ -16,6 +19,8 @@ struct ParagraphStyle {
     based_on: Option<String>,
     outline: Option<u8>,
     num: Option<NumRef>,
+    /// Whether the style's font is fixed-width, when it names one.
+    mono: Option<bool>,
 }
 
 #[derive(Debug, Default)]
@@ -23,6 +28,17 @@ struct CharacterStyle {
     based_on: Option<String>,
     bold: Option<bool>,
     italic: Option<bool>,
+    mono: Option<bool>,
+    /// Named for code (`HTML Code`, `Verbatim Char`).
+    code: bool,
+}
+
+/// Formatting a character style sets.
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) struct CharFormat {
+    pub(crate) bold: Option<bool>,
+    pub(crate) italic: Option<bool>,
+    pub(crate) code: Option<bool>,
 }
 
 impl NumRef {
@@ -47,6 +63,8 @@ pub(crate) struct Styles {
     paragraph: HashMap<String, ParagraphStyle>,
     character: HashMap<String, CharacterStyle>,
     default_paragraph: Option<String>,
+    /// Whether the document's default font is fixed-width.
+    mono_default: bool,
 }
 
 impl Styles {
@@ -67,6 +85,7 @@ impl Styles {
                             .and_then(|p| p.child_val("w:outlineLvl"))
                             .and_then(|v| v.parse().ok()),
                         num: ppr.and_then(|p| p.child("w:numPr")).and_then(NumRef::parse),
+                        mono: mono(style.child("w:rPr")),
                     };
                     if style.attr_bool("w:default") == Some(true) {
                         styles.default_paragraph = Some(id.to_string());
@@ -75,17 +94,67 @@ impl Styles {
                 }
                 "character" => {
                     let rpr = style.child("w:rPr");
+                    let name = style.child_val("w:name").unwrap_or_default();
+                    let name = name.to_ascii_lowercase();
                     let character = CharacterStyle {
                         based_on,
                         bold: rpr.and_then(|r| r.child("w:b")).map(toggle),
                         italic: rpr.and_then(|r| r.child("w:i")).map(toggle),
+                        mono: mono(rpr),
+                        code: ["code", "verbatim", "keyboard", "typewriter"]
+                            .iter()
+                            .any(|w| name.contains(w)),
                     };
                     styles.character.insert(id.to_string(), character);
                 }
                 _ => {}
             }
         }
+        let defaults = root
+            .child("w:docDefaults")
+            .and_then(|d| d.child("w:rPrDefault"))
+            .and_then(|r| r.child("w:rPr"));
+        styles.mono_default = mono(defaults).unwrap_or(false);
         styles
+    }
+
+    /// Whether the text of a paragraph style is fixed-width. Text in a
+    /// fixed-width font is code only where the paragraph's is not.
+    pub(crate) fn paragraph_mono(&self, id: Option<&str>) -> bool {
+        let mut current = id;
+        for _ in 0..MAX_INHERITANCE {
+            let Some(style) = current.and_then(|id| self.paragraph.get(id)) else {
+                break;
+            };
+            if let Some(mono) = style.mono {
+                return mono;
+            }
+            current = style.based_on.as_deref();
+        }
+        self.mono_default
+    }
+
+    /// Whether a run's `w:rFonts` is fixed-width: `None` when it names no
+    /// font.
+    pub(crate) fn font_mono(fonts: &Element) -> Option<bool> {
+        font_mono(fonts)
+    }
+
+    /// Whether a paragraph style holds code or quotations, by its name or
+    /// the name of a style it is based on. Fonts do not count: prose is
+    /// written in the fixed-width `Plain Text` style too.
+    pub(crate) fn role(&self, id: &str) -> Role {
+        let mut current = Some(id);
+        for _ in 0..MAX_INHERITANCE {
+            let Some(style) = current.and_then(|id| self.paragraph.get(id)) else {
+                break;
+            };
+            if let Some(role) = role_by_name(&style.name) {
+                return role;
+            }
+            current = style.based_on.as_deref();
+        }
+        Role::Text
     }
 
     /// The paragraph style in effect (the given one, else the default).
@@ -149,19 +218,33 @@ impl Styles {
         found.filter(|f| !f.num_id.is_empty())
     }
 
-    /// Bold and italic set by a character style.
-    pub(crate) fn character(&self, id: &str) -> (Option<bool>, Option<bool>) {
+    /// Bold, italic and code set by a character style.
+    pub(crate) fn character(&self, id: &str) -> CharFormat {
         let mut current = Some(id);
-        let (mut bold, mut italic) = (None, None);
+        let mut format = CharFormat::default();
         for _ in 0..MAX_INHERITANCE {
             let Some(style) = current.and_then(|id| self.character.get(id)) else {
                 break;
             };
-            bold = bold.or(style.bold);
-            italic = italic.or(style.italic);
+            format.bold = format.bold.or(style.bold);
+            format.italic = format.italic.or(style.italic);
+            format.code = format.code.or(style.code.then_some(true)).or(style.mono);
             current = style.based_on.as_deref();
         }
-        (bold, italic)
+        format
+    }
+}
+
+/// Whether the font of an `w:rPr` is fixed-width, when it names one.
+fn mono(rpr: Option<&Element>) -> Option<bool> {
+    font_mono(rpr?.child("w:rFonts")?)
+}
+
+fn font_mono(fonts: &Element) -> Option<bool> {
+    match fonts.attr("w:ascii").or_else(|| fonts.attr("w:hAnsi")) {
+        Some(name) => Some(is_monospace(name)),
+        // Theme fonts are the document's body and heading fonts.
+        None => fonts.attr("w:asciiTheme").map(|_| false),
     }
 }
 
@@ -276,6 +359,34 @@ mod tests {
         assert_eq!(styles.heading_level("Derived"), Some(3));
         assert_eq!(styles.heading_level("Body"), None);
         assert_eq!(styles.heading_level("Missing"), None);
+    }
+
+    #[test]
+    fn code_and_quotations_come_from_style_names_and_fonts() {
+        let mono = r#"<w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/></w:rPr>"#;
+        let xml = format!(
+            r#"<w:styles xmlns:w="{W}">
+              <w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>
+              <w:style w:type="paragraph" w:styleId="SourceCode"><w:name w:val="Source Code"/></w:style>
+              <w:style w:type="paragraph" w:styleId="MyCode"><w:name w:val="Mine"/><w:basedOn w:val="SourceCode"/></w:style>
+              <w:style w:type="paragraph" w:styleId="IntenseQuote"><w:name w:val="Intense Quote"/></w:style>
+              <w:style w:type="paragraph" w:styleId="PlainText"><w:name w:val="Plain Text"/>{mono}</w:style>
+              <w:style w:type="character" w:styleId="VerbatimChar"><w:name w:val="Verbatim Char"/></w:style>
+              <w:style w:type="character" w:styleId="Fixed"><w:name w:val="Fixed"/>{mono}</w:style>
+              <w:style w:type="character" w:styleId="Strong"><w:name w:val="Strong"/><w:rPr><w:b/></w:rPr></w:style>
+            </w:styles>"#
+        );
+        let styles = Styles::parse(&parse(xml.as_bytes()).root);
+        assert_eq!(styles.role("SourceCode"), Role::Code);
+        assert_eq!(styles.role("MyCode"), Role::Code);
+        assert_eq!(styles.role("IntenseQuote"), Role::Quote);
+        // A fixed-width paragraph style is prose; its runs are not code.
+        assert_eq!(styles.role("PlainText"), Role::Text);
+        assert!(styles.paragraph_mono(Some("PlainText")));
+        assert!(!styles.paragraph_mono(Some("Normal")));
+        assert_eq!(styles.character("VerbatimChar").code, Some(true));
+        assert_eq!(styles.character("Fixed").code, Some(true));
+        assert_eq!(styles.character("Strong").code, None);
     }
 
     #[test]

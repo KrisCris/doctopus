@@ -19,4 +19,4 @@ Shapes:
   - 21 "PropertySheetField"
 
 Connections:
-- 1 [Entity] -> 20 [Entity]
+- 1 "PropertySheet" -> 20 "PropertySheetField"

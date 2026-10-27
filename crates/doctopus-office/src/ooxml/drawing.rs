@@ -14,6 +14,7 @@ use super::package::Relationships;
 use super::smartart;
 use super::xml::Element;
 use crate::blocks::{link_shape, push_text_box};
+use crate::fonts::is_monospace;
 use crate::numbering::auto_number_scheme;
 
 /// How paragraphs without explicit bullet formatting are treated.
@@ -134,6 +135,11 @@ fn run_style(rpr: Option<&Element>) -> Style {
         strike: rpr.attr("strike").is_some_and(|s| s != "noStrike"),
         superscript: baseline > 0,
         subscript: baseline < 0,
+        // Theme fonts (`+mn-lt`) are the presentation's own text fonts.
+        code: rpr
+            .child("a:latin")
+            .and_then(|latin| latin.attr("typeface"))
+            .is_some_and(is_monospace),
     }
 }
 

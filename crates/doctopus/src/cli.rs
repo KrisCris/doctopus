@@ -9,8 +9,10 @@ use doctopus_core::{Address, CellRange};
 /// Characters `read` prints per call unless told otherwise: a page fits in
 /// the tool-output budget of common coding agents.
 pub(crate) const DEFAULT_MAX_CHARS: usize = 25_000;
-/// Embedded document levels parsed by default.
-pub(crate) const DEFAULT_MAX_DEPTH: u32 = 8;
+/// Embedded document levels parsed by default: deeper than real documents
+/// nest, so everything is read; the engine's document budget bounds the
+/// work on hostile files.
+pub(crate) const DEFAULT_MAX_DEPTH: u32 = 32;
 /// Embedded document levels shown inline by default.
 pub(crate) const DEFAULT_EMBED_DEPTH: u32 = 8;
 
@@ -20,7 +22,8 @@ Addresses name a file or something inside it:
   deck.pptx#emb1          embedded object emb1 (ids are listed by `doctopus info`)
   deck.pptx#emb1/img2     image img2 inside that object
 
-Start with `doctopus info FILE`, then `doctopus read FILE`.
+Start with `doctopus info FILE`, then `doctopus read FILE`, or write
+Markdown files to read later with `doctopus convert FILE`.
 `doctopus guide` explains the whole workflow.";
 
 const AFTER_LONG_HELP: &str = "\
@@ -37,7 +40,8 @@ Exit codes:
   3  unsupported file type
   4  encrypted file
 
-Start with `doctopus info FILE`, then `doctopus read FILE`.
+Start with `doctopus info FILE`, then `doctopus read FILE`, or write
+Markdown files to read later with `doctopus convert FILE`.
 `doctopus guide` explains the whole workflow.";
 
 /// Read Word, Excel, PowerPoint, Visio and PDF files, and everything
@@ -77,6 +81,14 @@ pub(crate) enum Command {
     /// Parts nested in an embedded document go to a subdirectory named after
     /// that document's id. Each saved file is listed with its address.
     Extract(ExtractArgs),
+    /// Convert documents to Markdown files that are read without doctopus.
+    ///
+    /// Each document becomes NAME.md, with its pictures and attached files
+    /// in NAME.parts/. Embedded documents are converted too, to any depth:
+    /// each gets a directory named after its id inside its parent's parts,
+    /// with its own Markdown file and parts. Links between the files are
+    /// relative, so the output can be moved as a whole.
+    Convert(ConvertArgs),
     /// List the file formats doctopus reads.
     Formats(FormatsArgs),
     /// Print a usage guide written for coding agents.
@@ -213,6 +225,30 @@ pub(crate) struct ExtractArgs {
 }
 
 #[derive(Debug, Args)]
+pub(crate) struct ConvertArgs {
+    /// Files to convert; `FILE#id` converts an embedded document.
+    #[arg(value_name = "ADDRESS", required = true)]
+    pub(crate) inputs: Vec<String>,
+
+    #[arg(
+        long,
+        short = 'o',
+        value_name = "DIR",
+        help = "Directory to write to [default: the current directory]"
+    )]
+    pub(crate) output: Option<PathBuf>,
+
+    /// Show spreadsheet formulas next to their values.
+    #[arg(long)]
+    pub(crate) formulas: bool,
+
+    /// Print the list of written files as JSON (an array when several files
+    /// are given).
+    #[arg(long)]
+    pub(crate) json: bool,
+}
+
+#[derive(Debug, Args)]
 pub(crate) struct FormatsArgs {
     /// Print JSON.
     #[arg(long)]
@@ -232,7 +268,9 @@ pub(crate) fn args() -> Vec<OsString> {
 }
 
 fn is_implicit_read(first: &str) -> bool {
-    const COMMANDS: [&str; 6] = ["read", "info", "extract", "formats", "guide", "help"];
+    const COMMANDS: [&str; 7] = [
+        "read", "info", "extract", "convert", "formats", "guide", "help",
+    ];
     !first.starts_with('-')
         && !COMMANDS.contains(&first)
         && (Path::new(first).exists() || Address::parse(first).file.is_file())

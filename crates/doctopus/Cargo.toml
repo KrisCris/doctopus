@@ -18,8 +18,10 @@ path = "src/main.rs"
 [dependencies]
 clap.workspace = true
 doctopus-core.workspace = true
+doctopus-archive.workspace = true
 doctopus-office.workspace = true
 doctopus-pdf.workspace = true
+doctopus-text.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 

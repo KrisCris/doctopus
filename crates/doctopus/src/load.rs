@@ -10,6 +10,9 @@ pub(crate) fn engine(max_depth: u32, formulas: bool) -> Engine {
     let mut registry = Registry::new();
     doctopus_office::register(&mut registry);
     doctopus_pdf::register(&mut registry);
+    // Last: both only claim files that no other reader recognises.
+    doctopus_archive::register(&mut registry);
+    doctopus_text::register(&mut registry);
     let mut options = ReadOptions::default();
     options.max_depth = max_depth;
     options.formulas = formulas;

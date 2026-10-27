@@ -94,20 +94,20 @@ Shapes:
 - 157 [Pipe flow arrow]
 
 Connections:
-- 1 [Class] -> 11 [Class] via 20
-- 25 [Class] -> 34 [Class]
-- 25 [Class] -> 43 [Class]
-- 61 [Class] -> 25 [Class] via 83
-- 70 [Class] -> 25 [Class] via 88
-- 11 [Class] -> 52 [Class] via 93
-- 61 [Class] -> 1 [Class] via 98
-- 1 [Class] -> 70 [Class] via 103
-- 1 [Class] -> 25 [Class] via 108
-- 25 [Class] -> 52 [Class] via 113
-- 52 [Class] -> 1 [Class] via 118
-- 34 [Class] -> 123 [Class] via 132
-- 43 [Class] -> 123 [Class] via 137
-- 1 [Class] -> 123 [Class] via 142
+- 1 "Routes" -> 11 "BusStatus" (-have / 1 / 1..*) via 20
+- 25 "Schedule" -> 34 "WeekdaySchedule"
+- 25 "Schedule" -> 43 "WeekendSchedule"
+- 61 "Fare" -> 25 "Schedule" (1..* / -lists / 1) via 83
+- 70 "Pass" -> 25 "Schedule" (1..* / -includes / 1) via 88
+- 11 "BusStatus" -> 52 "Bus Station" (0..* / -provides / 1) via 93
+- 61 "Fare" -> 1 "Routes" (1..* / -has / 1) via 98
+- 1 "Routes" -> 70 "Pass" (-accepts / 1 / 0..*) via 103
+- 1 "Routes" -> 25 "Schedule" (-comprises / 1 / 1) via 108
+- 25 "Schedule" -> 52 "Bus Station" (1..* / -keeps / 1) via 113
+- 52 "Bus Station" -> 1 "Routes" (1..* / -consists / 1) via 118
+- 34 "WeekdaySchedule" -> 123 "TrafficCondition" (-gives / 1 / 1..*) via 132
+- 43 "WeekendSchedule" -> 123 "TrafficCondition" (-has different / 1 / 1..*) via 137
+- 1 "Routes" -> 123 "TrafficCondition" (-different / 1 / 0..*) via 142
 
 ## Page 2: basketball-game
 
@@ -150,8 +150,8 @@ Shapes:
 - 74 [Pipe flow arrow]
 
 Connections:
-- 12 [Class] -> 21 [Class] via 39
-- 3 [Class] -> 30 [Class] via 44
-- 21 [Class] -> 30 [Class] via 49
-- 3 [Class] -> 12 [Class] via 54
-- 3 [Class] -> 21 [Class] via 59
+- 12 "Team" -> 21 "Player" (-includes / 1 / 5) via 39
+- 3 "Game" -> 30 "Position" (-has / 1 / 5) via 44
+- 21 "Player" -> 30 "Position" (-plays at / 1 / 1..5) via 49
+- 3 "Game" -> 12 "Team" (-consists / 1 / 1..*) via 54
+- 3 "Game" -> 21 "Player" (-played by / 1 / 1..*) via 59

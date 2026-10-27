@@ -50,7 +50,7 @@ This one is in a different one, the Signature style
 
 This is back to the default again
 
-This links to The Main Heading Bookmark and The Level 3 Bookmark. That’s it!
+This links to The Main Heading Bookmark and [The Level 3 Bookmark](#heading-level-3). That’s it!
 
 ## Headers and footers
 

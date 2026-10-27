@@ -13,9 +13,10 @@ use crate::{Document, Error, Input, PartKind, Probe, ReadOptions, Reader, Regist
 /// that some reader recognises (a workbook inside a slide, a document inside
 /// that workbook...) are parsed too and attached as
 /// [`Part::document`](crate::Part::document), up to
-/// [`ReadOptions::max_depth`] levels. Parts no reader understands keep their
-/// bytes and a sniffed media type, so callers can extract them for other
-/// tools.
+/// [`ReadOptions::max_depth`] levels; deeper ones get an
+/// [`error`](crate::Part::error) saying so. Parts no reader understands keep
+/// their bytes and a sniffed media type, so callers can extract them for
+/// other tools.
 #[derive(Debug)]
 pub struct Engine {
     registry: Registry,
@@ -91,13 +92,25 @@ impl Engine {
             if part.kind == PartKind::Image && part.dimensions.is_none() {
                 part.dimensions = image_dimensions(&part.data);
             }
-            if part.data.is_empty() || part.document.is_some() || depth > self.options.max_depth {
+            if part.data.is_empty() || part.document.is_some() {
+                continue;
+            }
+            let max_depth = self.options.max_depth;
+            // With no depth at all, payloads stay opaque on purpose.
+            if max_depth == 0 {
                 continue;
             }
             let probe = Probe::new(&part.data, part.name.as_deref());
             let Some((reader, detection)) = self.registry.detect(&probe) else {
                 continue;
             };
+            if depth > max_depth {
+                let levels = if max_depth == 1 { "level" } else { "levels" };
+                part.error = Some(format!(
+                    "not parsed: nested more than {max_depth} {levels} deep"
+                ));
+                continue;
+            }
             if budget.get() == 0 {
                 part.error = Some("not parsed: too many embedded documents".into());
                 continue;
@@ -141,5 +154,69 @@ fn guarded(reader: &dyn Reader, input: &Input<'_>) -> Result<Document> {
                 format!("reader crashed ({message}); please report this file"),
             ))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{Confidence, Detection, DocumentKind, FormatInfo, Part};
+
+    static NEST: FormatInfo = FormatInfo {
+        id: "nest",
+        name: "Nested test document",
+        kind: DocumentKind::Other,
+        extensions: &["nest"],
+        mime: "application/x-nest",
+    };
+
+    /// Reads `NEST` followed by the bytes of one embedded part.
+    #[derive(Debug)]
+    struct NestReader;
+
+    impl Reader for NestReader {
+        fn formats(&self) -> &[&'static FormatInfo] {
+            static FORMATS: [&FormatInfo; 1] = [&NEST];
+            &FORMATS
+        }
+
+        fn detect(&self, probe: &Probe<'_>) -> Option<Detection> {
+            probe
+                .data()
+                .starts_with(b"NEST")
+                .then(|| Detection::new(&NEST, Confidence::High))
+        }
+
+        fn read(&self, input: &Input<'_>) -> Result<Document> {
+            let mut doc = Document::new(input.format);
+            doc.add_part(Part::new(PartKind::Object, input.data[4..].to_vec()));
+            Ok(doc)
+        }
+    }
+
+    fn engine(max_depth: u32) -> Engine {
+        let mut registry = Registry::new();
+        registry.register(NestReader);
+        let options = ReadOptions {
+            max_depth,
+            ..ReadOptions::default()
+        };
+        Engine::new(registry).with_options(options)
+    }
+
+    #[test]
+    fn documents_below_the_depth_limit_are_marked_not_parsed() {
+        let doc = engine(1).parse(b"NESTNESTNESTend", None).unwrap();
+        let first = &doc.parts[0];
+        let second = &first.document.as_ref().unwrap().parts[0];
+        assert!(second.document.is_none());
+        assert_eq!(
+            second.error.as_deref(),
+            Some("not parsed: nested more than 1 level deep")
+        );
+
+        let opaque = engine(0).parse(b"NESTNESTend", None).unwrap();
+        assert!(opaque.parts[0].document.is_none());
+        assert!(opaque.parts[0].error.is_none());
     }
 }

@@ -15,7 +15,9 @@ categories = ["command-line-utilities", "parser-implementations", "text-processi
 [workspace.dependencies]
 doctopus-core = { path = "crates/doctopus-core", version = "0.1.0" }
 doctopus-office = { path = "crates/doctopus-office", version = "0.1.0" }
+doctopus-archive = { path = "crates/doctopus-archive", version = "0.1.0" }
 doctopus-pdf = { path = "crates/doctopus-pdf", version = "0.1.0" }
+doctopus-text = { path = "crates/doctopus-text", version = "0.1.0" }
 
 anyhow = "1.0.100"
 calamine = "0.37.0"

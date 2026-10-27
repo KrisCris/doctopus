@@ -10,7 +10,7 @@ what it does not read.
 |---|---|
 | Each page | A `Page` section, numbered from 1, so `--page 3` and `--page 2-4` work. A page label other than the page number (`iv`, `A-3`) is a `label` property. |
 | Text | Paragraphs, headings and list items in reading order (below). Bold and italic come from the font. |
-| Link annotations | Links on the text they cover: web addresses as they are, links within the document as `#page-N`. |
+| Link annotations | Links on the text they cover: web addresses as they are, links within the document as `#page-N`, which the Markdown renderer points at the page's heading. |
 | Pictures | Image parts, referenced where they are drawn. JPEG data is passed through unchanged; other pictures are converted to PNG. Pictures smaller than 6 points (rules, dots) are left out. |
 | Bookmarks | A "Bookmarks" section: a nested list linking to `#page-N`. |
 | Form fields | A "Form fields" section: a table of field names, types and values. |

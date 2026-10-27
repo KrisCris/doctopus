@@ -1,0 +1,22 @@
+[package]
+name = "doctopus-archive"
+description = "Zip archive reader for doctopus: every file in an archive becomes a part, read by its own reader"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+
+[dependencies]
+doctopus-core.workspace = true
+
+[dev-dependencies]
+doctopus-text.workspace = true
+zip.workspace = true
+
+[lints]
+workspace = true

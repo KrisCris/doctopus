@@ -1,7 +1,8 @@
 # doctopus
 
 **Read Word, Excel, PowerPoint, Visio and PDF files, and everything
-embedded in them, as Markdown that coding agents can work with.**
+embedded in them, as Markdown that coding agents can work with, or convert
+them to Markdown files once and read those.**
 
 doctopus is a single self-contained binary for Linux, macOS and Windows.
 It turns `.docx`, `.doc`, `.xlsx`, `.xls`, `.xlsb`, `.pptx`, `.ppt`, `.vsdx`,
@@ -24,6 +25,10 @@ just as well for people:
   ids that exist and suggest a command. Exit codes tell failure kinds apart.
 - **Deterministic output.** The same file always renders the same way, so
   pages line up and diffs are meaningful.
+- **A clean conversion when you want one.** `doctopus convert` writes a
+  file and every document inside it, to any depth, as Markdown files that
+  link to each other and to the saved pictures. Afterwards they are read
+  without doctopus.
 - **No runtime dependencies.** No Office, LibreOffice, Python, Java or PDF
   library. Linux binaries are fully static.
 
@@ -94,7 +99,8 @@ Add a line like this to your agent's instructions (`AGENTS.md`,
 ```markdown
 To read Office and PDF files (.docx .doc .xlsx .xls .xlsb .pptx .ppt .vsdx .vsd
 .pdf), use `doctopus`: `doctopus info FILE` for an overview, `doctopus read FILE` for the
-content as Markdown. `doctopus guide` explains the rest.
+content as Markdown, `doctopus convert FILE -o DIR` to write it all out as
+Markdown files. `doctopus guide` explains the rest.
 ```
 
 ## Usage
@@ -104,6 +110,7 @@ content as Markdown. `doctopus guide` explains the rest.
 | `doctopus info FILE...` | Format, properties, sheets, slides or pages, embedded parts, output size, and suggested next commands |
 | `doctopus read FILE` | The content as Markdown, a page at a time (`doctopus FILE` is short for this) |
 | `doctopus extract FILE -o DIR` | Save every image, embedded document and attachment, nested ones included |
+| `doctopus convert FILE... -o DIR` | Write each file, and every document inside it, as Markdown files with their pictures and attachments |
 | `doctopus formats` | The supported formats and extensions |
 | `doctopus guide` | A usage guide written for agents |
 
@@ -133,7 +140,45 @@ doctopus read deck.pptx --extract deck.parts     # save parts too; references po
 
 `-f text` prints plain text and `-f json` prints the full document model.
 `--max-chars` (or `DOCTOPUS_MAX_CHARS`) sets the page size; `0` turns
-paging off.
+paging off. Links to saved parts in a file written with `-o` are relative
+to that file.
+
+### Converting to Markdown files
+
+```sh
+doctopus convert report.docx -o converted
+doctopus convert *.docx *.xlsx -o converted   # several files at once
+```
+
+A document becomes `NAME.md`, and its pictures and attached files go to
+`NAME.parts/`. Every embedded document is converted too, however deep it
+is nested: it gets a directory named after its id inside its parent's
+parts, with its own Markdown file and parts.
+
+```text
+converted/report.md
+converted/report.parts/image1.png
+converted/report.parts/emb1/Budget.md         # a workbook in the document
+converted/report.parts/emb1/emb2/Notes.md     # a document in that workbook
+```
+
+Formatting carries over where Markdown has a form for it. A Word Heading 1
+becomes `#`, Heading 2 `##`, and so on. Bold, italic, strikethrough,
+superscript and subscript are kept, and so are nested and numbered lists,
+line breaks, tables, footnotes and links. Text in a fixed-width font
+becomes `code`, paragraphs in a code style become code blocks, and
+quotation styles become `>` quotes. Table-of-contents entries link to their
+headings. Underline, colors and fonts have no Markdown form and are
+dropped.
+
+Embedded documents are linked where they appear instead of being inlined,
+and every link is relative, so the directory can be moved as a whole. The
+Markdown never refers to doctopus commands. Visio pages keep their shape
+list and connection list, and also get a [Mermaid](https://mermaid.js.org/)
+flowchart of the connections (up to 200), which renders on GitHub and in
+most Markdown viewers. Files doctopus cannot read, such as audio or
+programs, are saved as they are and linked. The command prints what it
+wrote; `--json` prints it as JSON.
 
 ### Exit codes
 
@@ -149,11 +194,13 @@ paging off.
 
 | Format | Extensions | Content |
 |---|---|---|
-| Word | `.docx` `.docm` `.dotx` `.dotm` `.doc` `.dot` | Text with headings, lists, tables, links and text boxes; equations as LaTeX; footnotes, endnotes, comments, headers and footers; images, charts, SmartArt, embedded objects |
+| Word | `.docx` `.docm` `.dotx` `.dotm` `.doc` `.dot` | Text with headings at their levels, lists, tables, links, quotations, code and text boxes; equations as LaTeX; footnotes, endnotes, comments, headers and footers; images, charts, SmartArt, embedded objects |
 | Excel | `.xlsx` `.xlsm` `.xltx` `.xltm` `.xlam` `.xlsb` `.xls` `.xlt` `.xla` | Every sheet as a table with column letters and row numbers (sparse sheets cell by cell); formulas, merged cells, hyperlinks, notes and threaded comments, headers and footers, charts, pictures, text boxes, embedded objects |
 | PowerPoint | `.pptx` `.pptm` `.ppsx` `.ppsm` `.potx` `.potm` `.ppt` `.pps` `.pot` | Slides in order with titles, text, tables, pictures, charts, SmartArt and embedded objects; speaker notes and comments |
 | Visio | `.vsdx` `.vsdm` `.vssx` `.vssm` `.vstx` `.vstm` `.vsd` `.vss` `.vst` | Pages of shapes with their text, shape data and hyperlinks; groups; the connections between shapes; pictures and embedded objects |
 | PDF | `.pdf` | Pages with their text in reading order as paragraphs, headings and lists; links; pictures where they appear; bookmarks, page labels, form field values and attached files. Pages that are only pictures (scans) are reported |
+| Zip archive | `.zip` | Every file in the archive, each read by its own reader: a workbook in a zip, a zip in a zip |
+| Plain text | `.txt` `.text` `.log` `.csv` `.tsv` `.md` `.markdown` `.json` `.yaml` `.yml` `.ini` | The text exactly as written, as a code block. Mostly useful for text files embedded in other documents |
 
 Document properties, including custom ones, are read for every format.
 Charts are shown as their data. Images are referenced and can be extracted,
@@ -179,15 +226,19 @@ so an agent that can view images can open them.
   warning, not read. See [docs/pdf.md](docs/pdf.md).
 - An `.xls` sheet whose cells are spread over more than 4 million positions
   is cut off by rows, with a warning.
+- Embedded HTML, RTF and Outlook messages, and OLE objects of unknown
+  type, are saved as files, not read. Pictures are saved in their own
+  format; EMF and WMF drawings are not converted to PNG.
 - Damaged files are read as far as possible. What could not be read is
   listed as warnings in the YAML header.
 
 ## As a library
 
-The binary is a thin layer over three crates. `doctopus-core` holds the
+The binary is a thin layer over a few crates. `doctopus-core` holds the
 document model, format detection, embedded-document recursion and the
-renderers. `doctopus-office` holds the Office readers and `doctopus-pdf`
-the PDF reader.
+renderers. `doctopus-office` holds the Office readers, `doctopus-pdf` the
+PDF reader, `doctopus-archive` the zip reader and `doctopus-text` the
+plain-text reader.
 
 ```rust
 use doctopus_core::render::{self, RenderOptions};
@@ -196,6 +247,8 @@ use doctopus_core::{Address, Engine, Registry};
 let mut registry = Registry::new();
 doctopus_office::register(&mut registry);
 doctopus_pdf::register(&mut registry);
+doctopus_archive::register(&mut registry);
+doctopus_text::register(&mut registry);
 let engine = Engine::new(registry);
 let doc = engine.open("report.docx")?;
 let options = RenderOptions::new(Address::parse("report.docx"));

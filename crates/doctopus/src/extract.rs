@@ -151,13 +151,9 @@ impl Saver<'_> {
                 .map(str::to_string),
         );
         if part.data.is_empty() {
-            let reason = match &part.link {
-                Some(link) => format!("linked, not embedded: {link}"),
-                None => "no content".into(),
-            };
             self.report.skipped.push(Skipped {
                 address: address.to_string(),
-                reason,
+                reason: empty_reason(part),
             });
             return Ok(());
         }
@@ -177,13 +173,21 @@ impl Saver<'_> {
     }
 }
 
+/// Why a part without data has nothing to save.
+pub(crate) fn empty_reason(part: &Part) -> String {
+    match &part.link {
+        Some(link) => format!("linked, not embedded: {link}"),
+        None => "no content".into(),
+    }
+}
+
 fn has_parts(part: &Part) -> bool {
     part.document.as_ref().is_some_and(|d| !d.parts.is_empty())
 }
 
 /// `name`, or `name-2`, `name-3`... if it is taken. Names compare without
 /// case, as they do on Windows and macOS file systems.
-fn unique_name(used: &mut HashSet<String>, name: String) -> String {
+pub(crate) fn unique_name(used: &mut HashSet<String>, name: String) -> String {
     if used.insert(name.to_lowercase()) {
         return name;
     }

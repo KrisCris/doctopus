@@ -19,7 +19,7 @@ use super::context::Context;
 use super::short_datetime;
 use super::xml::Element;
 use crate::numbering::Numbering;
-use crate::word::{anchor_text, prepend, record_tracked_changes};
+use crate::word::{anchor_text, keep_heading_links, prepend, record_tracked_changes};
 
 /// Read a Word document.
 pub(crate) fn read(input: &Input<'_>) -> Result<Document> {
@@ -63,6 +63,7 @@ pub(crate) fn read(input: &Input<'_>) -> Result<Document> {
     let (insertions, deletions) = (walker.insertions, walker.deletions);
     drop(walker);
     record_tracked_changes(&mut cx.doc, insertions, deletions);
+    keep_heading_links(&mut sections);
     cx.doc.sections = sections;
     Ok(cx.doc)
 }
