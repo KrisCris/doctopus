@@ -36,8 +36,8 @@ impl fmt::Display for FormatInfo {
     }
 }
 
-/// Broad category of a document. Decides how sections are labelled
-/// (sheets, slides, pages) when rendering.
+/// Broad category of a document, for callers that treat kinds differently.
+/// Rendering goes by [`SectionKind`](crate::SectionKind) instead.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DocumentKind {
@@ -49,6 +49,8 @@ pub enum DocumentKind {
     Presentation,
     /// Drawings made of shapes and connectors, organised in pages.
     Diagram,
+    /// Fixed-layout documents: text and pictures placed on pages (PDF).
+    FixedLayout,
     /// Containers of other files (zip archives, packages).
     Archive,
     /// Anything else.

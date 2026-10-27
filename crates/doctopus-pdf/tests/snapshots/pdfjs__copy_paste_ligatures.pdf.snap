@@ -1,0 +1,17 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/copy_paste_ligatures.pdf
+format: pdf (PDF document)
+created: 2023-04-13T10:28:20+02:00
+modified: 2023-04-13T10:30:35+02:00
+application: Firefox Nightly
+pdf_version: "1.5"
+producer: cairo 1.17.4 (https://cairographics.org)
+pages: 1
+---
+
+## Page 1
+
+abcdefﬀﬁﬂﬃﬄﬅﬆghijklmno

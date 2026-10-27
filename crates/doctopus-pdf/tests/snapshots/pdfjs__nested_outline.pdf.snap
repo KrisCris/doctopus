@@ -1,0 +1,76 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/nested_outline.pdf
+format: pdf (PDF document)
+created: 2026-02-26T14:12:41
+pdf_version: "1.3"
+pages: 9
+---
+
+## Page 1
+
+### Introduction
+
+Content for Introduction
+
+## Page 2
+
+### Background
+
+Content for Background
+
+## Page 3
+
+### Motivation
+
+Content for Motivation
+
+## Page 4
+
+### Main Content
+
+Content for Main Content
+
+## Page 5
+
+### First Topic
+
+Content for First Topic
+
+## Page 6
+
+### Second Topic
+
+Content for Second Topic
+
+## Page 7
+
+### Conclusion
+
+Content for Conclusion
+
+## Page 8
+
+### Summary
+
+Content for Summary
+
+## Page 9
+
+### Future Work
+
+Content for Future Work
+
+## Bookmarks
+
+- [1. Introduction](#page-1)
+  - [1.1 Background](#page-2)
+  - [1.2 Motivation](#page-3)
+- [2. Main Content](#page-4)
+  - [2.1 First Topic](#page-5)
+  - [2.2 Second Topic](#page-6)
+- [3. Conclusion](#page-7)
+  - [3.1 Summary](#page-8)
+  - [3.2 Future Work](#page-9)

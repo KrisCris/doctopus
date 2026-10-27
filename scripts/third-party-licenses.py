@@ -18,6 +18,9 @@ import sys
 
 ROOT_PACKAGE = "doctopus"
 LICENSE_PREFIXES = ("license", "licence", "copying", "notice", "unlicense", "copyright")
+# Data that a crate builds into the binary (fonts, character maps, color
+# profiles) can carry licenses of its own, kept next to it.
+ASSET_DIRECTORIES = ("assets",)
 
 
 def metadata(target):
@@ -57,6 +60,15 @@ def license_files(package):
         extra = os.path.basename(package["license_file"])
         if extra not in names and os.path.isfile(os.path.join(directory, extra)):
             names.append(extra)
+    for assets in ASSET_DIRECTORIES:
+        path = os.path.join(directory, assets)
+        if os.path.isdir(path):
+            names += sorted(
+                os.path.join(assets, name)
+                for name in os.listdir(path)
+                if ("license" in name.lower() or "licence" in name.lower())
+                and os.path.isfile(os.path.join(path, name))
+            )
     return [(name, os.path.join(directory, name)) for name in names]
 
 

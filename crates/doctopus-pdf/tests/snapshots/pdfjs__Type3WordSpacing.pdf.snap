@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/Type3WordSpacing.pdf
+format: pdf (PDF document)
+pdf_version: "1.7"
+pages: 1
+warnings:
+  - "66 characters could not be read because their fonts do not say which characters they are; on 1 page: 1"
+---
+
+## Page 1
+
+*(empty)*

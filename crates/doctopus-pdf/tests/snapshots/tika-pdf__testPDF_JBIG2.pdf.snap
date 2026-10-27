@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_JBIG2.pdf
+format: pdf (PDF document)
+author: Pascal Essiembre
+created: 2015-03-18T17:15:59-04:00
+modified: 2015-03-18T22:19:55-04:00
+application: Writer
+language: en-CA
+pdf_version: "1.4"
+producer: OpenOffice 4.1.1; modified using iText® 5.1.3 ©2000-2011 1T3XT BVBA
+pages: 1
+parts:
+  - img1: image/png (352x91, 847 B, page 1)
+---
+
+## Page 1
+
+This is a sample file to test images compressed using JBIG2.
+
+![image](tika-pdf/testPDF_JBIG2.pdf#img1 "PNG, 352x91, 847 B")

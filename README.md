@@ -1,13 +1,14 @@
 # doctopus
 
-**Read Word, Excel, PowerPoint and Visio files, and everything embedded in
-them, as Markdown that coding agents can work with.**
+**Read Word, Excel, PowerPoint, Visio and PDF files, and everything
+embedded in them, as Markdown that coding agents can work with.**
 
 doctopus is a single self-contained binary for Linux, macOS and Windows.
-It turns `.docx`, `.doc`, `.xlsx`, `.xls`, `.xlsb`, `.pptx`, `.ppt`, `.vsdx`
-and `.vsd` files into structured Markdown, plain text or JSON. Embedded
-content comes along: a workbook pasted into a slide, the document inside
-that workbook, and every image and attachment. Each one gets an address
+It turns `.docx`, `.doc`, `.xlsx`, `.xls`, `.xlsb`, `.pptx`, `.ppt`, `.vsdx`,
+`.vsd` and `.pdf` files into structured Markdown, plain text or JSON.
+Embedded content comes along: a workbook pasted into a slide, the document
+inside that workbook, a PDF attached to it, and every image and
+attachment. Each one gets an address
 that other commands accept.
 
 It is built for LLM coding agents such as Claude Code and Codex, and works
@@ -23,8 +24,8 @@ just as well for people:
   ids that exist and suggest a command. Exit codes tell failure kinds apart.
 - **Deterministic output.** The same file always renders the same way, so
   pages line up and diffs are meaningful.
-- **No runtime dependencies.** No Office, LibreOffice, Python or Java.
-  Linux binaries are fully static.
+- **No runtime dependencies.** No Office, LibreOffice, Python, Java or PDF
+  library. Linux binaries are fully static.
 
 ## Example
 
@@ -91,8 +92,8 @@ Add a line like this to your agent's instructions (`AGENTS.md`,
 `CLAUDE.md`, ...):
 
 ```markdown
-To read Office files (.docx .doc .xlsx .xls .xlsb .pptx .ppt .vsdx .vsd), use
-`doctopus`: `doctopus info FILE` for an overview, `doctopus read FILE` for the
+To read Office and PDF files (.docx .doc .xlsx .xls .xlsb .pptx .ppt .vsdx .vsd
+.pdf), use `doctopus`: `doctopus info FILE` for an overview, `doctopus read FILE` for the
 content as Markdown. `doctopus guide` explains the rest.
 ```
 
@@ -152,6 +153,7 @@ paging off.
 | Excel | `.xlsx` `.xlsm` `.xltx` `.xltm` `.xlam` `.xlsb` `.xls` `.xlt` `.xla` | Every sheet as a table with column letters and row numbers (sparse sheets cell by cell); formulas, merged cells, hyperlinks, notes and threaded comments, headers and footers, charts, pictures, text boxes, embedded objects |
 | PowerPoint | `.pptx` `.pptm` `.ppsx` `.ppsm` `.potx` `.potm` `.ppt` `.pps` `.pot` | Slides in order with titles, text, tables, pictures, charts, SmartArt and embedded objects; speaker notes and comments |
 | Visio | `.vsdx` `.vsdm` `.vssx` `.vssm` `.vstx` `.vstm` `.vsd` `.vss` `.vst` | Pages of shapes with their text, shape data and hyperlinks; groups; the connections between shapes; pictures and embedded objects |
+| PDF | `.pdf` | Pages with their text in reading order as paragraphs, headings and lists; links; pictures where they appear; bookmarks, page labels, form field values and attached files. Pages that are only pictures (scans) are reported |
 
 Document properties, including custom ones, are read for every format.
 Charts are shown as their data. Images are referenced and can be extracted,
@@ -160,13 +162,21 @@ so an agent that can view images can open them.
 ### Limitations
 
 - Encrypted and password-protected files are recognized and reported, not
-  decrypted.
+  decrypted. PDF files that open without a password (those that only
+  restrict printing or copying) are read.
 - Word 6.0/95 documents and Excel 2.x-4.0 worksheets are not supported.
   Excel 95 workbooks are read for their cells only.
 - Visio 4 and older are not supported. Visio 5 files record no shape data,
   hyperlinks or glue, so their connections are inferred from where the
   connector ends touch shapes.
 - Formulas are not recalculated. Values are the results the file stores.
+- PDF text is rebuilt from where the page draws it, so tables come out as
+  paragraphs and unusual layouts can come out in drawing order. Text in
+  scanned pages is not recognized (there is no OCR): those pages are
+  listed in a warning with their pictures, which an agent that can view
+  images can extract and look at. Glyphs whose fonts do not say which
+  characters they are (some Type 3 and subset fonts) are counted in a
+  warning, not read. See [docs/pdf.md](docs/pdf.md).
 - An `.xls` sheet whose cells are spread over more than 4 million positions
   is cut off by rows, with a warning.
 - Damaged files are read as far as possible. What could not be read is
@@ -174,9 +184,10 @@ so an agent that can view images can open them.
 
 ## As a library
 
-The binary is a thin layer over two crates. `doctopus-core` holds the
+The binary is a thin layer over three crates. `doctopus-core` holds the
 document model, format detection, embedded-document recursion and the
-renderers. `doctopus-office` holds the Office readers.
+renderers. `doctopus-office` holds the Office readers and `doctopus-pdf`
+the PDF reader.
 
 ```rust
 use doctopus_core::render::{self, RenderOptions};
@@ -184,6 +195,7 @@ use doctopus_core::{Address, Engine, Registry};
 
 let mut registry = Registry::new();
 doctopus_office::register(&mut registry);
+doctopus_pdf::register(&mut registry);
 let engine = Engine::new(registry);
 let doc = engine.open("report.docx")?;
 let options = RenderOptions::new(Address::parse("report.docx"));
@@ -200,7 +212,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Why "doctopus"
 
-It is a document octopus: one tool with an arm in every Office format,
+It is a document octopus: one tool with an arm in every document format,
 reaching into the documents nested inside other documents.
 
 ## License

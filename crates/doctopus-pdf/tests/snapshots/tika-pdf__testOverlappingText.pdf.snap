@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testOverlappingText.pdf
+format: pdf (PDF document)
+pdf_version: "1.4"
+pages: 1
+---
+
+## Page 1
+
+Text the first time
+
+second time

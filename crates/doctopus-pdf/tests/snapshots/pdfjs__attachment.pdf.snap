@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/attachment.pdf
+format: pdf (PDF document)
+created: 2019-08-24T19:50:13+02:00
+application: Writer
+language: nl-NL
+pdf_version: "1.5"
+producer: LibreOffice 6.3
+pages: 1
+parts:
+  - emb1: text/plain "foo.txt" (9 B)
+---
+
+## Page 1
+
+This document contains one attachment, `foo.txt`, with a size of 9 bytes.
+
+## Other embedded content
+
+<embedded id="emb1" ref="pdfjs/attachment.pdf#emb1" type="text/plain" name="foo.txt" size="9 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;pdfjs/attachment.pdf#emb1&quot; -o &lt;dir&gt;"/>

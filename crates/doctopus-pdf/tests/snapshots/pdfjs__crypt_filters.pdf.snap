@@ -1,0 +1,34 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/crypt_filters.pdf
+format: pdf (PDF document)
+title: Crypt filters
+pdf_version: "1.6"
+pages: 1
+parts:
+  - img1: image/png (4x4, 120 B, page 1)
+  - emb1: text/plain "a.txt" (0 B)
+warnings:
+  - "page 1: a picture was left out because its data could not be decoded"
+  - b.txt could not be decoded
+---
+
+## Page 1
+
+Content stream: /StmF /StdCF, AESV2
+
+Images: /StmF /StdCF and /Crypt /RC4CF
+
+![image](pdfjs/crypt_filters.pdf#img1 "PNG, 4x4, 120 B")
+
+## Form fields
+
+| Field | Type | Value |
+|---|---|---|
+| field | text | Field value: /StrF /RC4CF, V2 |
+
+## Other embedded content
+
+<embedded id="emb1" ref="pdfjs/crypt_filters.pdf#emb1" type="text/plain" name="a.txt" size="0 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;pdfjs/crypt_filters.pdf#emb1&quot; -o &lt;dir&gt;"/>

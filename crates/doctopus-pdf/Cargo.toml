@@ -1,0 +1,30 @@
+[package]
+name = "doctopus-pdf"
+description = "PDF reader for doctopus: text in reading order, pictures, links, bookmarks, forms and attachments"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+
+[dependencies]
+doctopus-core.workspace = true
+flate2.workspace = true
+hayro-interpret.workspace = true
+hayro-syntax.workspace = true
+kurbo.workspace = true
+png.workspace = true
+quick-xml.workspace = true
+
+[dev-dependencies]
+doctopus-office.workspace = true
+insta.workspace = true
+serde_json.workspace = true
+zip.workspace = true
+
+[lints]
+workspace = true

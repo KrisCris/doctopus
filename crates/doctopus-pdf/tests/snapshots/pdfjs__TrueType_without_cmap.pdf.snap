@@ -1,0 +1,13 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/TrueType_without_cmap.pdf
+format: pdf (PDF document)
+pdf_version: "1.7"
+pages: 1
+---
+
+## Page 1
+
+’>in

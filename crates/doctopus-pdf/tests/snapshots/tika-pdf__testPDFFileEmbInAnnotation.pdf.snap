@@ -1,0 +1,42 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFFileEmbInAnnotation.pdf
+format: pdf (PDF document)
+title: This is a pdf document
+author: Administrator
+created: 2014-09-29T10:32:58+08:00
+modified: 2014-09-29T10:34:12+08:00
+application: Microsoft® PowerPoint® 2010
+language: zh-CN
+pdf_version: "1.6"
+producer: Microsoft® PowerPoint® 2010
+pages: 1
+parts:
+  - emb1: Excel workbook (Office Open XML) "Excel.xlsx" (9.3 KB, page 1)
+---
+
+## Page 1
+
+### This is a pdf document
+
+This is embeded with Excel
+
+<embedded id="emb1" ref="tika-pdf/testPDFFileEmbInAnnotation.pdf#emb1" type="xlsx" name="Excel.xlsx" size="9.3 KB">
+
+### Sheet 1: Sheet1
+
+|  | A |
+|---|---|
+| 1 | This is a Excel |
+
+### Sheet 2: Sheet2
+
+*(empty)*
+
+### Sheet 3: Sheet3
+
+*(empty)*
+
+</embedded>

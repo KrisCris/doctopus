@@ -1,0 +1,14 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFTripleLangTitle.pdf
+format: pdf (PDF document)
+title: Hello World
+pdf_version: "1.4"
+pages: 1
+---
+
+## Page 1
+
+**Hello World**

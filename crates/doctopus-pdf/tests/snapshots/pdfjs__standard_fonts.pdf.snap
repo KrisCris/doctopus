@@ -1,0 +1,228 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/standard_fonts.pdf
+format: pdf (PDF document)
+title: TCPDF Example 055
+subject: TCPDF Tutorial
+author: Nicola Asuni
+created: 2015-08-02T12:22:19
+modified: 2015-08-02T12:22:19
+keywords: TCPDF, PDF, example, test, guide
+application: TCPDF
+language: en
+pdf_version: "1.7"
+producer: TCPDF 6.2.11 (http://www.tcpdf.org)
+pages: 14
+parts:
+  - img1: image/jpeg (354x118, 17.2 KB, page 1)
+warnings:
+  - "235 characters could not be read because their fonts do not say which characters they are; on 1 page: 14"
+---
+
+## Page 1
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: courier**
+
+! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •
+
+- ‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+
+The quick brown fox jumps over the lazy dog
+
+## Page 2
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: courierB**
+
+**! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •**
+
+- **‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ**
+
+**The quick brown fox jumps over the lazy dog**
+
+## Page 3
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: courierI**
+
+*! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •*
+
+- *‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ*
+
+*The quick brown fox jumps over the lazy dog*
+
+## Page 4
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: courierBI**
+
+***! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •***
+
+- ***‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ***
+
+***The quick brown fox jumps over the lazy dog***
+
+## Page 5
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: helvetica**
+
+! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •
+
+- ‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+
+The quick brown fox jumps over the lazy dog
+
+## Page 6
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: helveticaB**
+
+**! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •**
+
+- **‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ**
+
+**The quick brown fox jumps over the lazy dog**
+
+## Page 7
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: helveticaI**
+
+*! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •*
+
+- *‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ*
+
+*The quick brown fox jumps over the lazy dog*
+
+## Page 8
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: helveticaBI**
+
+***! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •***
+
+- ***‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ***
+
+***The quick brown fox jumps over the lazy dog***
+
+## Page 9
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: times**
+
+! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •
+
+- ‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+
+The quick brown fox jumps over the lazy dog
+
+## Page 10
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: timesB**
+
+**! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •**
+
+- **‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ**
+
+**The quick brown fox jumps over the lazy dog**
+
+page 10 / 14
+
+## Page 11
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: timesI**
+
+*! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •*
+
+- *‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ*
+
+*The quick brown fox jumps over the lazy dog*
+
+page 11 / 14
+
+## Page 12
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: timesBI**
+
+***! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ • € • ‚ ƒ „ … † ‡ ˆ ‰ Š ‹ Œ • Ž •***
+
+- ***‘ ’ “ ” • – — ˜ ™ š › œ • ž Ÿ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ***
+
+***The quick brown fox jumps over the lazy dog***
+
+page 12 / 14
+
+## Page 13
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: symbol**
+
+! ∀ # ∃ % & ∋ ( ) ∗ + , − . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? ≅ Α Β Χ ∆ Ε Φ Γ Η Ι ϑ Κ Λ Μ Ν Ο Π Θ Ρ Σ Τ Υ ς Ω Ξ Ψ Ζ [ ∴ ] ⊥ _  α β χ δ ε φ γ η ι ϕ κ λ µ ν ο π θ ρ σ τ υ ϖ ω ξ ψ ζ { | } ∼
+
+ϒ ′ ≤ ⁄ ∞ ƒ ♣ ♦ ♥ ♠ ↔ ← → ↓ ° ± ″ ≥ × ∝ ∂ • ÷ ≠ ≡ ≈ …   ↵ ℵ ℑ ℜ ℘ ⊗ ⊕ ∅ ∩ ∪ ⊃ ⊇ ⊄ ⊂ ⊆ ∈ ∉ ∠ ∇    ∏ √ ⋅ ¬ ∧ ∨ ⇔ ⇐ ⇑ ⇒ ⇓ ◊ 〈    ∑           〉 ∫ ⌠  ⌡         
+
+Τηε θυιχκ βροων φοξ ϕυµπσ οϖερ τηε λαζψ δογ
+
+page 13 / 14
+
+## Page 14
+
+![image](pdfjs/standard_fonts.pdf#img1 "JPG, 354x118, 17.2 KB")
+
+**TCPDF Example 055** by Nicola Asuni - Tecnick.com www.tcpdf.org
+
+**FONT: zapfdingbats**
+
+[Powered by TCPDF (www.tcpdf.org)](http://www.tcpdf.org)
+
+page 14 / 14
+
+## Headers and footers
+
+page 1 / 14

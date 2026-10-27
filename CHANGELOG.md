@@ -11,6 +11,10 @@ follow [Semantic Versioning](https://semver.org/).
 - Readers for Word (`.docx`, `.doc`), Excel (`.xlsx`, `.xlsb`, `.xls`),
   PowerPoint (`.pptx`, `.ppt`) and Visio (`.vsdx`, `.vsd`), with their
   macro and template variants.
+- A PDF reader (`.pdf`): text in reading order with headings, lists and
+  links; pictures; bookmarks, page labels, form field values, document
+  properties and attached files. Scanned pages are reported. PDF files
+  embedded in Office documents are read too.
 - Embedded documents, images and attachments are read recursively. Each
   one can be addressed as `FILE#id/id`.
 - `doctopus read`: Markdown, plain text or JSON output, paged, with

@@ -1,0 +1,17 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika/testWPSAttachment.doc#emb2
+format: pdf (PDF document)
+author: dsx
+created: 2021-08-18T12:18:52+04:18
+modified: 2021-08-18T12:18:52+04:18
+application: WPS 文字
+pdf_version: "1.7"
+pages: 1
+---
+
+## Page 1
+
+pdf_content

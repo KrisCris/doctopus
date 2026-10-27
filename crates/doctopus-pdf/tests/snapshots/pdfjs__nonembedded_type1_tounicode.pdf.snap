@@ -1,0 +1,13 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/nonembedded_type1_tounicode.pdf
+format: pdf (PDF document)
+pdf_version: "1.7"
+pages: 1
+---
+
+## Page 1
+
+óº€íºXABéê

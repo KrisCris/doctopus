@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika/testExcel_embeddedPDF.xls#emb1
+format: pdf (PDF document)
+title: Document title
+subject: Document subject
+author: Document author
+created: 2010-06-30T14:01:54+02:00
+application: Tool used to make the PDF
+language: de-CH
+pdf_version: "1.4"
+producer: Apache FOP Version svn-trunk
+pages: 1
+---
+
+## Page 1
+
+Hello World!

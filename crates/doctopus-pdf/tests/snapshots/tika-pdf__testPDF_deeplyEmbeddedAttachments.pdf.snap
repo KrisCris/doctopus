@@ -1,0 +1,201 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf
+format: pdf (PDF document)
+created: 2020-06-24T10:27:32+02:00
+modified: 2020-06-24T10:27:32+02:00
+application: Writer
+language: en-US
+pdf_version: "1.7"
+producer: pdfcpu 0.3.3
+pages: 1
+parts:
+  - emb1: PDF document "orig(10).pdf" (6.0 KB)
+  - emb2: PDF document "orig(11).pdf" (6.0 KB)
+  - emb3: PDF document "orig(13).pdf" (6.0 KB)
+  - emb4: PDF document "orig(14).pdf" (6.0 KB)
+  - emb5: PDF document "orig(15).pdf" (6.0 KB)
+  - emb6: PDF document "orig(12).pdf" (6.0 KB)
+  - emb7: PDF document "orig(16).pdf" (6.0 KB)
+  - emb8: PDF document "orig(18).pdf" (6.0 KB)
+  - emb9: PDF document "orig(19).pdf" (6.0 KB)
+  - emb10: PDF document "orig(17).pdf" (6.0 KB)
+  - emb11: PDF document "orig(2).pdf" (6.0 KB)
+  - emb12: PDF document "orig(20).pdf" (6.0 KB)
+  - emb13: PDF document "orig(3).pdf" (6.0 KB)
+  - emb14: PDF document "orig(4).pdf" (6.0 KB)
+  - emb15: PDF document "orig(5).pdf" (6.0 KB)
+  - emb16: PDF document "orig(6).pdf" (6.0 KB)
+  - emb17: PDF document "orig(7).pdf" (6.0 KB)
+  - emb18: PDF document "orig(8).pdf" (6.0 KB)
+  - emb19: PDF document "orig(9).pdf" (6.0 KB)
+  - emb20: PDF document "orig.pdf" (6.0 KB)
+---
+
+## Page 1
+
+a
+
+## Other embedded content
+
+<embedded id="emb1" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb1" type="pdf" name="orig(10).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb2" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb2" type="pdf" name="orig(11).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb3" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb3" type="pdf" name="orig(13).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb4" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb4" type="pdf" name="orig(14).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb5" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb5" type="pdf" name="orig(15).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb6" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb6" type="pdf" name="orig(12).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb7" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb7" type="pdf" name="orig(16).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb8" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb8" type="pdf" name="orig(18).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb9" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb9" type="pdf" name="orig(19).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb10" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb10" type="pdf" name="orig(17).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb11" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb11" type="pdf" name="orig(2).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb12" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb12" type="pdf" name="orig(20).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb13" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb13" type="pdf" name="orig(3).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb14" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb14" type="pdf" name="orig(4).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb15" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb15" type="pdf" name="orig(5).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb16" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb16" type="pdf" name="orig(6).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb17" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb17" type="pdf" name="orig(7).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb18" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb18" type="pdf" name="orig(8).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb19" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb19" type="pdf" name="orig(9).pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>
+
+<embedded id="emb20" ref="tika-pdf/testPDF_deeplyEmbeddedAttachments.pdf#emb20" type="pdf" name="orig.pdf" size="6.0 KB">
+
+### Page 1
+
+a
+
+</embedded>

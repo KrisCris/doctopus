@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/french_diacritics.pdf
+format: pdf (PDF document)
+created: 2021-04-18T23:16:52+02:00
+modified: 2021-04-18T23:16:52+02:00
+application: TeX
+pdf_version: "1.5"
+producer: pdfTeX-1.40.21
+pages: 1
+warnings:
+  - "29 characters could not be read because their fonts do not say which characters they are; on 1 page: 1"
+---
+
+## Page 1
+
+*(empty)*

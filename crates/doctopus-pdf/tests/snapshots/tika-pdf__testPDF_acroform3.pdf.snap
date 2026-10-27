@@ -1,0 +1,31 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_acroform3.pdf
+format: pdf (PDF document)
+title: pdf-form-with-signature-field
+author: Dr. Eric Knauel
+created: 2014-01-24T11:11:44+01:00
+modified: 2014-01-24T14:09:27-05:00
+application: PDFCreator Version 1.7.0
+pdf_version: "1.6"
+producer: GPL Ghostscript 9.07; modified using iTextSharp 5.2.1 (c) 1T3XT BVBA
+pages: 1
+---
+
+## Page 1
+
+Example PDF file that contains a form with a signature field.
+
+PDF processed with CutePDF evaluation edition [www.CutePDF.com](http://www.cutepdf.com)
+
+## Form fields
+
+| Field | Type | Value |
+|---|---|---|
+| aTextField | text | TIKA-1226 |
+| aCheckBox | check box | Yes |
+| aComboBox | combo box | comboExportB |
+| aListBox | list box | exportListItemC |
+| aSignature | signature |  |

@@ -1,0 +1,16 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/noembed-sjis.pdf
+format: pdf (PDF document)
+title: Jaoanese noembed test PDF
+author: vyv03354
+created: 2013-01-16T00:00:00
+pdf_version: "1.2"
+pages: 1
+---
+
+## Page 1
+
+あいうえお

@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika/testWORD_EMFAndAttachments.docx#emb2
+format: pdf (PDF document)
+author: Chetan Bikire
+created: 2022-10-11T12:40:31+05:30
+modified: 2022-10-11T12:40:31+05:30
+application: Microsoft® Word for Microsoft 365
+language: en-US
+pdf_version: "1.7"
+producer: Microsoft® Word for Microsoft 365
+pages: 1
+---
+
+## Page 1
+
+This is test PDF document for parser.

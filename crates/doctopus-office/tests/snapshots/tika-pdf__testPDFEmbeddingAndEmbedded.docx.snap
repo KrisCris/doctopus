@@ -1,0 +1,30 @@
+---
+source: crates/doctopus-office/tests/corpus.rs
+input_file: testdata/corpus/tika-pdf/testPDFEmbeddingAndEmbedded.docx
+---
+---
+source: tika-pdf/testPDFEmbeddingAndEmbedded.docx
+format: docx (Word document (Office Open XML))
+created: 2013-05-23T18:30:00Z
+modified: 2013-05-23T18:30:00Z
+application: Microsoft Office Word
+characters: "96"
+pages: "1"
+revision: "1"
+template: Normal.dotm
+words: "16"
+parts:
+  - emb1: OLE object AcroExch.Document.11 (application/pdf, 18.6 KB, body)
+---
+
+Outer_haystack
+
+Outer_haystack
+
+<embedded id="emb1" ref="tika-pdf/testPDFEmbeddingAndEmbedded.docx#emb1" type="application/pdf" size="18.6 KB" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika-pdf/testPDFEmbeddingAndEmbedded.docx#emb1&quot; -o &lt;dir&gt;"/>
+
+Outer_haystack
+
+Outer_haystack
+
+Outer_haystack

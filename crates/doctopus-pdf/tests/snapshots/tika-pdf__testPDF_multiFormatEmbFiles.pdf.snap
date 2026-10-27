@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_multiFormatEmbFiles.pdf
+format: pdf (PDF document)
+pdf_version: "1.4"
+pages: 1
+parts:
+  - emb1: text/plain "Test.txt" (55 B)
+---
+
+## Page 1
+
+**Go to Document->File Attachments to View Embedded Files**
+
+## Other embedded content
+
+<embedded id="emb1" ref="tika-pdf/testPDF_multiFormatEmbFiles.pdf#emb1" type="text/plain" name="Test.txt" size="55 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;tika-pdf/testPDF_multiFormatEmbFiles.pdf#emb1&quot; -o &lt;dir&gt;"/>

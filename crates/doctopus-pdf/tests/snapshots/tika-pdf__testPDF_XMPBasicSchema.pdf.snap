@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_XMPBasicSchema.pdf
+format: pdf (PDF document)
+created: 1998-08-29T13:53:15-01:00
+application: Hewlett-Packard MFP
+pdf_version: "1.4"
+pages: 1
+---
+
+## Page 1
+
+Multiple rdf:Description tags
