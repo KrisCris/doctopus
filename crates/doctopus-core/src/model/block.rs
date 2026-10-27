@@ -354,6 +354,30 @@ pub struct Shape {
     pub children: Vec<Shape>,
 }
 
+impl Shape {
+    /// The text the shape shows: its own, or else that of its members,
+    /// joined with ` / `. A UML class, for one, writes its name in a member
+    /// shape, and an association its role and multiplicities.
+    pub fn shown_text(&self) -> String {
+        fn members(shapes: &[Shape], out: &mut Vec<String>) {
+            for shape in shapes {
+                match shape.text.trim() {
+                    "" => members(&shape.children, out),
+                    text => out.push(text.to_string()),
+                }
+            }
+        }
+        match self.text.trim() {
+            "" => {
+                let mut texts = Vec::new();
+                members(&self.children, &mut texts);
+                texts.join(" / ")
+            }
+            text => text.to_string(),
+        }
+    }
+}
+
 /// A directed edge between two shapes.
 #[derive(Debug, Clone, Serialize)]
 pub struct Connection {

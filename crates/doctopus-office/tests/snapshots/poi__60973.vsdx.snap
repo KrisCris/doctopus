@@ -103,14 +103,14 @@ Shapes:
   - 859 "G0/0" (Port_A: G1/0/3; Port_B: G0/0)
 
 Connections:
-- 801 [1G Port] -> 800 [1G Port] via 802 [inferred from positions]
+- 801 [1G Port] -> 800 [1G Port] (G0/0/3 / G0/0/0) via 802 [inferred from positions]
 - 793 [Shape #2] -> 5 "LAN"
-- 808 [1G Port] -> 807 [1G Port] via 809 [inferred from positions]
-- 812 [1G Port] -> 813 [1G Port] via 814
-- 828 [1G Port] -> 829 [1G Port] via 830
-- 834 [1G Port] -> 833 [1G Port] via 835 [inferred from positions]
-- 823 [1G Port] -> 824 [1G Port] via 825
-- 855 [1G Port] -> 856 [1G Port] via 857
+- 808 [1G Port] -> 807 [1G Port] (G0/0/1 / G1/0/1) via 809 [inferred from positions]
+- 812 [1G Port] -> 813 [1G Port] (G1/0/2 / G0/0) via 814
+- 828 [1G Port] -> 829 [1G Port] (Vi1 / U1/0/0) via 830
+- 834 [1G Port] -> 833 [1G Port] (Tunnel2 / Tunnel0) via 835 [inferred from positions]
+- 823 [1G Port] -> 824 [1G Port] (Vi1 / U1/0/1) via 825
+- 855 [1G Port] -> 856 [1G Port] (G1/0/3 / G0/0) via 857
 
 ## Page 3: Logical
 
@@ -205,18 +205,18 @@ Shapes:
   - 302 "Vlan WIFI-USR 6.6.6.6/25"
 
 Connections:
-- 140 [1G Port] -> 139 [1G Port] via 141 [inferred from positions]
+- 140 [1G Port] -> 139 [1G Port] (wwwww / wwwww) via 141 [inferred from positions]
 - 135 [Shape #2] -> 145 "LAN"
-- 148 [1G Port] -> 147 [1G Port] via 149 [inferred from positions]
-- 174 [Vlan] -> 174 [Vlan]
-- 215 [Vlan] -> 267 "U1/0/1.85 G.g.g.g"
-- 227 "Vi1 .140" -> 215 [Vlan]
-- 72 [Access Device v2] -> 247 "Access VLANS"
+- 148 [1G Port] -> 147 [1G Port] (G0/0/1 / G1/0/1) via 149 [inferred from positions]
+- 174 "Vlan 86 WAAS-MGMT 4.4.4.4/25" -> 174 "Vlan 86 WAAS-MGMT 4.4.4.4/25"
+- 215 "Vlan 85 WIFI-MGMT 5.5.5.5/25" -> 267 "U1/0/1.85 G.g.g.g"
+- 227 "Vi1 .140" -> 215 "Vlan 85 WIFI-MGMT 5.5.5.5/25"
+- 72 "Inband MGMT: 8.8.8.8 / Nbbbb WSbbbb Location: bbbb" -> 247 "Access VLANS"
 - 177 "Vlan 86 WAAS-MGMT 4.4.4.4/25" -> 163 "Vi1 .10"
-- 270 [Vlan] -> 72 [Access Device v2]
+- 270 "Vlan 84 WIFI-AP 9.9.9.9/25" -> 72 "Inband MGMT: 8.8.8.8 / Nbbbb WSbbbb Location: bbbb"
 - 273 "Vlan 84 WIFI-AP 9.9.9.9/25" -> 226 "G0/0 .21"
 - 285 "G0/0 .22" -> 273 "Vlan 84 WIFI-AP 9.9.9.9/25"
-- 294 "Tunnel2 zzzzz" -> 295 "Tunnel0 zzzzz" via 293 [inferred from positions]
+- 294 "Tunnel2 zzzzz" -> 295 "Tunnel0 zzzzz" (Tunnel2 zzzzz / Tunnel0 zzzzz) via 293 [inferred from positions]
 
 ## Page 4: Rack
 

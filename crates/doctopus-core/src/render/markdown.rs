@@ -1407,12 +1407,13 @@ fn image_info(part: &Part) -> String {
     bits.join(", ")
 }
 
-/// Flowchart labels of shapes, nested ones included: their text, else
-/// their type, else their id.
+/// Flowchart labels of shapes, nested ones included: their text (or their
+/// members'), else their type, else their id.
 fn shape_labels<'d>(shapes: &'d [Shape], out: &mut Vec<(&'d str, String)>) {
     for shape in shapes {
-        let label = if !shape.text.trim().is_empty() {
-            one_line(&shape.text, 60)
+        let text = shape.shown_text();
+        let label = if !text.is_empty() {
+            one_line(&text, 60)
         } else if let Some(kind) = &shape.kind {
             kind.clone()
         } else {
@@ -1458,11 +1459,9 @@ fn link_target(reference: String) -> String {
 fn shape_names(shapes: &[Shape]) -> Vec<(String, String)> {
     let mut names = Vec::new();
     for shape in shapes {
-        if !shape.text.trim().is_empty() {
-            names.push((
-                shape.id.clone(),
-                format!("\"{}\"", one_line(&shape.text, 60)),
-            ));
+        let text = shape.shown_text();
+        if !text.is_empty() {
+            names.push((shape.id.clone(), format!("\"{}\"", one_line(&text, 60))));
         } else if let Some(kind) = &shape.kind {
             names.push((shape.id.clone(), format!("[{kind}]")));
         }

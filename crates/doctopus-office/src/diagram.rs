@@ -91,10 +91,11 @@ pub(crate) fn diagram(
             continue;
         };
         connectors.insert(id.clone());
+        let label = find(&shapes, id).map_or_else(|| shape.text.clone(), Shape::shown_text);
         connections.push(Connection {
             from,
             to,
-            label: Some(shape.text.clone()).filter(|t| !t.is_empty()),
+            label: Some(label).filter(|t| !t.is_empty()),
             connector: Some(id.clone()),
             inferred,
         });
@@ -144,6 +145,17 @@ fn walk(shapes: &[Shape], out: &mut Vec<String>) {
         out.push(shape.id.clone());
         walk(&shape.children, out);
     }
+}
+
+/// The shape `id`, wherever it is nested.
+fn find<'s>(shapes: &'s [Shape], id: &str) -> Option<&'s Shape> {
+    shapes.iter().find_map(|s| {
+        if s.id == id {
+            Some(s)
+        } else {
+            find(&s.children, id)
+        }
+    })
 }
 
 /// Remove connectors that carry nothing but text: their connection says
@@ -465,6 +477,40 @@ mod tests {
             (c.from.as_str(), c.to.as_str(), c.inferred),
             ("2", "1", false)
         );
+    }
+
+    #[test]
+    fn connectors_are_labelled_with_their_members_text() {
+        // A UML association writes its role and multiplicities in members.
+        let mut map = HashMap::new();
+        for id in ["order", "customer"] {
+            map.insert(id.to_string(), info(None, id, geometry(&[])));
+        }
+        let line = geometry(&[
+            ("BeginX", 0.0),
+            ("BeginY", 0.0),
+            ("EndX", 1.0),
+            ("EndY", 0.0),
+        ]);
+        map.insert("a".to_string(), info(None, "", line));
+        let mut association = shape("a", "");
+        association.children = vec![
+            shape("a1", "-places"),
+            shape("a2", "1"),
+            shape("a3", "0..*"),
+        ];
+        let shapes = vec![
+            shape("order", "Order"),
+            shape("customer", "Customer"),
+            association,
+        ];
+        let mut glue = Glue::new();
+        glue.insert("a".into(), (Some("customer".into()), Some("order".into())));
+        let d = diagram(shapes, &map, &glue, false).unwrap();
+        let c = &d.connections[0];
+        assert_eq!(c.label.as_deref(), Some("-places / 1 / 0..*"));
+        // Its members are listed too, so the connector is.
+        assert_eq!(c.connector.as_deref(), Some("a"));
     }
 
     #[test]

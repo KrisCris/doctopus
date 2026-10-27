@@ -327,6 +327,52 @@ fn standalone_output_links_files_and_draws_connections() {
     assert!(!read.contains("```mermaid"));
 }
 
+#[test]
+fn shapes_without_text_are_named_by_their_members() {
+    // A UML class writes its name in a member shape.
+    let class = |id: &str, name: &str| crate::Shape {
+        kind: Some("Class".into()),
+        children: vec![shape(&format!("{id}n"), name)],
+        ..shape(id, "")
+    };
+    let mut page = Section::new(SectionKind::Page).with_number(1);
+    page.blocks.push(Block::Diagram(crate::Diagram {
+        shapes: vec![
+            class("1", "Routes"),
+            class("2", "Bus Station"),
+            shape("3", ""),
+        ],
+        connections: vec![crate::Connection {
+            from: "1".into(),
+            to: "2".into(),
+            label: None,
+            connector: None,
+            inferred: false,
+        }],
+    }));
+    let mut doc = Document::new(&TEST_FORMAT);
+    doc.sections.push(page);
+    let mut opts = options();
+    opts.front_matter = false;
+    opts.standalone = true;
+    let text = markdown(&doc, &opts).text;
+    assert!(
+        text.contains("- 1 \"Routes\" -> 2 \"Bus Station\"\n"),
+        "{text}"
+    );
+    assert!(
+        text.contains("n1[\"Routes\"]\n    n2[\"Bus Station\"]\n"),
+        "{text}"
+    );
+    assert_eq!(class("4", "").shown_text(), "");
+    let named = crate::Shape {
+        children: vec![shape("a", "1"), class("b", "Pass"), shape("c", "0..*")],
+        ..shape("g", "")
+    };
+    assert_eq!(named.shown_text(), "1 / Pass / 0..*");
+    assert_eq!(shape("own", " Fare ").shown_text(), "Fare");
+}
+
 fn item(level: u8, label: Option<&str>, text: &str) -> Block {
     Block::ListItem(crate::ListItem {
         level,
