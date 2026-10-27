@@ -28,13 +28,18 @@ pub struct CorpusFile {
 
 /// The files listed in `testdata/corpus.tsv`, or `None` when the corpus has
 /// not been fetched (`scripts/fetch-corpus.sh`). A partly fetched corpus
-/// fails the test instead of silently testing less.
+/// fails the test instead of silently testing less. PDF files are left to
+/// the tests of `doctopus-pdf`.
 pub fn corpus() -> Option<Vec<CorpusFile>> {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../testdata");
     let manifest = std::fs::read_to_string(root.join("corpus.tsv")).expect("testdata/corpus.tsv");
     let files: Vec<CorpusFile> = manifest
         .lines()
         .filter(|line| !line.is_empty() && !line.starts_with('#'))
+        .filter(|line| {
+            let file = line.split('\t').nth(1).unwrap_or_default();
+            !file.to_ascii_lowercase().ends_with(".pdf")
+        })
         .map(|line| {
             let mut fields = line.split('\t');
             let source = fields.next().expect("source column");

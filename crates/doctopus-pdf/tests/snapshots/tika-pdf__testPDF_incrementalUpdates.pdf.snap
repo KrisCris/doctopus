@@ -1,0 +1,24 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_incrementalUpdates.pdf
+format: pdf (PDF document)
+title: Test
+created: 2023-03-27T16:37:01
+modified: 2023-04-10T10:42:17-06:00
+application: TextEdit
+pdf_version: "1.3"
+producer: macOS Version 13.2.1 (Build 22D68) Quartz PDFContext
+pages: 1
+parts:
+  - img1: image/jpeg (720x480, 13.4 KB, page 1)
+---
+
+## Page 1
+
+Testing
+
+Testing Incremental
+
+![image](tika-pdf/testPDF_incrementalUpdates.pdf#img1 "JPG, 720x480, 13.4 KB")

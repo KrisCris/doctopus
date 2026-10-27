@@ -1,0 +1,18 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_jpeg2000.pdf
+format: pdf (PDF document)
+created: 2013-01-30T14:20:04
+pdf_version: "1.4"
+pages: 1
+parts:
+  - img1: image/png (2480x3507, 8.3 MB, page 1)
+warnings:
+  - "1 page has no text layer, only pictures (scans, or text set as pictures); extract the pictures to see them: page 1 (img1)"
+---
+
+## Page 1
+
+![image](tika-pdf/testPDF_jpeg2000.pdf#img1 "PNG, 2480x3507, 8.3 MB")

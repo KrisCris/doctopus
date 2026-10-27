@@ -311,7 +311,7 @@ pub enum SectionKind {
     Sheet,
     /// One slide, including its speaker notes.
     Slide,
-    /// One page of a drawing.
+    /// One page of a drawing or of a fixed-layout document.
     Page,
     /// Page headers and footers.
     HeadersFooters,

@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testOCR.pdf
+format: pdf (PDF document)
+title: Presentation1
+author: grantingersoll
+created: 2014-02-08T19:57:12
+modified: 2014-02-08T19:57:12
+application: PowerPoint
+pdf_version: "1.3"
+producer: Mac OS X 10.9.1 Quartz PDFContext
+pages: 1
+parts:
+  - img1: image/png (934x261, 88.0 KB, page 1)
+warnings:
+  - "1 page has no text layer, only pictures (scans, or text set as pictures); extract the pictures to see them: page 1 (img1)"
+---
+
+## Page 1
+
+![image](tika-pdf/testOCR.pdf#img1 "PNG, 934x261, 88.0 KB")

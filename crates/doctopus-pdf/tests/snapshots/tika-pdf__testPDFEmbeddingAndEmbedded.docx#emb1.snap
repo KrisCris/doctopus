@@ -1,0 +1,27 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFEmbeddingAndEmbedded.docx#emb1
+format: pdf (PDF document)
+pdf_version: "1.4"
+pages: 1
+parts:
+  - emb1: Word document (Office Open XML) "Test.docx" (17.2 KB)
+---
+
+## Page 1
+
+**pdf_haystackpdf_haystackpdf_haystackpdf_haystackpdf_haystackpdf_haystackpdf_haystackpdf_**
+
+## Other embedded content
+
+<embedded id="emb1" ref="tika-pdf/testPDFEmbeddingAndEmbedded.docx#emb1#emb1" type="docx" name="Test.docx" size="17.2 KB">
+
+Haystack
+
+Needle
+
+Haystack
+
+</embedded>

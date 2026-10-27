@@ -1,0 +1,21 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFTwoTextBoxes.pdf
+format: pdf (PDF document)
+author: Michael McCandless
+created: 2011-08-24T09:07:47
+modified: 2011-08-24T09:07:47
+application: Microsoft® Office Word 2007
+language: en-US
+pdf_version: "1.5"
+producer: Microsoft® Office Word 2007
+pages: 1
+---
+
+## Page 1
+
+Left column line 1 Left column line 2
+
+Right column line 1 Right column line 2

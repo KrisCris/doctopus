@@ -1,6 +1,6 @@
 [package]
 name = "doctopus"
-description = "Read Word, Excel, PowerPoint and Visio files (and everything embedded in them) as agent-friendly Markdown or JSON"
+description = "Read Word, Excel, PowerPoint, Visio and PDF files (and everything embedded in them) as agent-friendly Markdown or JSON"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -19,6 +19,7 @@ path = "src/main.rs"
 clap.workspace = true
 doctopus-core.workspace = true
 doctopus-office.workspace = true
+doctopus-pdf.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 

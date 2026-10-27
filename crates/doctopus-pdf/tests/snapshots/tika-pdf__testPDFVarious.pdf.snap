@@ -1,0 +1,65 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFVarious.pdf
+format: pdf (PDF document)
+subject: Subject is here
+author: Michael McCandless
+created: 2011-09-02T05:24:25
+modified: 2011-09-02T05:24:25
+keywords: Keyword1 Keyword2
+application: Microsoft® Office Word 2007
+language: en-US
+pdf_version: "1.5"
+producer: Microsoft® Office Word 2007
+pages: 2
+---
+
+## Page 1
+
+This is the header text.
+
+This is the footer text.
+
+Footnote appears here1
+
+**Bold** *italic* underline superscript subscript
+
+Here is a list:
+
+Bullet 1 Bullet 2 Bullet 3 Here is a numbered list:
+
+1) Number bullet 1
+2) Number bullet 2
+3) Number bullet 3
+
+Keyword1 Keyword2
+
+[This is a hyperlink](http://tika.apache.org/)
+
+Subject is here
+
+Row 1 Col 1 Row 1 Col 2 Row 1 Col 3 Row 2 Col 1 Row 2 Col 2 Row 2 Col 3
+
+Suddenly some Japanese text:ゾルゲと尾崎、淡々と最期（ＧＨＱ）And then some Gothic text:
+
+1
+
+This is a footnote.
+
+Here is a text box
+
+## Page 2
+
+This is the header text.
+
+This is the footer text.
+
+Here is a citation: (Kramer)
+
+**Figure 1 This is a caption for Figure 1**
+
+Row 1 column 1 Row 2 column 1
+
+Row 1 column 2 Row 2 column 2

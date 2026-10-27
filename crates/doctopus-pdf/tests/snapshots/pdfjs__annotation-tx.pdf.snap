@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/annotation-tx.pdf
+format: pdf (PDF document)
+created: 2013-05-29T12:37:15-08:00
+modified: 2013-05-29T13:41:04-07:00
+application: Adobe Acrobat 10.0
+pdf_version: "1.6"
+producer: Acrobat Web Capture 10.0
+pages: 1
+---
+
+## Page 1
+
+*(empty)*
+
+## Form fields
+
+| Field | Type | Value |
+|---|---|---|
+| Text2 | text | tx annotation |

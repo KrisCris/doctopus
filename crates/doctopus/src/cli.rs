@@ -40,8 +40,8 @@ Exit codes:
 Start with `doctopus info FILE`, then `doctopus read FILE`.
 `doctopus guide` explains the whole workflow.";
 
-/// Read Word, Excel, PowerPoint and Visio files, and everything embedded in
-/// them, as Markdown, plain text or JSON.
+/// Read Word, Excel, PowerPoint, Visio and PDF files, and everything
+/// embedded in them, as Markdown, plain text or JSON.
 #[derive(Debug, Parser)]
 #[command(
     name = "doctopus",

@@ -24,10 +24,12 @@ still runs.
 |---|---|
 | `crates/doctopus-core` | The document model, the `Reader` trait, format detection, the engine that parses embedded content, containers (zip and OLE compound files), and the Markdown, text, JSON and info renderers. It knows no file format. |
 | `crates/doctopus-office` | Readers for Word, Excel, PowerPoint and Visio: Office Open XML in `src/ooxml`, the binary formats of Office 97-2003 in `src/legacy`. |
+| `crates/doctopus-pdf` | The PDF reader, on the hayro interpreter: page text and layout in `src/page.rs` and `src/layout.rs`, the catalog (links, bookmarks, forms, attachments) in `src/catalog.rs`. See [docs/pdf.md](docs/pdf.md). |
 | `crates/doctopus` | The command line. |
 | `testdata/corpus.tsv` | The third-party test corpus: sources, file names and hashes. The files are downloaded, not committed. |
 | `scripts/` | Fetching the corpus, checking release binaries, collecting third-party licenses. |
 | `docs/adding-a-format.md` | How to add a reader for a new file type. |
+| `docs/pdf.md` | How PDF maps onto the document model, and why the PDF reader uses hayro. |
 
 ## Principles
 
@@ -54,14 +56,17 @@ cargo test --workspace
 
 ### Snapshots
 
-`crates/doctopus-office/tests/corpus.rs` renders every corpus file and
-compares the result with the snapshots in
-`crates/doctopus-office/tests/snapshots/`. When a change alters the output
-on purpose, review the differences and accept them:
+`crates/doctopus-office/tests/corpus.rs` renders every Office file of the
+corpus and compares the result with the snapshots in
+`crates/doctopus-office/tests/snapshots/`. `crates/doctopus-pdf/tests/corpus.rs`
+does the same for the PDF files, and for the PDF files embedded in the
+Office ones. When a change alters the output on purpose, review the
+differences and accept them:
 
 ```sh
 cargo install cargo-insta
 cargo insta test --review -p doctopus-office --test corpus
+cargo insta test --review -p doctopus-pdf --test corpus
 ```
 
 Look at each change. The snapshots are how an output regression gets
@@ -69,12 +74,14 @@ noticed.
 
 ### Fuzzing
 
-`crates/doctopus-office/tests/robustness.rs` damages each corpus file a
-few times on every test run. After changing a reader, run it longer in
+`crates/doctopus-office/tests/robustness.rs` and
+`crates/doctopus-pdf/tests/robustness.rs` damage each corpus file a few
+times on every test run. After changing a reader, run them longer in
 release mode:
 
 ```sh
 DOCTOPUS_FUZZ_ROUNDS=300 cargo test --release -p doctopus-office --test robustness
+DOCTOPUS_FUZZ_ROUNDS=300 cargo test --release -p doctopus-pdf --test robustness
 ```
 
 A panic in a reader fails the test and names the file, the round and the

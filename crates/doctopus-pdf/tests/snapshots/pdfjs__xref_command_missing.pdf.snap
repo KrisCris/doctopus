@@ -1,0 +1,13 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/xref_command_missing.pdf
+format: pdf (PDF document)
+pdf_version: "1.7"
+pages: 1
+---
+
+## Page 1
+
+Reduced test-case

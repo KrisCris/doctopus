@@ -1,0 +1,20 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/arial_unicode_en_cidfont.pdf
+format: pdf (PDF document)
+author: Adil Allawi
+created: 2011-07-10T20:17:28+01:00
+application: Writer
+language: en-GB
+pdf_version: "1.4"
+producer: NeoOffice 3.2 Beta
+pages: 1
+warnings:
+  - "45 characters could not be read because their fonts do not say which characters they are; on 1 page: 1"
+---
+
+## Page 1
+
+*(empty)*

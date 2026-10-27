@@ -21,6 +21,8 @@ base_url() {
     tika) echo "https://raw.githubusercontent.com/apache/tika/288e486531dcb44be1192f0524d6bdca1a7c0a28/tika-parsers/tika-parsers-standard/tika-parsers-standard-modules/tika-parser-microsoft-module/src/test/resources/test-documents" ;;
     poi) echo "https://raw.githubusercontent.com/apache/poi/2c00b85db18148bca97449f1886ded08be100ffc/test-data/diagram" ;;
     libvisio) echo "https://raw.githubusercontent.com/LibreOffice/libvisio/a42aaff13e4a67afcd077c3abb3ef13bb6463025/src/test/data" ;;
+    tika-pdf) echo "https://raw.githubusercontent.com/apache/tika/288e486531dcb44be1192f0524d6bdca1a7c0a28/tika-parsers/tika-parsers-standard/tika-parsers-standard-modules/tika-parser-pdf-module/src/test/resources/test-documents" ;;
+    pdfjs) echo "https://raw.githubusercontent.com/mozilla/pdf.js/5279fe0db4374d509a9beb169a7869ce00be7436/test/pdfs" ;;
     *) echo "unknown corpus source: $1" >&2; return 1 ;;
   esac
 }

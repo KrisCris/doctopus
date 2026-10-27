@@ -1,0 +1,19 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika/EmbeddedPDF.docx#emb1
+format: pdf (PDF document)
+author: Jeremy Anderson
+created: 2011-08-30T09:00:31-04:00
+modified: 2011-09-07T09:11:56-04:00
+application: Microsoft® Word 2010
+language: en-US
+pdf_version: "1.5"
+producer: Microsoft® Word 2010
+pages: 1
+---
+
+## Page 1
+
+This is a 2010 Word Document embedded as an icon and saved as a pdf.

@@ -1,0 +1,32 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/ccitt_EndOfBlock_false.pdf
+format: pdf (PDF document)
+pdf_version: "1.4"
+pages: 1
+parts:
+  - img1: image/png (81x26, 245 B, page 1)
+  - img2: image/png (81x26, 245 B, page 1)
+  - img3: image/png (81x26, 251 B, page 1)
+  - img4: image/png (81x26, 251 B, page 1)
+  - img5: image/png (81x26, 243 B, page 1)
+  - img6: image/png (81x26, 243 B, page 1)
+warnings:
+  - "1 page has no text layer, only pictures (scans, or text set as pictures); extract the pictures to see them: page 1 (img1, img2, img3, img4, img5, img6)"
+---
+
+## Page 1
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img1 "PNG, 81x26, 245 B")
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img2 "PNG, 81x26, 245 B")
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img3 "PNG, 81x26, 251 B")
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img4 "PNG, 81x26, 251 B")
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img5 "PNG, 81x26, 243 B")
+
+![image](pdfjs/ccitt_EndOfBlock_false.pdf#img6 "PNG, 81x26, 243 B")

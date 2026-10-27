@@ -1,10 +1,11 @@
 # doctopus guide
 
-doctopus prints Office files as text: Word (.doc .docx), Excel (.xls .xlsx
-.xlsb), PowerPoint (.ppt .pptx) and Visio (.vsd .vsdx), including macro and
-template variants (`doctopus formats` lists them all). Whatever is embedded
-in them is read too: a workbook in a slide, a document in that workbook,
-images, attachments.
+doctopus prints Office and PDF files as text: Word (.doc .docx), Excel
+(.xls .xlsx .xlsb), PowerPoint (.ppt .pptx), Visio (.vsd .vsdx), including
+macro and template variants, and PDF (`doctopus formats` lists them all).
+Whatever is embedded in them is read too: a workbook in a slide, a
+document in that workbook, a file attached to a PDF, images,
+attachments.
 
 ## Workflow
 
@@ -55,6 +56,11 @@ some shells treat it specially.
   are listed cell by cell (`- C7: value`).
 - Diagrams list their shapes (`id [type] "text"`, with shape data and
   links) and then their connections (`from -> to`).
+- PDF pages hold their text as paragraphs and headings, rebuilt from where
+  the page draws it. Links to other pages read `#page-N`, for
+  `--page N`. Pages that are only pictures (scans) have no text: a
+  warning lists them with their picture ids, so you can extract the
+  pictures and look at them. Bookmarks and form fields follow the pages.
 - Warnings say what could not be read, for example an unsupported object
   or a damaged part.
 - `-f text` prints the same content as plain text. `-f json` prints the

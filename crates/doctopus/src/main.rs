@@ -1,5 +1,5 @@
-//! `doctopus`: read Word, Excel, PowerPoint and Visio files, and everything
-//! embedded in them, as Markdown, plain text or JSON.
+//! `doctopus`: read Word, Excel, PowerPoint, Visio and PDF files, and
+//! everything embedded in them, as Markdown, plain text or JSON.
 //!
 //! The command line is written for coding agents first: output is
 //! deterministic and paged, every error says what to try next, and every

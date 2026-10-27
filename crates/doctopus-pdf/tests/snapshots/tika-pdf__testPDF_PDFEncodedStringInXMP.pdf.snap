@@ -1,0 +1,14 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDF_PDFEncodedStringInXMP.pdf
+format: pdf (PDF document)
+title: \376\377\000M\000i\000c\000r\000o\000s\000o\000f\000t
+pdf_version: "1.4"
+pages: 1
+---
+
+## Page 1
+
+**This file contains an octal encoded string in the title field of the xmp**

@@ -1,0 +1,53 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testPDFPackage.pdf
+format: pdf (PDF document)
+created: 2006-05-24T13:28:02-07:00
+modified: 2012-04-26T11:44:37-04:00
+application: Adobe Acrobat 8.1 Combine Files
+pdf_version: "1.7"
+producer: Adobe Acrobat 8.1
+pages: 1
+parts:
+  - img1: image/jpeg (576x360, 3.3 KB, page 1)
+  - emb1: PDF document "PDF1.pdf" (35.1 KB)
+  - emb2: PDF document "PDF2.pdf" (35.1 KB)
+---
+
+## Page 1
+
+![image](tika-pdf/testPDFPackage.pdf#img1 "JPG, 576x360, 3.3 KB")
+
+### Multiple files are bound together in this PDF Package.
+
+Adobe recommends using Adobe Reader or Adobe Acrobat version 8 or later to work with documents contained within a PDF Package. By updating to the latest version, you’ll enjoy the following benefits:
+
+- Efficient, integrated PDF viewing
+- Easy printing
+- Quick searches
+
+#### Don’t have the latest version of Adobe Reader?
+
+### Click here to download the latest version of Adobe Reader
+
+#### If you already have Adobe Reader 8, click a file in this PDF Package to view it.
+
+## Other embedded content
+
+<embedded id="emb1" ref="tika-pdf/testPDFPackage.pdf#emb1" type="pdf" name="PDF1.pdf" size="35.1 KB">
+
+### Page 1
+
+PDF1
+
+</embedded>
+
+<embedded id="emb2" ref="tika-pdf/testPDFPackage.pdf#emb2" type="pdf" name="PDF2.pdf" size="35.1 KB">
+
+### Page 1
+
+PDF2
+
+</embedded>

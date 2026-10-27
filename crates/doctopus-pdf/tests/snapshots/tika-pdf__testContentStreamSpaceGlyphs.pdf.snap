@@ -1,0 +1,15 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika-pdf/testContentStreamSpaceGlyphs.pdf
+format: pdf (PDF document)
+pdf_version: "1.6"
+pages: 1
+---
+
+## Page 1
+
+( )
+
+overlap

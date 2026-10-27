@@ -1,0 +1,26 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/vertical.pdf
+format: pdf (PDF document)
+created: 2013-02-07T01:21:37+09:00
+application: LaTeX with hyperref package
+pdf_version: "1.4"
+producer: dvipdfmx (20090506)
+pages: 3
+warnings:
+  - "8 characters could not be read because their fonts do not say which characters they are; on 1 page: 1"
+---
+
+## Page 1
+
+*(empty)*
+
+## Page 2
+
+*(empty)*
+
+## Page 3
+
+*(empty)*

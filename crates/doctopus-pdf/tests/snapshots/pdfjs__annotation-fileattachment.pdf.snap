@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: pdfjs/annotation-fileattachment.pdf
+format: pdf (PDF document)
+author: Tim van der Meij
+created: 2015-12-20T23:47:46+01:00
+modified: 2015-12-20T23:48:33+01:00
+application: Microsoft® Word 2013
+language: nl-NL
+pdf_version: "1.5"
+producer: Microsoft® Word 2013
+pages: 1
+parts:
+  - emb1: text/plain "Test.txt" (15 B, page 1)
+---
+
+## Page 1
+
+FileAttachment
+
+<embedded id="emb1" ref="pdfjs/annotation-fileattachment.pdf#emb1" type="text/plain" name="Test.txt" size="15 B" note="doctopus cannot read this type; save it with: doctopus extract &quot;pdfjs/annotation-fileattachment.pdf#emb1&quot; -o &lt;dir&gt;"/>

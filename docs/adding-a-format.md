@@ -26,8 +26,8 @@ bytes ──> Probe ──> Reader::detect, for every registered reader
 
 A reader never parses embedded content itself. It attaches the payload as
 a `Part`, and the engine hands that part to whichever reader recognizes
-it. A PDF reader added later would make PDFs embedded in Word documents
-readable without changing the Word reader.
+it. When the PDF reader was added, PDFs embedded in Word documents became
+readable without any change to the Word reader.
 
 ## A worked example: CSV
 

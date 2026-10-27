@@ -78,7 +78,7 @@ impl From<Error> for Failure {
                 }
             }
             Error::Unsupported { .. } => Self::new(Code::Unsupported, message).hint(
-                "doctopus reads Word, Excel, PowerPoint and Visio files; `doctopus formats` lists them",
+                "doctopus reads Word, Excel, PowerPoint, Visio and PDF files; `doctopus formats` lists them",
             ),
             Error::Encrypted { .. } => Self::new(Code::Encrypted, message)
                 .hint("doctopus cannot decrypt files; an unprotected copy is needed"),

@@ -1,0 +1,23 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+---
+source: tika/testWORD_embedded_pdf.docx#emb2
+format: pdf (PDF document)
+title: Wer wjelrwoierj woier jower joweir woerj owe rowej rowiejr owiej rowerj owie Irit owiej roiwej roiwej roiwejr owiej roweij rowiejr oiwej rowiejr owierj
+author: Eliahu Ben-Reuven
+created: 2011-07-28T12:46:16+03:00
+modified: 2011-07-28T12:47:41+03:00
+keywords: "1"
+application: Acrobat PDFMaker 8.1 for Word
+language: EN-US
+pdf_version: "1.4"
+producer: Acrobat Distiller 8.3.0 (Windows)
+pages: 1
+---
+
+## Page 1
+
+Wer wjelrwoierj woier jower joweir woerj owe rowej rowiejr owiej rowerj owie Irit owiej roiwej roiwej roiwejr owiej roweij rowiejr oiwej rowiejr owierj
+
+Eliahu David

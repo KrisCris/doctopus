@@ -1,0 +1,4 @@
+---
+source: crates/doctopus-pdf/tests/corpus.rs
+---
+error: PDF document is encrypted or password-protected
