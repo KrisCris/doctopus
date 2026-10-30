@@ -287,17 +287,9 @@ fn suggestions(doc: &Document, source: &Address, s: &Summary) -> Vec<(String, St
         ));
     }
     if !doc.parts.is_empty() {
-        let stem = source
-            .file
-            .file_stem()
-            .map(|s| s.to_string_lossy().into_owned())
-            .unwrap_or_else(|| "document".into());
         next.push((
-            format!(
-                "doctopus extract {q} -o {}",
-                shell_quote(&format!("{stem}.parts"))
-            ),
-            "save images and embedded files to disk".to_string(),
+            format!("doctopus extract {q}"),
+            "save images and embedded files next to the file".to_string(),
         ));
     }
     next

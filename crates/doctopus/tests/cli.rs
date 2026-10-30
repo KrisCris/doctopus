@@ -473,6 +473,69 @@ fn convert_writes_markdown_for_every_document_inside() {
 }
 
 #[test]
+fn files_are_written_next_to_the_document_and_reported_in_full() {
+    let dir = Scratch::new("beside");
+    fs::create_dir_all(dir.path("docs")).unwrap();
+    let bundle = archive(&[
+        ("book.xlsx", &workbook(&[("Data", 2)])),
+        ("logo.bin", &[0, 1, 2, 3]),
+    ]);
+    fs::write(dir.path("docs/bundle.zip"), &bundle).unwrap();
+    // Notes of the user's own, under the name the conversion would take.
+    fs::write(dir.path("docs/bundle.md"), "# My notes\n").unwrap();
+
+    let run = dir.run(&["convert", "docs/bundle.zip", "--json"]);
+    assert_eq!(run.code(), 0, "{}", run.stderr());
+    let value: serde_json::Value = serde_json::from_str(&run.stdout()).unwrap();
+    let directory = Path::new(value["directory"].as_str().unwrap());
+    assert!(
+        directory.is_absolute() && directory.ends_with("docs"),
+        "{directory:?}"
+    );
+    let first = Path::new(value["markdown"][0]["file"].as_str().unwrap());
+    assert_eq!(first, directory.join("bundle-2.md"));
+    assert!(first.is_file());
+    let left_alone = value["left_alone"][0].as_str().map(Path::new);
+    assert_eq!(left_alone, Some(directory.join("bundle.md").as_path()));
+    let notes = fs::read_to_string(dir.path("docs/bundle.md")).unwrap();
+    assert_eq!(notes, "# My notes\n");
+    assert!(!dir.path("bundle-2.md").exists());
+
+    // Converting again replaces the earlier conversion.
+    let again = dir.run(&["convert", "docs/bundle.zip"]);
+    assert_eq!(again.code(), 0, "{}", again.stderr());
+    let report = again.stdout();
+    assert!(report.contains("\n  - bundle-2.md  # "), "{report}");
+    assert!(
+        report.contains(
+            "left alone: # already there, and not an earlier conversion of this file\n  - bundle.md\n"
+        ),
+        "{report}"
+    );
+    assert!(!dir.path("docs/bundle-3.md").exists());
+    // The file to read next is named in full, quoted as a shell argument
+    // where it needs it (Windows paths have backslashes).
+    let next = report
+        .lines()
+        .find_map(|l| l.strip_prefix("next: read "))
+        .and_then(|l| l.split("; ").next())
+        .map(
+            |f| match f.strip_prefix('"').and_then(|f| f.strip_suffix('"')) {
+                Some(quoted) => quoted.replace("\\\"", "\"").replace("\\\\", "\\"),
+                None => f.to_string(),
+            },
+        );
+    assert_eq!(next.as_deref().map(Path::new), Some(first), "{report}");
+
+    let extract = dir.run(&["extract", "docs/bundle.zip"]);
+    assert_eq!(extract.code(), 0, "{}", extract.stderr());
+    assert!(dir.path("docs/bundle.parts/logo.bin").is_file());
+    assert!(!dir.path("bundle.parts").exists());
+    let report = extract.stdout();
+    assert!(report.contains("\n  - logo.bin  # "), "{report}");
+}
+
+#[test]
 fn converted_word_documents_keep_their_formatting() {
     let p = |style: &str, runs: &str| {
         format!(r#"<w:p><w:pPr><w:pStyle w:val="{style}"/></w:pPr>{runs}</w:p>"#)

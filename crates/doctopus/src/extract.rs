@@ -12,6 +12,7 @@ use crate::cli::{ExtractArgs, stem};
 use crate::failure::Failure;
 use crate::load::{engine, load};
 use crate::output::print;
+use crate::paths;
 
 /// What was saved.
 #[derive(Debug, Default, Serialize)]
@@ -31,7 +32,7 @@ pub(crate) struct Saved {
     pub(crate) path: String,
     /// The part's address, usable as a command argument.
     pub(crate) address: String,
-    /// Where it was written.
+    /// Where it was written (absolute in `extract`'s report).
     pub(crate) file: PathBuf,
     /// Format id when doctopus can read the part as a document.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -56,11 +57,18 @@ pub(crate) struct Skipped {
 pub(crate) fn run(args: &ExtractArgs, max_depth: u32) -> Result<(), Failure> {
     let address = Address::parse(&args.address);
     let loaded = load(&engine(max_depth, false), &address)?;
+    // Without -o, next to the file.
     let dir = args
         .output
         .clone()
-        .unwrap_or_else(|| PathBuf::from(format!("{}.parts", stem(&address))));
-    let report = save(loaded.document(), loaded.part(), &address, &dir)?;
+        .unwrap_or_else(|| paths::beside(&address).join(format!("{}.parts", stem(&address))));
+    // Saving fails only to write.
+    let mut report = save(loaded.document(), loaded.part(), &address, &dir)
+        .map_err(|failure| failure.hint("save somewhere else with -o"))?;
+    let dir = paths::shown(&dir);
+    for saved in &mut report.files {
+        saved.file = paths::shown(&saved.file);
+    }
     if args.json {
         #[derive(Serialize)]
         struct Manifest<'a> {
@@ -217,7 +225,7 @@ fn describe(report: &Report, address: &Address, dir: &Path) -> String {
     }
     let _ = writeln!(
         out,
-        "directory: {}",
+        "directory: {}  # the paths below are relative to it",
         shell_quote(&dir.display().to_string())
     );
     let _ = writeln!(out, "files: # {}", report.files.len());
@@ -225,7 +233,7 @@ fn describe(report: &Report, address: &Address, dir: &Path) -> String {
         let _ = writeln!(
             out,
             "  - {}  # {}: {}",
-            shell_quote(&saved.file.display().to_string()),
+            shell_quote(&paths::within(dir, &saved.file).display().to_string()),
             saved.address,
             saved.summary
         );

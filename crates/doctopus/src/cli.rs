@@ -83,11 +83,14 @@ pub(crate) enum Command {
     Extract(ExtractArgs),
     /// Convert documents to Markdown files that are read without doctopus.
     ///
-    /// Each document becomes NAME.md, with its pictures and attached files
-    /// in NAME.parts/. Embedded documents are converted too, to any depth:
-    /// each gets a directory named after its id inside its parent's parts,
-    /// with its own Markdown file and parts. Links between the files are
-    /// relative, so the output can be moved as a whole.
+    /// Each document becomes NAME.md, next to the file unless -o is given,
+    /// with its pictures and attached files in NAME.parts/. A NAME.md that
+    /// is not an earlier conversion of the same file is left alone, and so
+    /// is a NAME.parts/ without one; the next free name is used then.
+    /// Embedded documents are converted too, to any
+    /// depth: each gets a directory named after its id inside its parent's
+    /// parts, with its own Markdown file and parts. Links between the files
+    /// are relative, so the output can be moved as a whole.
     Convert(ConvertArgs),
     /// List the file formats doctopus reads.
     Formats(FormatsArgs),
@@ -215,7 +218,7 @@ pub(crate) struct ExtractArgs {
         long,
         short = 'o',
         value_name = "DIR",
-        help = "Directory to save to [default: <file name>.parts]"
+        help = "Directory to save to [default: <file name>.parts, next to the file]"
     )]
     pub(crate) output: Option<PathBuf>,
 
@@ -234,7 +237,7 @@ pub(crate) struct ConvertArgs {
         long,
         short = 'o',
         value_name = "DIR",
-        help = "Directory to write to [default: the current directory]"
+        help = "Directory to write to [default: the directory of each file]"
     )]
     pub(crate) output: Option<PathBuf>,
 

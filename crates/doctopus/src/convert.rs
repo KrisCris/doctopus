@@ -16,9 +16,16 @@
 //!
 //! Links are relative to the Markdown file that holds them, so the output
 //! can be moved as a whole.
+//!
+//! Without `-o`, each document is converted next to its file. A Markdown
+//! file already there is overwritten only when its YAML header says it is
+//! an earlier conversion of the same file; any other is left alone, and so
+//! is a parts directory without such a Markdown file. The conversion then
+//! takes the next free name (`report-2.md`).
 
 use std::collections::{BTreeMap, HashSet};
 use std::fmt::Write as _;
+use std::io::Read as _;
 use std::path::{Path, PathBuf};
 
 use doctopus_core::render::{self, RenderOptions, describe_part, estimate_tokens, shell_quote};
@@ -37,6 +44,8 @@ use crate::paths;
 struct Conversion {
     /// The converted document's address.
     source: String,
+    /// The directory written to, absolute.
+    directory: PathBuf,
     /// Markdown files: the document's own first, then those of embedded
     /// documents, depth first.
     markdown: Vec<Written>,
@@ -46,6 +55,10 @@ struct Conversion {
     /// Parts with nothing to write.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     skipped: Vec<Skipped>,
+    /// Files already in the directory, under the names this conversion
+    /// would have used, that are not an earlier conversion of this file.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    left_alone: Vec<PathBuf>,
     /// Warnings in all converted documents; each Markdown file lists its own
     /// in its YAML header.
     warnings: usize,
@@ -54,7 +67,7 @@ struct Conversion {
 /// One written file.
 #[derive(Debug, Serialize)]
 struct Written {
-    /// Where it was written.
+    /// Where it was written, absolute.
     file: PathBuf,
     /// The address of the document or part it holds.
     address: String,
@@ -76,13 +89,18 @@ struct Written {
 /// `doctopus convert`.
 pub(crate) fn run(args: &ConvertArgs, max_depth: u32) -> Result<(), Failure> {
     let engine = engine(max_depth, args.formulas);
-    let dir = args.output.clone().unwrap_or_default();
     let addresses: Vec<Address> = args.inputs.iter().map(|a| Address::parse(a)).collect();
-    // Names taken in the output directory, so two inputs called `report`
-    // do not overwrite each other.
+    // Without -o, each file is converted next to itself.
+    let dir = |address: &Address| {
+        args.output
+            .clone()
+            .unwrap_or_else(|| paths::beside(address))
+    };
+    // Files taken in this run, so two inputs called `report` do not
+    // overwrite each other.
     let mut taken = HashSet::new();
     if let [address] = addresses.as_slice() {
-        let conversion = convert(&engine, address, &dir, &mut taken, args.formulas)?;
+        let conversion = convert(&engine, address, &dir(address), &mut taken, args.formulas)?;
         return print(&if args.json {
             to_json(&conversion)
         } else {
@@ -101,7 +119,7 @@ pub(crate) fn run(args: &ConvertArgs, max_depth: u32) -> Result<(), Failure> {
     let entries: Vec<Entry> = addresses
         .iter()
         .map(
-            |address| match convert(&engine, address, &dir, &mut taken, args.formulas) {
+            |address| match convert(&engine, address, &dir(address), &mut taken, args.formulas) {
                 Ok(conversion) => Entry::Converted(conversion),
                 Err(failure) => {
                     failed.get_or_insert(failure.code);
@@ -143,14 +161,17 @@ fn convert(
     formulas: bool,
 ) -> Result<Conversion, Failure> {
     let (document, _) = load(engine, address)?.into_document(address)?;
-    let name = free_name(taken, &stem(address));
+    let mut left_alone = Vec::new();
+    let name = free_name(taken, dir, address, &mut left_alone);
     let mut converter = Converter {
         formulas,
         conversion: Conversion {
             source: address.to_string(),
+            directory: PathBuf::new(),
             markdown: Vec::new(),
             files: Vec::new(),
             skipped: Vec::new(),
+            left_alone: Vec::new(),
             warnings: 0,
         },
     };
@@ -161,26 +182,123 @@ fn convert(
         &dir.join(format!("{name}.parts")),
         HashSet::new(),
     )?;
-    Ok(converter.conversion)
+    // Shown once written, so that they resolve the same way.
+    let mut conversion = converter.conversion;
+    conversion.directory = paths::shown(dir);
+    conversion.left_alone = left_alone.iter().map(|f| paths::shown(f)).collect();
+    for written in conversion.markdown.iter_mut().chain(&mut conversion.files) {
+        written.file = paths::shown(&written.file);
+    }
+    Ok(conversion)
 }
 
-/// `stem`, or `stem-2`, `stem-3`... when its Markdown file or parts
-/// directory is already taken in this run.
-fn free_name(taken: &mut HashSet<String>, stem: &str) -> String {
+/// The document's stem, or `stem-2`, `stem-3`... when its Markdown file or
+/// parts directory in `dir` is already taken in this run, or is there and
+/// is not an earlier conversion of this file. Such files are added to
+/// `left_alone`.
+fn free_name(
+    taken: &mut HashSet<String>,
+    dir: &Path,
+    address: &Address,
+    left_alone: &mut Vec<PathBuf>,
+) -> String {
+    let stem = stem(address);
     let mut n = 1;
     loop {
         let name = if n == 1 {
-            stem.to_string()
+            stem.clone()
         } else {
             format!("{stem}-{n}")
         };
-        let files = [format!("{name}.md"), format!("{name}.parts")].map(|f| f.to_lowercase());
-        if files.iter().all(|f| !taken.contains(f)) {
-            taken.extend(files);
-            return name;
+        let markdown = dir.join(format!("{name}.md"));
+        let parts = dir.join(format!("{name}.parts"));
+        let keys = [&markdown, &parts].map(|f| paths::key(f));
+        if keys.iter().all(|k| !taken.contains(k)) {
+            // The parts directory goes with the Markdown file: without one,
+            // it holds someone else's files, or `extract`'s.
+            let in_the_way = if markdown.exists() {
+                (!earlier_conversion(&markdown, address)).then_some(markdown)
+            } else {
+                parts.exists().then_some(parts)
+            };
+            match in_the_way {
+                Some(file) => left_alone.push(file),
+                None => {
+                    taken.extend(keys);
+                    return name;
+                }
+            }
         }
         n += 1;
     }
+}
+
+/// Whether the Markdown file `markdown` is an earlier conversion of
+/// `address`, as the `source` in its YAML header says. The file converted
+/// is never one: converting a Markdown file must not overwrite it.
+fn earlier_conversion(markdown: &Path, address: &Address) -> bool {
+    if paths::same_file(markdown, &address.file) {
+        return false;
+    }
+    let Ok(file) = std::fs::File::open(markdown) else {
+        return false;
+    };
+    let mut head = Vec::new();
+    if file.take(4096).read_to_end(&mut head).is_err() {
+        return false;
+    }
+    let head = String::from_utf8_lossy(&head);
+    // Editors and git may have added a byte order mark or CRLF line ends.
+    let mut lines = head.strip_prefix('\u{feff}').unwrap_or(&head).lines();
+    if lines.next() != Some("---") {
+        return false;
+    }
+    // Converted without -o, the file is next to its conversion.
+    let beside = address
+        .file
+        .file_name()
+        .is_some_and(|name| paths::same_file(&markdown.with_file_name(name), &address.file));
+    lines
+        .next()
+        .and_then(|line| line.strip_prefix("source: "))
+        .and_then(|value| yaml_string(value.trim()))
+        .is_some_and(|source| names(&source, address, beside))
+}
+
+/// A YAML scalar as the header writes it: plain, or double-quoted with
+/// JSON escapes.
+fn yaml_string(value: &str) -> Option<String> {
+    if value.starts_with('"') {
+        serde_json::from_str(value).ok()
+    } else {
+        Some(value.to_string())
+    }
+}
+
+/// Whether `source`, an address as given when an earlier conversion was
+/// made, names the file `address` names. It was relative to the directory
+/// doctopus ran in then, so it is not looked up as an address. It has to
+/// end with the same file name, compared without case as names are on
+/// Windows and macOS, and the same parts; and unless the file is `beside`
+/// the conversion, when the path before them leads to a file from here,
+/// that has to be the same file.
+fn names(source: &str, address: &Address, beside: bool) -> bool {
+    let file = if address.parts.is_empty() {
+        source
+    } else {
+        match source.strip_suffix(&format!("#{}", address.parts.join("/"))) {
+            Some(file) => file,
+            None => return false,
+        }
+    };
+    let file = Path::new(file);
+    let same_name = match (file.file_name(), address.file.file_name()) {
+        (Some(a), Some(b)) => {
+            a.to_string_lossy().to_lowercase() == b.to_string_lossy().to_lowercase()
+        }
+        _ => false,
+    };
+    same_name && (beside || !file.is_file() || paths::same_file(file, &address.file))
 }
 
 struct Converter {
@@ -270,23 +388,33 @@ fn markdown_name(file_name: &str) -> String {
 }
 
 fn write(file: &Path, data: &[u8]) -> Result<(), Failure> {
+    let failed = |path: &Path, err: std::io::Error| {
+        Failure::write(path, &err).hint("write somewhere else with -o")
+    };
     if let Some(dir) = file.parent() {
-        std::fs::create_dir_all(dir).map_err(|err| Failure::write(dir, &err))?;
+        std::fs::create_dir_all(dir).map_err(|err| failed(dir, err))?;
     }
-    std::fs::write(file, data).map_err(|err| Failure::write(file, &err))
+    std::fs::write(file, data).map_err(|err| failed(file, err))
 }
 
 /// The conversion as YAML-style text.
 fn describe(conversion: &Conversion) -> String {
     let mut out = String::new();
+    let dir = &conversion.directory;
     let quote = |path: &Path| shell_quote(&path.display().to_string());
+    let listed = |file: &Path| quote(&paths::within(dir, file));
     let _ = writeln!(out, "source: {}", conversion.source);
+    let _ = writeln!(
+        out,
+        "directory: {}  # the paths below are relative to it",
+        quote(dir)
+    );
     let _ = writeln!(out, "markdown: # {}", conversion.markdown.len());
     for written in &conversion.markdown {
         let _ = writeln!(
             out,
             "  - {}  # {}: {}, about {} tokens",
-            quote(&written.file),
+            listed(&written.file),
             written.address,
             written.summary,
             written.tokens.unwrap_or_default()
@@ -298,7 +426,7 @@ fn describe(conversion: &Conversion) -> String {
             let _ = writeln!(
                 out,
                 "  - {}  # {}: {}",
-                quote(&written.file),
+                listed(&written.file),
                 written.address,
                 written.summary
             );
@@ -308,6 +436,12 @@ fn describe(conversion: &Conversion) -> String {
         out.push_str("skipped:\n");
         for skipped in &conversion.skipped {
             let _ = writeln!(out, "  - {}: {}", skipped.address, skipped.reason);
+        }
+    }
+    if !conversion.left_alone.is_empty() {
+        out.push_str("left alone: # already there, and not an earlier conversion of this file\n");
+        for file in &conversion.left_alone {
+            let _ = writeln!(out, "  - {}", listed(file));
         }
     }
     if conversion.warnings > 0 {
@@ -336,12 +470,125 @@ mod tests {
     use super::*;
 
     #[test]
-    fn names_are_freed_per_run_and_markdown_names_keep_the_stem() {
+    fn names_are_freed_per_run_and_other_files_are_left_alone() {
+        let dir = std::env::temp_dir().join(format!("doctopus-names-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let report = Address::parse("in/report.docx");
+        let mut left_alone = Vec::new();
         let mut taken = HashSet::new();
-        assert_eq!(free_name(&mut taken, "report"), "report");
-        assert_eq!(free_name(&mut taken, "Report"), "Report-2");
+        assert_eq!(
+            free_name(&mut taken, &dir, &report, &mut left_alone),
+            "report"
+        );
+        let other = Address::parse("Report.xlsx");
+        assert_eq!(
+            free_name(&mut taken, &dir, &other, &mut left_alone),
+            "Report-2"
+        );
+        assert!(left_alone.is_empty());
+
+        // In a later run, the user's own report.md is kept, and an earlier
+        // conversion of report.docx is overwritten.
+        std::fs::write(dir.join("report.md"), "# My notes\n").unwrap();
+        let earlier = "---\nsource: elsewhere/report.docx\nformat: docx\n---\n";
+        std::fs::write(dir.join("report-2.md"), earlier).unwrap();
+        let name = free_name(&mut HashSet::new(), &dir, &report, &mut left_alone);
+        assert_eq!(name, "report-2");
+        assert_eq!(left_alone, [dir.join("report.md")]);
+        // A conversion of another file called `report` is kept too.
+        left_alone.clear();
+        let pdf = Address::parse("report.pdf");
+        let name = free_name(&mut HashSet::new(), &dir, &pdf, &mut left_alone);
+        assert_eq!(name, "report-3");
+        assert_eq!(left_alone, [dir.join("report.md"), dir.join("report-2.md")]);
+
+        // A parts directory without its Markdown file is someone else's.
+        left_alone.clear();
+        std::fs::create_dir_all(dir.join("budget.parts")).unwrap();
+        let budget = Address::parse("budget.xlsx");
+        let name = free_name(&mut HashSet::new(), &dir, &budget, &mut left_alone);
+        assert_eq!(name, "budget-2");
+        assert_eq!(left_alone, [dir.join("budget.parts")]);
+        let _ = std::fs::remove_dir_all(&dir);
+
         assert_eq!(markdown_name("Budget.xlsx"), "Budget.md");
         assert_eq!(markdown_name("README"), "README.md");
         assert_eq!(markdown_name(".hidden"), ".hidden.md");
+    }
+
+    #[test]
+    fn earlier_conversions_are_known_by_their_header() {
+        let dir = std::env::temp_dir().join(format!("doctopus-headers-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let markdown = dir.join("converted.md");
+        // Quoted as the header quotes names YAML cannot take plain.
+        let header = |source: &str| {
+            let source = serde_json::to_string(source).unwrap();
+            format!("---\nsource: {source}\nformat: docx\n---\n")
+        };
+        let is_earlier = |text: &str, address: &str| {
+            std::fs::write(&markdown, text).unwrap();
+            earlier_conversion(&markdown, &Address::parse(address))
+        };
+
+        // Quoted names come back as they were written.
+        for name in [
+            "'Final' plan.docx",
+            "say \"hi\".docx",
+            "note: b.docx",
+            "été.docx",
+        ] {
+            assert!(is_earlier(&header(&format!("old/{name}")), name), "{name}");
+        }
+        // Parts are part of the name, and `#` in a file name is not a part.
+        let invoice = dir.join("Invoice #12.docx");
+        std::fs::write(&invoice, "").unwrap();
+        let invoice = invoice.to_string_lossy();
+        assert!(is_earlier(&header("old/Invoice #12.docx"), &invoice));
+        assert!(is_earlier(
+            &header("bundle.zip#emb1/emb2"),
+            "bundle.zip#emb1/emb2"
+        ));
+        assert!(!is_earlier(&header("bundle.zip#emb1"), "bundle.zip#emb2"));
+        assert!(!is_earlier(&header("bundle.zip#emb1"), "bundle.zip"));
+        // Line ends and a byte order mark added since, and case.
+        let crlf = header("report.docx").replace('\n', "\r\n");
+        assert!(is_earlier(&crlf, "report.docx"));
+        assert!(is_earlier(
+            &format!("\u{feff}{}", header("report.docx")),
+            "report.docx"
+        ));
+        assert!(is_earlier(&header("Report.DOCX"), "report.docx"));
+        // Not a conversion, or of another file.
+        assert!(!is_earlier("# My notes\n", "report.docx"));
+        assert!(!is_earlier(
+            "---\ntitle: x\nsource: report.docx\n---\n",
+            "report.docx"
+        ));
+        assert!(!is_earlier(&header("report.pdf"), "report.docx"));
+
+        // When the path in the header leads to a file, it has to be this one.
+        let (a, b) = (dir.join("a"), dir.join("b"));
+        for d in [&a, &b] {
+            std::fs::create_dir_all(d).unwrap();
+            std::fs::write(d.join("r.docx"), "").unwrap();
+        }
+        let from_a = header(&a.join("r.docx").to_string_lossy());
+        assert!(is_earlier(&from_a, &a.join("r.docx").to_string_lossy()));
+        assert!(!is_earlier(&from_a, &b.join("r.docx").to_string_lossy()));
+        // Next to its conversion, the file is known whatever the header's
+        // path leads to from here.
+        let beside = dir.join("r.md");
+        std::fs::write(dir.join("r.docx"), "").unwrap();
+        std::fs::write(&beside, &from_a).unwrap();
+        let next_to = Address::parse(&dir.join("r.docx").to_string_lossy());
+        assert!(earlier_conversion(&beside, &next_to));
+        // A Markdown file is never its own earlier conversion.
+        std::fs::write(&markdown, header("converted.md")).unwrap();
+        let itself = Address::parse(&markdown.to_string_lossy());
+        assert!(!earlier_conversion(&markdown, &itself));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }
