@@ -253,11 +253,16 @@ fn earlier_conversion(markdown: &Path, address: &Address) -> bool {
     if lines.next() != Some("---") {
         return false;
     }
+    // Converted without -o, the file is next to its conversion.
+    let beside = address
+        .file
+        .file_name()
+        .is_some_and(|name| paths::same_file(&markdown.with_file_name(name), &address.file));
     lines
         .next()
         .and_then(|line| line.strip_prefix("source: "))
         .and_then(|value| yaml_string(value.trim()))
-        .is_some_and(|source| names(&source, address))
+        .is_some_and(|source| names(&source, address, beside))
 }
 
 /// A YAML scalar as the header writes it: plain, or double-quoted with
@@ -274,9 +279,10 @@ fn yaml_string(value: &str) -> Option<String> {
 /// made, names the file `address` names. It was relative to the directory
 /// doctopus ran in then, so it is not looked up as an address. It has to
 /// end with the same file name, compared without case as names are on
-/// Windows and macOS, and the same parts; and when the path before them
-/// leads to a file from here, that has to be the same file.
-fn names(source: &str, address: &Address) -> bool {
+/// Windows and macOS, and the same parts; and unless the file is `beside`
+/// the conversion, when the path before them leads to a file from here,
+/// that has to be the same file.
+fn names(source: &str, address: &Address, beside: bool) -> bool {
     let file = if address.parts.is_empty() {
         source
     } else {
@@ -292,7 +298,7 @@ fn names(source: &str, address: &Address) -> bool {
         }
         _ => false,
     };
-    same_name && (!file.is_file() || paths::same_file(file, &address.file))
+    same_name && (beside || !file.is_file() || paths::same_file(file, &address.file))
 }
 
 struct Converter {
@@ -531,7 +537,7 @@ mod tests {
         for name in [
             "'Final' plan.docx",
             "say \"hi\".docx",
-            "a: b.docx",
+            "note: b.docx",
             "été.docx",
         ] {
             assert!(is_earlier(&header(&format!("old/{name}")), name), "{name}");
@@ -572,6 +578,13 @@ mod tests {
         let from_a = header(&a.join("r.docx").to_string_lossy());
         assert!(is_earlier(&from_a, &a.join("r.docx").to_string_lossy()));
         assert!(!is_earlier(&from_a, &b.join("r.docx").to_string_lossy()));
+        // Next to its conversion, the file is known whatever the header's
+        // path leads to from here.
+        let beside = dir.join("r.md");
+        std::fs::write(dir.join("r.docx"), "").unwrap();
+        std::fs::write(&beside, &from_a).unwrap();
+        let next_to = Address::parse(&dir.join("r.docx").to_string_lossy());
+        assert!(earlier_conversion(&beside, &next_to));
         // A Markdown file is never its own earlier conversion.
         std::fs::write(&markdown, header("converted.md")).unwrap();
         let itself = Address::parse(&markdown.to_string_lossy());

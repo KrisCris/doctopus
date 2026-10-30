@@ -18,6 +18,11 @@ pub(crate) fn beside(address: &Address) -> PathBuf {
 /// whatever directory the reader is in, and with symbolic links resolved
 /// once it exists, so `link/..` names the directory it leads to.
 pub(crate) fn shown(path: &Path) -> PathBuf {
+    let path = if path.as_os_str().is_empty() {
+        Path::new(".")
+    } else {
+        path
+    };
     match std::fs::canonicalize(path) {
         Ok(real) => without_verbatim_prefix(real),
         Err(_) => absolute(path).unwrap_or_else(|| path.to_path_buf()),
