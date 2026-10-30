@@ -107,8 +107,9 @@ runner of its own architecture except for Intel macOS, which is
 cross-compiled on Apple silicon and run under Rosetta. The job checks the
 binary:
 
-- The musl builds must be fully static, and the others may only need
-  libraries the operating system provides (`scripts/check-binary.py`).
+- The musl builds must be fully static. The glibc builds may only need
+  glibc's own libraries and libgcc_s, and the others only libraries the
+  operating system provides (`scripts/check-binary.py`).
 - The glibc builds must not need a glibc newer than the 2.35 promised in
   the README.
 - `doctopus --version` and `doctopus formats` must run.

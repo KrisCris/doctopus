@@ -2,10 +2,10 @@
 #
 # The Linux musl builds link statically by default. The glibc builds link
 # the system's C library (libc, libm, libgcc_s) dynamically, like most
-# Linux programs. On Windows the
-# MSVC C runtime is linked in as well, so the binary does not need the
-# Visual C++ Redistributable. macOS only supports linking the system
-# libraries dynamically, and those are present on every Mac.
+# Linux programs. On Windows the MSVC C runtime is linked in as well, so
+# the binary does not need the Visual C++ Redistributable. macOS only
+# supports linking the system libraries dynamically, and those are present
+# on every Mac.
 #
 # Note: a RUSTFLAGS environment variable replaces these flags entirely.
 [target.'cfg(all(windows, target_env = "msvc"))']

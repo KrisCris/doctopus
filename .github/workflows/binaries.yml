@@ -70,10 +70,12 @@ jobs:
       - name: Build
         run: cargo build --release --locked --target ${{ matrix.target }} -p doctopus
       - name: Check that the binary is self-contained
-        if: ${{ !endsWith(matrix.target, '-linux-gnu') }}
+        env:
+          # The glibc builds may need glibc's own libraries, and only those.
+          GLIBC: ${{ endsWith(matrix.target, '-linux-gnu') && '--glibc' || '' }}
         run: |
           python=$(command -v python3 || command -v python)
-          "$python" scripts/check-binary.py "$BIN"
+          "$python" scripts/check-binary.py $GLIBC "$BIN"
       - name: Check that the binary is statically linked
         if: endsWith(matrix.target, '-linux-musl')
         run: |
