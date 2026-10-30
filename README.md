@@ -53,7 +53,7 @@ rendered: ~2,850 characters (~714 tokens) as Markdown
 next:
   - doctopus read deck.pptx  # full content as Markdown
   - doctopus read "deck.pptx#emb1"  # only the embedded xlsx
-  - doctopus extract deck.pptx -o deck.parts  # save images and embedded files to disk
+  - doctopus extract deck.pptx  # save images and embedded files next to the file
 ```
 
 ```console
@@ -170,11 +170,12 @@ doctopus convert *.docx *.xlsx -o converted   # several files at once
 A document becomes `NAME.md`, and its pictures and attached files go to
 `NAME.parts/`, in the directory given with `-o` or else next to the
 document. The command prints that directory as an absolute path and the
-file to read first. A `NAME.md` already there is replaced only when it is
-an earlier conversion of the same file; anything else is left alone, and
-the conversion is written as `NAME-2.md` instead. Every embedded document is converted too, however deep it
-is nested: it gets a directory named after its id inside its parent's
-parts, with its own Markdown file and parts.
+file to read first. A `NAME.md` already there is replaced only when its
+header says it is an earlier conversion of the same file. Anything else is
+left alone, and so is a `NAME.parts/` without such a `NAME.md`; the
+conversion is then written as `NAME-2.md`. Every embedded document is
+converted too, however deep it is nested: it gets a directory named after
+its id inside its parent's parts, with its own Markdown file and parts.
 
 ```text
 converted/report.md

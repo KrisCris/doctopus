@@ -18,9 +18,10 @@
 //! can be moved as a whole.
 //!
 //! Without `-o`, each document is converted next to its file. A Markdown
-//! file already there is overwritten only when it is an earlier conversion
-//! of a file with the same name; any other is left alone, and the
-//! conversion takes the next free name (`report-2.md`).
+//! file already there is overwritten only when its YAML header says it is
+//! an earlier conversion of the same file; any other is left alone, and so
+//! is a parts directory without such a Markdown file. The conversion then
+//! takes the next free name (`report-2.md`).
 
 use std::collections::{BTreeMap, HashSet};
 use std::fmt::Write as _;
@@ -54,8 +55,8 @@ struct Conversion {
     /// Parts with nothing to write.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     skipped: Vec<Skipped>,
-    /// Markdown files already in the directory, under the name this
-    /// conversion would have used, that were not converted from this file.
+    /// Files already in the directory, under the names this conversion
+    /// would have used, that are not an earlier conversion of this file.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     left_alone: Vec<PathBuf>,
     /// Warnings in all converted documents; each Markdown file lists its own
@@ -166,11 +167,11 @@ fn convert(
         formulas,
         conversion: Conversion {
             source: address.to_string(),
-            directory: paths::shown(dir),
+            directory: PathBuf::new(),
             markdown: Vec::new(),
             files: Vec::new(),
             skipped: Vec::new(),
-            left_alone: left_alone.iter().map(|f| paths::shown(f)).collect(),
+            left_alone: Vec::new(),
             warnings: 0,
         },
     };
@@ -181,7 +182,10 @@ fn convert(
         &dir.join(format!("{name}.parts")),
         HashSet::new(),
     )?;
+    // Shown once written, so that they resolve the same way.
     let mut conversion = converter.conversion;
+    conversion.directory = paths::shown(dir);
+    conversion.left_alone = left_alone.iter().map(|f| paths::shown(f)).collect();
     for written in conversion.markdown.iter_mut().chain(&mut conversion.files) {
         written.file = paths::shown(&written.file);
     }
@@ -189,9 +193,9 @@ fn convert(
 }
 
 /// The document's stem, or `stem-2`, `stem-3`... when its Markdown file or
-/// parts directory in `dir` is already taken in this run, or its Markdown
-/// file is there and was not converted from this file. Such files are added
-/// to `left_alone`.
+/// parts directory in `dir` is already taken in this run, or is there and
+/// is not an earlier conversion of this file. Such files are added to
+/// `left_alone`.
 fn free_name(
     taken: &mut HashSet<String>,
     dir: &Path,
@@ -207,40 +211,88 @@ fn free_name(
             format!("{stem}-{n}")
         };
         let markdown = dir.join(format!("{name}.md"));
-        // Names compare without case, as they do on Windows and macOS.
-        let files = [markdown.clone(), dir.join(format!("{name}.parts"))]
-            .map(|f| paths::shown(&f).to_string_lossy().to_lowercase());
-        if files.iter().all(|f| !taken.contains(f)) {
-            if may_overwrite(&markdown, address) {
-                taken.extend(files);
-                return name;
+        let parts = dir.join(format!("{name}.parts"));
+        let keys = [&markdown, &parts].map(|f| paths::key(f));
+        if keys.iter().all(|k| !taken.contains(k)) {
+            // The parts directory goes with the Markdown file: without one,
+            // it holds someone else's files, or `extract`'s.
+            let in_the_way = if markdown.exists() {
+                (!earlier_conversion(&markdown, address)).then_some(markdown)
+            } else {
+                parts.exists().then_some(parts)
+            };
+            match in_the_way {
+                Some(file) => left_alone.push(file),
+                None => {
+                    taken.extend(keys);
+                    return name;
+                }
             }
-            left_alone.push(markdown);
         }
         n += 1;
     }
 }
 
-/// Whether `markdown` may be written for `address`: it is not there, or it
-/// is an earlier conversion of a file with the same name, as its YAML
-/// header (`---\nsource: ...`) says.
-fn may_overwrite(markdown: &Path, address: &Address) -> bool {
+/// Whether the Markdown file `markdown` is an earlier conversion of
+/// `address`, as the `source` in its YAML header says. The file converted
+/// is never one: converting a Markdown file must not overwrite it.
+fn earlier_conversion(markdown: &Path, address: &Address) -> bool {
+    if paths::same_file(markdown, &address.file) {
+        return false;
+    }
     let Ok(file) = std::fs::File::open(markdown) else {
-        return !markdown.exists();
+        return false;
     };
     let mut head = Vec::new();
     if file.take(4096).read_to_end(&mut head).is_err() {
         return false;
     }
     let head = String::from_utf8_lossy(&head);
-    let Some(source) = head
-        .strip_prefix("---\nsource: ")
-        .and_then(|rest| rest.lines().next())
-    else {
+    // Editors and git may have added a byte order mark or CRLF line ends.
+    let mut lines = head.strip_prefix('\u{feff}').unwrap_or(&head).lines();
+    if lines.next() != Some("---") {
         return false;
+    }
+    lines
+        .next()
+        .and_then(|line| line.strip_prefix("source: "))
+        .and_then(|value| yaml_string(value.trim()))
+        .is_some_and(|source| names(&source, address))
+}
+
+/// A YAML scalar as the header writes it: plain, or double-quoted with
+/// JSON escapes.
+fn yaml_string(value: &str) -> Option<String> {
+    if value.starts_with('"') {
+        serde_json::from_str(value).ok()
+    } else {
+        Some(value.to_string())
+    }
+}
+
+/// Whether `source`, an address as given when an earlier conversion was
+/// made, names the file `address` names. It was relative to the directory
+/// doctopus ran in then, so it is not looked up as an address. It has to
+/// end with the same file name, compared without case as names are on
+/// Windows and macOS, and the same parts; and when the path before them
+/// leads to a file from here, that has to be the same file.
+fn names(source: &str, address: &Address) -> bool {
+    let file = if address.parts.is_empty() {
+        source
+    } else {
+        match source.strip_suffix(&format!("#{}", address.parts.join("/"))) {
+            Some(file) => file,
+            None => return false,
+        }
     };
-    let source = Address::parse(source.trim().trim_matches(['"', '\'']));
-    source.file.file_name() == address.file.file_name() && source.parts == address.parts
+    let file = Path::new(file);
+    let same_name = match (file.file_name(), address.file.file_name()) {
+        (Some(a), Some(b)) => {
+            a.to_string_lossy().to_lowercase() == b.to_string_lossy().to_lowercase()
+        }
+        _ => false,
+    };
+    same_name && (!file.is_file() || paths::same_file(file, &address.file))
 }
 
 struct Converter {
@@ -330,10 +382,13 @@ fn markdown_name(file_name: &str) -> String {
 }
 
 fn write(file: &Path, data: &[u8]) -> Result<(), Failure> {
+    let failed = |path: &Path, err: std::io::Error| {
+        Failure::write(path, &err).hint("write somewhere else with -o")
+    };
     if let Some(dir) = file.parent() {
-        std::fs::create_dir_all(dir).map_err(|err| Failure::write(dir, &err))?;
+        std::fs::create_dir_all(dir).map_err(|err| failed(dir, err))?;
     }
-    std::fs::write(file, data).map_err(|err| Failure::write(file, &err))
+    std::fs::write(file, data).map_err(|err| failed(file, err))
 }
 
 /// The conversion as YAML-style text.
@@ -378,7 +433,7 @@ fn describe(conversion: &Conversion) -> String {
         }
     }
     if !conversion.left_alone.is_empty() {
-        out.push_str("left alone: # already there, and not converted from this file\n");
+        out.push_str("left alone: # already there, and not an earlier conversion of this file\n");
         for file in &conversion.left_alone {
             let _ = writeln!(out, "  - {}", listed(file));
         }
@@ -441,10 +496,86 @@ mod tests {
         let name = free_name(&mut HashSet::new(), &dir, &pdf, &mut left_alone);
         assert_eq!(name, "report-3");
         assert_eq!(left_alone, [dir.join("report.md"), dir.join("report-2.md")]);
+
+        // A parts directory without its Markdown file is someone else's.
+        left_alone.clear();
+        std::fs::create_dir_all(dir.join("budget.parts")).unwrap();
+        let budget = Address::parse("budget.xlsx");
+        let name = free_name(&mut HashSet::new(), &dir, &budget, &mut left_alone);
+        assert_eq!(name, "budget-2");
+        assert_eq!(left_alone, [dir.join("budget.parts")]);
         let _ = std::fs::remove_dir_all(&dir);
 
         assert_eq!(markdown_name("Budget.xlsx"), "Budget.md");
         assert_eq!(markdown_name("README"), "README.md");
         assert_eq!(markdown_name(".hidden"), ".hidden.md");
+    }
+
+    #[test]
+    fn earlier_conversions_are_known_by_their_header() {
+        let dir = std::env::temp_dir().join(format!("doctopus-headers-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let markdown = dir.join("converted.md");
+        // Quoted as the header quotes names YAML cannot take plain.
+        let header = |source: &str| {
+            let source = serde_json::to_string(source).unwrap();
+            format!("---\nsource: {source}\nformat: docx\n---\n")
+        };
+        let is_earlier = |text: &str, address: &str| {
+            std::fs::write(&markdown, text).unwrap();
+            earlier_conversion(&markdown, &Address::parse(address))
+        };
+
+        // Quoted names come back as they were written.
+        for name in [
+            "'Final' plan.docx",
+            "say \"hi\".docx",
+            "a: b.docx",
+            "été.docx",
+        ] {
+            assert!(is_earlier(&header(&format!("old/{name}")), name), "{name}");
+        }
+        // Parts are part of the name, and `#` in a file name is not a part.
+        let invoice = dir.join("Invoice #12.docx");
+        std::fs::write(&invoice, "").unwrap();
+        let invoice = invoice.to_string_lossy();
+        assert!(is_earlier(&header("old/Invoice #12.docx"), &invoice));
+        assert!(is_earlier(
+            &header("bundle.zip#emb1/emb2"),
+            "bundle.zip#emb1/emb2"
+        ));
+        assert!(!is_earlier(&header("bundle.zip#emb1"), "bundle.zip#emb2"));
+        assert!(!is_earlier(&header("bundle.zip#emb1"), "bundle.zip"));
+        // Line ends and a byte order mark added since, and case.
+        let crlf = header("report.docx").replace('\n', "\r\n");
+        assert!(is_earlier(&crlf, "report.docx"));
+        assert!(is_earlier(
+            &format!("\u{feff}{}", header("report.docx")),
+            "report.docx"
+        ));
+        assert!(is_earlier(&header("Report.DOCX"), "report.docx"));
+        // Not a conversion, or of another file.
+        assert!(!is_earlier("# My notes\n", "report.docx"));
+        assert!(!is_earlier(
+            "---\ntitle: x\nsource: report.docx\n---\n",
+            "report.docx"
+        ));
+        assert!(!is_earlier(&header("report.pdf"), "report.docx"));
+
+        // When the path in the header leads to a file, it has to be this one.
+        let (a, b) = (dir.join("a"), dir.join("b"));
+        for d in [&a, &b] {
+            std::fs::create_dir_all(d).unwrap();
+            std::fs::write(d.join("r.docx"), "").unwrap();
+        }
+        let from_a = header(&a.join("r.docx").to_string_lossy());
+        assert!(is_earlier(&from_a, &a.join("r.docx").to_string_lossy()));
+        assert!(!is_earlier(&from_a, &b.join("r.docx").to_string_lossy()));
+        // A Markdown file is never its own earlier conversion.
+        std::fs::write(&markdown, header("converted.md")).unwrap();
+        let itself = Address::parse(&markdown.to_string_lossy());
+        assert!(!earlier_conversion(&markdown, &itself));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }

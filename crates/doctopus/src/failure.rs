@@ -51,7 +51,6 @@ impl Failure {
             Code::Failed,
             format!("cannot write `{}`: {err}", path.display()),
         )
-        .hint("write somewhere else with -o")
     }
 
     /// Print the failure on stderr and return its exit code.

@@ -85,8 +85,9 @@ pub(crate) enum Command {
     ///
     /// Each document becomes NAME.md, next to the file unless -o is given,
     /// with its pictures and attached files in NAME.parts/. A NAME.md that
-    /// is not an earlier conversion of the same file is left alone, and the
-    /// next free name is used. Embedded documents are converted too, to any
+    /// is not an earlier conversion of the same file is left alone, and so
+    /// is a NAME.parts/ without one; the next free name is used then.
+    /// Embedded documents are converted too, to any
     /// depth: each gets a directory named after its id inside its parent's
     /// parts, with its own Markdown file and parts. Links between the files
     /// are relative, so the output can be moved as a whole.

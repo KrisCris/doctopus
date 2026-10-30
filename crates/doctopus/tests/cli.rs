@@ -508,7 +508,7 @@ fn files_are_written_next_to_the_document_and_reported_in_full() {
     assert!(report.contains("\n  - bundle-2.md  # "), "{report}");
     assert!(
         report.contains(
-            "left alone: # already there, and not converted from this file\n  - bundle.md\n"
+            "left alone: # already there, and not an earlier conversion of this file\n  - bundle.md\n"
         ),
         "{report}"
     );

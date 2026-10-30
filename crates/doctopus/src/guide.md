@@ -34,8 +34,9 @@ attachments, and the files in an embedded zip archive.
 `doctopus convert FILE... -o DIR` writes `DIR/NAME.md` for each file and
 saves its pictures and attachments in `DIR/NAME.parts/`. Without `-o`,
 each file is converted next to itself. A `NAME.md` already there is
-replaced only when it is an earlier conversion of the same file; any other
-is left alone, and the conversion is named `NAME-2.md`. Every embedded
+replaced only when its header says it is an earlier conversion of the same
+file; any other is left alone, and so is a `NAME.parts/` without such a
+`NAME.md`. The conversion is then named `NAME-2.md`. Every embedded
 document is converted too, to any depth, into
 `NAME.parts/<id>/<its name>.md` with its own parts beside it. Embedded
 documents are linked where they appear, not inlined, and all links are
@@ -54,7 +55,7 @@ joined with `/`:
     doctopus read "deck.pptx#emb1"           # embedded document emb1 alone
     doctopus info "deck.pptx#emb1"           # its overview and parts
     doctopus extract "deck.pptx#emb1/img2"   # save one image
-    doctopus extract deck.pptx -o deck.parts # save every part
+    doctopus extract deck.pptx               # save every part to deck.parts/
     doctopus read deck.pptx --extract deck.parts
 
 `extract` saves to `NAME.parts/` next to the file unless `-o` says

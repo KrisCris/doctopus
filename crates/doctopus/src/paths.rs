@@ -15,9 +15,47 @@ pub(crate) fn beside(address: &Address) -> PathBuf {
 }
 
 /// `path` as reports show it: absolute, so it says where the file is
-/// whatever directory the reader is in.
+/// whatever directory the reader is in, and with symbolic links resolved
+/// once it exists, so `link/..` names the directory it leads to.
 pub(crate) fn shown(path: &Path) -> PathBuf {
-    absolute(path).unwrap_or_else(|| path.to_path_buf())
+    match std::fs::canonicalize(path) {
+        Ok(real) => without_verbatim_prefix(real),
+        Err(_) => absolute(path).unwrap_or_else(|| path.to_path_buf()),
+    }
+}
+
+/// `path` as a key for the names taken in one run: absolute and without
+/// case, as names compare on Windows and macOS, and the same whether or not
+/// the file is there yet.
+pub(crate) fn key(path: &Path) -> String {
+    absolute(path)
+        .unwrap_or_else(|| path.to_path_buf())
+        .to_string_lossy()
+        .to_lowercase()
+}
+
+/// Whether `a` and `b` are the same file on disk; false when either is not
+/// there.
+pub(crate) fn same_file(a: &Path, b: &Path) -> bool {
+    match (std::fs::canonicalize(a), std::fs::canonicalize(b)) {
+        (Ok(a), Ok(b)) => a == b,
+        _ => false,
+    }
+}
+
+/// A canonical Windows path without its `\\?\` prefix, which many programs
+/// do not accept.
+fn without_verbatim_prefix(path: PathBuf) -> PathBuf {
+    if cfg!(windows) {
+        let text = path.to_string_lossy();
+        if let Some(share) = text.strip_prefix(r"\\?\UNC\") {
+            return PathBuf::from(format!(r"\\{share}"));
+        }
+        if let Some(rest) = text.strip_prefix(r"\\?\") {
+            return PathBuf::from(rest);
+        }
+    }
+    path
 }
 
 /// `file` relative to the directory `dir` that holds it, for listing the

@@ -62,7 +62,9 @@ pub(crate) fn run(args: &ExtractArgs, max_depth: u32) -> Result<(), Failure> {
         .output
         .clone()
         .unwrap_or_else(|| paths::beside(&address).join(format!("{}.parts", stem(&address))));
-    let mut report = save(loaded.document(), loaded.part(), &address, &dir)?;
+    // Saving fails only to write.
+    let mut report = save(loaded.document(), loaded.part(), &address, &dir)
+        .map_err(|failure| failure.hint("save somewhere else with -o"))?;
     let dir = paths::shown(&dir);
     for saved in &mut report.files {
         saved.file = paths::shown(&saved.file);
