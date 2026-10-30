@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Collect the licenses of every crate built into the doctopus binary.
 
-Usage: third-party-licenses.py [--target TRIPLE] > THIRD-PARTY-LICENSES.txt
+Usage: third-party-licenses.py [--target TRIPLE] [--package NAME] > THIRD-PARTY-LICENSES.txt
 
-Release archives ship this file next to the binary, since the licenses of
-the bundled crates ask for their notices to accompany it. Only normal
-dependencies of the `doctopus` package for the given target are listed
-(not build or dev dependencies). Crates are fetched by Cargo first, so run
-it after a build.
+Release archives ship this file next to the binary, and the web app next to
+its WebAssembly module (`--package doctopus-web`), since the licenses of the
+bundled crates ask for their notices to accompany it. Only normal
+dependencies of the package for the given target are listed (not build or
+dev dependencies). Crates are fetched by Cargo first, so run it after a
+build.
 """
 
 import argparse
@@ -16,7 +17,8 @@ import os
 import subprocess
 import sys
 
-ROOT_PACKAGE = "doctopus"
+# What each package ships as, for the heading.
+SHIPPED_AS = {"doctopus": "binary", "doctopus-web": "web app"}
 LICENSE_PREFIXES = ("license", "licence", "copying", "notice", "unlicense", "copyright")
 # Data that a crate builds into the binary (fonts, character maps, color
 # profiles) can carry licenses of its own, kept next to it.
@@ -30,11 +32,11 @@ def metadata(target):
     return json.loads(subprocess.check_output(command))
 
 
-def bundled(meta):
+def bundled(meta, root_package):
     """Packages reachable from the root package through normal dependencies."""
     packages = {p["id"]: p for p in meta["packages"]}
     nodes = {n["id"]: n for n in meta["resolve"]["nodes"]}
-    root = next(p["id"] for p in meta["packages"] if p["name"] == ROOT_PACKAGE)
+    root = next(p["id"] for p in meta["packages"] if p["name"] == root_package)
     seen, stack = set(), [root]
     while stack:
         current = stack.pop()
@@ -75,8 +77,12 @@ def license_files(package):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--target", help="target triple, e.g. x86_64-unknown-linux-musl")
+    parser.add_argument(
+        "--package", choices=sorted(SHIPPED_AS), default="doctopus", help="the package shipped"
+    )
     args = parser.parse_args()
-    packages = bundled(metadata(args.target))
+    packages = bundled(metadata(args.target), args.package)
+    shipped = f"doctopus {SHIPPED_AS[args.package]}"
 
     # The same license text is shipped by many crates: print each once.
     texts = {}  # text -> notice number
@@ -96,7 +102,7 @@ def main():
     out.write("Third-party software in doctopus\n")
     out.write("================================\n\n")
     out.write(
-        "The doctopus binary includes the crates below. The numbers refer to\n"
+        f"The {shipped} includes the crates below. The numbers refer to\n"
         "the license texts that follow the list.\n\n"
     )
     for p, numbers in crate_notices:

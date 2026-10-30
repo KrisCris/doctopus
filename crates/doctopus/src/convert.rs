@@ -15,7 +15,8 @@
 //! ```
 //!
 //! Links are relative to the Markdown file that holds them, so the output
-//! can be moved as a whole.
+//! can be moved as a whole. [`render::convert`] lays the files out; this
+//! module picks the name and writes them.
 //!
 //! Without `-o`, each document is converted next to its file. A Markdown
 //! file already there is overwritten only when its YAML header says it is
@@ -23,17 +24,17 @@
 //! is a parts directory without such a Markdown file. The conversion then
 //! takes the next free name (`report-2.md`).
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::HashSet;
 use std::fmt::Write as _;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
 
-use doctopus_core::render::{self, RenderOptions, describe_part, estimate_tokens, shell_quote};
-use doctopus_core::{Address, Document, Engine};
+use doctopus_core::render::{self, RenderOptions, describe_part, shell_quote};
+use doctopus_core::{Address, Engine};
 use serde::Serialize;
 
 use crate::cli::{ConvertArgs, stem};
-use crate::extract::{Skipped, empty_reason, unique_name};
+use crate::extract::Skipped;
 use crate::failure::Failure;
 use crate::load::{engine, load};
 use crate::output::print;
@@ -163,27 +164,52 @@ fn convert(
     let (document, _) = load(engine, address)?.into_document(address)?;
     let mut left_alone = Vec::new();
     let name = free_name(taken, dir, address, &mut left_alone);
-    let mut converter = Converter {
-        formulas,
-        conversion: Conversion {
-            source: address.to_string(),
-            directory: PathBuf::new(),
-            markdown: Vec::new(),
-            files: Vec::new(),
-            skipped: Vec::new(),
-            left_alone: Vec::new(),
-            warnings: 0,
-        },
+    let mut options = RenderOptions::new(address.clone());
+    options.formulas = formulas;
+    let converted = render::convert(&document, &name, &options);
+    let mut conversion = Conversion {
+        source: address.to_string(),
+        directory: PathBuf::new(),
+        markdown: Vec::with_capacity(converted.markdown.len()),
+        files: Vec::with_capacity(converted.files.len()),
+        skipped: converted
+            .skipped
+            .into_iter()
+            .map(|skipped| Skipped {
+                address: skipped.address.to_string(),
+                reason: skipped.reason,
+            })
+            .collect(),
+        left_alone: Vec::new(),
+        warnings: converted.warnings,
     };
-    converter.document(
-        &document,
-        address,
-        &dir.join(format!("{name}.md")),
-        &dir.join(format!("{name}.parts")),
-        HashSet::new(),
-    )?;
+    for file in &converted.files {
+        let path = local(dir, &file.path);
+        write(&path, &file.part.data)?;
+        conversion.files.push(Written {
+            file: path,
+            address: file.address.to_string(),
+            format: None,
+            content_type: file.part.content_type.clone(),
+            size: file.part.data.len() as u64,
+            tokens: None,
+            summary: describe_part(file.part),
+        });
+    }
+    for markdown in &converted.markdown {
+        let path = local(dir, &markdown.path);
+        write(&path, markdown.text.as_bytes())?;
+        conversion.markdown.push(Written {
+            file: path,
+            address: markdown.address.to_string(),
+            format: Some(markdown.document.format.id),
+            content_type: None,
+            size: markdown.text.len() as u64,
+            tokens: Some(markdown.tokens()),
+            summary: markdown.document.format.name.to_string(),
+        });
+    }
     // Shown once written, so that they resolve the same way.
-    let mut conversion = converter.conversion;
     conversion.directory = paths::shown(dir);
     conversion.left_alone = left_alone.iter().map(|f| paths::shown(f)).collect();
     for written in conversion.markdown.iter_mut().chain(&mut conversion.files) {
@@ -301,90 +327,12 @@ fn names(source: &str, address: &Address, beside: bool) -> bool {
     same_name && (beside || !file.is_file() || paths::same_file(file, &address.file))
 }
 
-struct Converter {
-    formulas: bool,
-    conversion: Conversion,
-}
-
-impl Converter {
-    /// Write `doc` as `markdown`, with its parts in `parts`. `used` holds
-    /// the names already taken in `parts`.
-    fn document(
-        &mut self,
-        doc: &Document,
-        address: &Address,
-        markdown: &Path,
-        parts: &Path,
-        mut used: HashSet<String>,
-    ) -> Result<(), Failure> {
-        let here = markdown.parent().unwrap_or(Path::new(""));
-        // Embedded documents get a directory named after their id; keep
-        // those names free for them.
-        for part in doc.parts.iter().filter(|p| p.document.is_some()) {
-            used.insert(part.id.as_str().to_lowercase());
-        }
-        let index = self.conversion.markdown.len();
-        let mut links = BTreeMap::new();
-        for part in &doc.parts {
-            let part_address = address.child(part.id.as_str());
-            if let Some(child) = &part.document {
-                let dir = parts.join(part.id.as_str());
-                let file = dir.join(markdown_name(&part.file_name()));
-                let mut child_used = HashSet::new();
-                child_used.extend(file.file_name().map(|n| n.to_string_lossy().to_lowercase()));
-                self.document(child, &part_address, &file, &dir, child_used)?;
-                links.insert(part.id.to_string(), paths::link(here, &file));
-            } else if part.data.is_empty() {
-                self.conversion.skipped.push(Skipped {
-                    address: part_address.to_string(),
-                    reason: empty_reason(part),
-                });
-            } else {
-                let file = parts.join(unique_name(&mut used, part.file_name()));
-                write(&file, &part.data)?;
-                links.insert(part.id.to_string(), paths::link(here, &file));
-                self.conversion.files.push(Written {
-                    file,
-                    address: part_address.to_string(),
-                    format: None,
-                    content_type: part.content_type.clone(),
-                    size: part.data.len() as u64,
-                    tokens: None,
-                    summary: describe_part(part),
-                });
-            }
-        }
-
-        let mut options = RenderOptions::new(address.clone());
-        options.standalone = true;
-        options.formulas = self.formulas;
-        options.extracted = links;
-        let text = render::markdown(doc, &options).text;
-        write(markdown, text.as_bytes())?;
-        self.conversion.warnings += doc.warnings.len();
-        let written = Written {
-            file: markdown.to_path_buf(),
-            address: address.to_string(),
-            format: Some(doc.format.id),
-            content_type: None,
-            size: text.len() as u64,
-            tokens: Some(estimate_tokens(&text)),
-            summary: doc.format.name.to_string(),
-        };
-        // The parent before the documents embedded in it.
-        self.conversion.markdown.insert(index, written);
-        Ok(())
-    }
-}
-
-/// The Markdown file name for a part saved as `file_name`: `Budget.md` for
-/// `Budget.xlsx`.
-fn markdown_name(file_name: &str) -> String {
-    let stem = match file_name.rsplit_once('.') {
-        Some((stem, _)) if !stem.is_empty() => stem,
-        _ => file_name,
-    };
-    format!("{stem}.md")
+/// `path`, relative to the output directory with `/` between components,
+/// as a file in `dir`.
+fn local(dir: &Path, path: &str) -> PathBuf {
+    let mut file = dir.to_path_buf();
+    file.extend(path.split('/'));
+    file
 }
 
 fn write(file: &Path, data: &[u8]) -> Result<(), Failure> {
@@ -511,10 +459,6 @@ mod tests {
         assert_eq!(name, "budget-2");
         assert_eq!(left_alone, [dir.join("budget.parts")]);
         let _ = std::fs::remove_dir_all(&dir);
-
-        assert_eq!(markdown_name("Budget.xlsx"), "Budget.md");
-        assert_eq!(markdown_name("README"), "README.md");
-        assert_eq!(markdown_name(".hidden"), ".hidden.md");
     }
 
     #[test]

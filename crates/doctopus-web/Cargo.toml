@@ -1,0 +1,33 @@
+[package]
+name = "doctopus-web"
+description = "doctopus in the browser: converts documents to linked Markdown files in WebAssembly, without a server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+readme = "README.md"
+# The web page's engine, built with scripts/build-web.sh; not a library to
+# publish.
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+doctopus-archive.workspace = true
+doctopus-core.workspace = true
+doctopus-office.workspace = true
+doctopus-pdf.workspace = true
+doctopus-text.workspace = true
+pulldown-cmark.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+wasm-bindgen.workspace = true
+zip.workspace = true
+
+[lints]
+workspace = true

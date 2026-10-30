@@ -33,11 +33,15 @@ imagesize = "0.15.0"
 insta = "1.49.0"
 kurbo = "0.13.1"
 png = "0.18.1"
+pulldown-cmark = { version = "0.13.5", default-features = false, features = ["html"] }
 quick-xml = "0.42.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.145"
 thiserror = "2.0.17"
 uuid = "1.18.1"
+# Exact: the wasm-bindgen command that builds the web app must be this very
+# version, and scripts/build-web.sh checks that it is.
+wasm-bindgen = "=0.2.127"
 # Pure-Rust inflate only: no C libraries, so release binaries stay fully static.
 zip = { version = "9.1.2", default-features = false, features = ["deflate-flate2-zlib-rs", "deflate64"] }
 

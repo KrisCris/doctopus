@@ -79,6 +79,56 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo check --workspace --locked
 
+  web:
+    # The web app (crates/doctopus-web). Each run's build can be downloaded
+    # from its summary page and served by any static web server.
+    name: Web app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      # The command has to be the version of the crate in Cargo.lock.
+      - name: Read the wasm-bindgen version
+        id: wasm-bindgen
+        run: echo "version=$(cargo pkgid --locked wasm-bindgen | sed -E 's/.*[#@]//')" >> "$GITHUB_OUTPUT"
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@${{ steps.wasm-bindgen.outputs.version }}
+      - run: scripts/build-web.sh dist/doctopus-web
+      - run: node scripts/check-web.mjs dist/doctopus-web
+      - uses: actions/upload-artifact@v7
+        with:
+          name: doctopus-web
+          path: dist/doctopus-web
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist/doctopus-web
+
+  pages:
+    # Publishes the web app at https://kriscris.github.io/doctopus/ after
+    # each push to main, once every check but the binary builds passes.
+    name: Deploy the web app
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, dependencies, test, msrv, web]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # One deployment at a time, never cancelled halfway.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
   binaries:
     # The same build as a release, for every target. Each run's archives
     # can be downloaded from its summary page.

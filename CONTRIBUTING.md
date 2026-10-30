@@ -27,9 +27,10 @@ still runs.
 | `crates/doctopus-pdf` | The PDF reader, on the hayro interpreter: page text and layout in `src/page.rs` and `src/layout.rs`, the catalog (links, bookmarks, forms, attachments) in `src/catalog.rs`. See [docs/pdf.md](docs/pdf.md). |
 | `crates/doctopus-archive` | The zip archive reader: each file in an archive becomes a part, read by its own reader. |
 | `crates/doctopus-text` | The plain-text reader. |
-| `crates/doctopus` | The command line. `src/convert.rs` writes documents out as linked Markdown files. |
+| `crates/doctopus` | The command line. `src/convert.rs` writes documents out as linked Markdown files, laid out by `render::convert` in `doctopus-core`. |
+| `crates/doctopus-web` | The web app: the same conversion in WebAssembly, with a static page in `www/` that shows the files and their links. See [its README](crates/doctopus-web/README.md). |
 | `testdata/corpus.tsv` | The third-party test corpus: sources, file names and hashes. The files are downloaded, not committed. |
-| `scripts/` | Fetching the corpus, checking release binaries, collecting third-party licenses. |
+| `scripts/` | Fetching the corpus, checking release binaries, collecting third-party licenses, building and checking the web app. |
 | `docs/adding-a-format.md` | How to add a reader for a new file type. |
 | `docs/pdf.md` | How PDF maps onto the document model, and why the PDF reader uses hayro. |
 
@@ -88,6 +89,26 @@ DOCTOPUS_FUZZ_ROUNDS=300 cargo test --release -p doctopus-pdf --test robustness
 
 A panic in a reader fails the test and names the file, the round and the
 source location.
+
+### The web app
+
+CI builds the web app in its Web app job and keeps the result as a
+downloadable artifact. After a push to `main`, once every check but the
+binary builds passes, the Deploy job publishes it to GitHub Pages at
+<https://kriscris.github.io/doctopus/>. To build and try it locally:
+
+```sh
+rustup target add wasm32-unknown-unknown
+cargo install wasm-bindgen-cli --version 0.2.127 --locked   # the version in Cargo.lock
+scripts/build-web.sh
+node scripts/check-web.mjs
+python3 -m http.server -d target/web 8000
+```
+
+The `wasm-bindgen` command must be the version of the crate in
+`Cargo.lock`; the script stops with the command to install it otherwise.
+When updating the crate, update `wasm-bindgen` in the root `Cargo.toml`
+too, where it is pinned exactly.
 
 ## Releases
 

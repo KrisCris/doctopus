@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Converted documents are untrusted: nothing on this page may load from
+       elsewhere, except the pinned Mermaid release that draws diagrams. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.min.js; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self'; worker-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>doctopus</title>
+  <meta name="description" content="Convert Word, Excel, PowerPoint, Visio and PDF files to linked Markdown in your browser. Nothing is uploaded.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=dev">
+  <script type="module" src="app.js?v=dev"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="./" aria-label="doctopus home">
+      <img src="icon.svg" alt="" width="24" height="24">
+      <span>doctopus</span>
+    </a>
+    <span class="source" id="source"></span>
+    <div class="bar-actions">
+      <button type="button" id="download-all" class="button" hidden>
+        <span class="only-wide">Download all (.zip)</span><span class="only-narrow">.zip</span>
+      </button>
+      <button type="button" id="open" class="button primary">
+        <span class="only-wide">Open file…</span><span class="only-narrow">Open</span>
+      </button>
+    </div>
+    <input type="file" id="file-input" hidden>
+  </header>
+
+  <main id="main" class="main" data-state="welcome">
+    <section class="welcome" id="welcome">
+      <div class="welcome-card">
+        <h1>Documents to linked Markdown, in your browser</h1>
+        <p class="lede">Drop a Word, Excel, PowerPoint, Visio or PDF file anywhere on this page.
+          It is converted right here with WebAssembly, exactly as <code>doctopus convert</code>
+          converts it, and never leaves your computer.</p>
+        <button type="button" id="choose" class="button primary large">Choose a file</button>
+        <p class="formats" id="formats"></p>
+        <p class="engine" id="engine">Loading the converter…</p>
+        <p class="links">
+          <a href="https://github.com/KrisCris/doctopus">Source and command line</a>
+          · <a href="THIRD-PARTY-LICENSES.txt">Licenses</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="busy" id="busy" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="busy-text">Converting…</p>
+    </section>
+
+    <section class="failure" id="failure" hidden>
+      <div class="welcome-card">
+        <h2 id="failure-title">This file could not be converted</h2>
+        <p id="failure-text"></p>
+        <button type="button" id="failure-open" class="button primary">Open another file</button>
+      </div>
+    </section>
+
+    <nav class="tree" id="tree" aria-label="Converted files" hidden>
+      <div class="tree-head">
+        <span>Files</span>
+        <span class="tree-count" id="tree-count"></span>
+      </div>
+      <ul class="tree-root" id="tree-root" role="tree"></ul>
+      <div class="tree-foot" id="tree-foot"></div>
+    </nav>
+
+    <section class="viewer" id="viewer" hidden>
+      <div class="viewer-bar">
+        <button type="button" id="toggle-tree" class="button icon-only only-narrow" aria-label="Show files" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="crumbs" id="crumbs"></div>
+        <div class="viewer-actions">
+          <div class="segmented" id="mode" role="group" aria-label="View">
+            <button type="button" data-mode="preview" aria-pressed="true">Preview</button>
+            <button type="button" data-mode="source" aria-pressed="false">Markdown</button>
+          </div>
+          <button type="button" id="download" class="button">Download</button>
+        </div>
+      </div>
+      <div class="viewer-meta" id="meta"></div>
+      <div class="viewer-scroll" id="scroll">
+        <article class="content" id="content"></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="dropzone" id="dropzone" hidden>
+    <div class="dropzone-inner">Drop the file to convert it</div>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
