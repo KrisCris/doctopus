@@ -79,31 +79,10 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo check --workspace --locked
 
-  static:
-    # The release targets most likely to pick up a dynamic dependency. The
-    # release workflow builds and checks all six.
-    name: Self-contained build (${{ matrix.target }})
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: x86_64-unknown-linux-musl
-            runner: ubuntu-latest
-          - target: x86_64-pc-windows-msvc
-            runner: windows-latest
-    runs-on: ${{ matrix.runner }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.target }}
-      - run: cargo build --profile dist --locked --target ${{ matrix.target }} -p doctopus
-      - name: Check that the binary is self-contained
-        run: |
-          python=$(command -v python3 || command -v python)
-          "$python" scripts/check-binary.py target/${{ matrix.target }}/dist/doctopus${{ runner.os == 'Windows' && '.exe' || '' }}
-      - name: Smoke test
-        run: target/${{ matrix.target }}/dist/doctopus formats
+  binaries:
+    # The same build as a release, for every target. Each run's archives
+    # can be downloaded from its summary page.
+    name: Binaries
+    uses: ./.github/workflows/binaries.yml
+    with:
+      cache: true

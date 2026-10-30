@@ -65,7 +65,3 @@ opt-level = 3
 codegen-units = 1
 lto = "fat"
 strip = true
-
-# `cargo build --profile dist` is what release CI uses.
-[profile.dist]
-inherits = "release"

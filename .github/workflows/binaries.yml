@@ -1,0 +1,118 @@
+name: Binaries
+
+# Builds doctopus for every supported target, checks and runs each binary,
+# and uploads one archive per target. CI and the release workflow both call
+# this workflow, so they always build the same targets the same way.
+
+on:
+  workflow_call:
+    inputs:
+      cache:
+        description: Restore and save the Cargo build cache.
+        type: boolean
+        default: false
+      retention-days:
+        description: Days to keep the uploaded archives.
+        type: number
+        default: 14
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  # Do not set RUSTFLAGS here: it would replace the static-linking flags in
+  # .cargo/config.toml.
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linked against the system's glibc, like most Linux programs.
+          - target: x86_64-unknown-linux-gnu
+            runner: ubuntu-latest
+          - target: aarch64-unknown-linux-gnu
+            runner: ubuntu-24.04-arm
+          # Statically linked, so they run on any distribution.
+          - target: x86_64-unknown-linux-musl
+            runner: ubuntu-latest
+          - target: aarch64-unknown-linux-musl
+            runner: ubuntu-24.04-arm
+          - target: aarch64-apple-darwin
+            runner: macos-latest
+          - target: x86_64-pc-windows-msvc
+            runner: windows-latest
+          - target: aarch64-pc-windows-msvc
+            runner: windows-11-arm
+    runs-on: ${{ matrix.runner }}
+    env:
+      EXE: ${{ contains(matrix.target, 'windows') && '.exe' || '' }}
+      BIN: target/${{ matrix.target }}/release/doctopus${{ contains(matrix.target, 'windows') && '.exe' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        if: inputs.cache
+        with:
+          key: ${{ matrix.target }}
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }} -p doctopus
+      - name: Check that the binary is self-contained
+        if: ${{ !endsWith(matrix.target, '-linux-gnu') }}
+        run: |
+          python=$(command -v python3 || command -v python)
+          "$python" scripts/check-binary.py "$BIN"
+      - name: Check that the binary is statically linked
+        if: endsWith(matrix.target, '-linux-musl')
+        run: |
+          file "$BIN"
+          case "$(file -b "$BIN")" in
+            *"statically linked"* | *"static-pie linked"*) ;;
+            *) echo "::error::$BIN is not statically linked"; exit 1 ;;
+          esac
+      - name: Show the shared libraries and the glibc version needed
+        if: endsWith(matrix.target, '-linux-gnu')
+        run: |
+          ldd "$BIN"
+          glibc=$(objdump -T "$BIN" | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -n 1)
+          echo "needs glibc ${glibc#GLIBC_} or newer"
+      - name: Smoke test
+        run: |
+          "$BIN" --version
+          "$BIN" formats
+      - name: Package
+        env:
+          COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          case "$GITHUB_REF" in
+            refs/tags/v*) version="${GITHUB_REF_NAME#v}" ;;
+            *) version="dev.${COMMIT::7}" ;;
+          esac
+          name="doctopus-$version-${{ matrix.target }}"
+          mkdir -p "dist/$name"
+          cp "$BIN" README.md LICENSE-MIT LICENSE-APACHE NOTICE "dist/$name/"
+          python=$(command -v python3 || command -v python)
+          "$python" scripts/third-party-licenses.py --target ${{ matrix.target }} > "dist/$name/THIRD-PARTY-LICENSES.txt"
+          cd dist
+          if [ -n "$EXE" ]; then
+            7z a -tzip "$name.zip" "$name" > /dev/null
+          else
+            tar -czf "$name.tar.gz" "$name"
+          fi
+          rm -r "$name"
+          ls -l
+      - uses: actions/upload-artifact@v7
+        with:
+          name: doctopus-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+          retention-days: ${{ inputs.retention-days }}
