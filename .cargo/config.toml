@@ -1,7 +1,8 @@
 # Release binaries must run on a bare system with nothing installed.
 #
 # The Linux musl builds link statically by default. The glibc builds link
-# only the system's C library, like most Linux programs. On Windows the
+# the system's C library (libc, libm, libgcc_s) dynamically, like most
+# Linux programs. On Windows the
 # MSVC C runtime is linked in as well, so the binary does not need the
 # Visual C++ Redistributable. macOS only supports linking the system
 # libraries dynamically, and those are present on every Mac.

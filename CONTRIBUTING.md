@@ -93,12 +93,29 @@ source location.
 
 1. Update the version in the root `Cargo.toml` and `CHANGELOG.md`.
 2. Tag the commit `vX.Y.Z` and push the tag.
-3. The release workflow builds and checks binaries for Linux, macOS and
-   Windows on x86_64 and arm64. It attaches them to a draft GitHub
-   release. Review the draft and publish it.
+3. The release workflow builds and checks the binaries and attaches them
+   to a draft GitHub release. Review the draft and publish it.
 
 The release workflow can also be run by hand to build the binaries without
 releasing.
+
+Both CI (the Binaries jobs) and the release workflow build the binaries
+with `.github/workflows/binaries.yml`, which holds the list of targets:
+Linux (glibc and static musl), macOS and Windows, each on x86_64 and
+arm64. Each target is built with `cargo build --release --locked`, on a
+runner of its own architecture except for Intel macOS, which is
+cross-compiled on Apple silicon and run under Rosetta. The job checks the
+binary:
+
+- The musl builds must be fully static, and the others may only need
+  libraries the operating system provides (`scripts/check-binary.py`).
+- The glibc builds must not need a glibc newer than the 2.35 promised in
+  the README.
+- `doctopus --version` and `doctopus formats` must run.
+
+It then uploads an archive with the README, the licenses and
+`THIRD-PARTY-LICENSES.txt`. In CI the archives are named
+`doctopus-dev.<commit>-<target>` and kept for 14 days.
 
 ## License
 

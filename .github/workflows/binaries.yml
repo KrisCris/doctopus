@@ -45,6 +45,9 @@ jobs:
             runner: ubuntu-latest
           - target: aarch64-unknown-linux-musl
             runner: ubuntu-24.04-arm
+          # Cross-compiled for Intel Macs, and run under Rosetta.
+          - target: x86_64-apple-darwin
+            runner: macos-latest
           - target: aarch64-apple-darwin
             runner: macos-latest
           - target: x86_64-pc-windows-msvc
@@ -79,12 +82,26 @@ jobs:
             *"statically linked"* | *"static-pie linked"*) ;;
             *) echo "::error::$BIN is not statically linked"; exit 1 ;;
           esac
-      - name: Show the shared libraries and the glibc version needed
+      - name: Check the glibc version needed
         if: endsWith(matrix.target, '-linux-gnu')
+        env:
+          # The oldest glibc the README promises to support.
+          GLIBC_FLOOR: "2.35"
         run: |
           ldd "$BIN"
           glibc=$(objdump -T "$BIN" | grep -o 'GLIBC_[0-9.]*' | sort -uV | tail -n 1)
-          echo "needs glibc ${glibc#GLIBC_} or newer"
+          glibc=${glibc#GLIBC_}
+          echo "needs glibc $glibc or newer"
+          if [ "$(printf '%s\n' "$glibc" "$GLIBC_FLOOR" | sort -V | tail -n 1)" != "$GLIBC_FLOOR" ]; then
+            echo "::error::needs glibc $glibc, newer than the $GLIBC_FLOOR in the README"
+            exit 1
+          fi
+      - name: Check the architecture and install Rosetta
+        if: matrix.target == 'x86_64-apple-darwin'
+        run: |
+          lipo -archs "$BIN"
+          [ "$(lipo -archs "$BIN")" = x86_64 ]
+          /usr/bin/pgrep -q oahd || sudo softwareupdate --install-rosetta --agree-to-license
       - name: Smoke test
         run: |
           "$BIN" --version
