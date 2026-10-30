@@ -46,7 +46,7 @@ pub(crate) fn run(args: &ReadArgs, max_depth: u32) -> Result<(), Failure> {
             note(&format!(
                 "doctopus: saved {} part(s) to {}; references point at the saved files",
                 report.files.len(),
-                shell_quote(&dir.display().to_string())
+                shell_quote(&paths::shown(dir).display().to_string())
             ));
         }
         // Links are read from where the output is: the file written with
@@ -271,7 +271,11 @@ fn write_file(path: &Path, rendered: &Rendered, context: &Context<'_>) -> Result
 
     let text = &rendered.text;
     let mut out = String::new();
-    let _ = writeln!(out, "output: {}", shell_quote(&path.display().to_string()));
+    let _ = writeln!(
+        out,
+        "output: {}",
+        shell_quote(&paths::shown(path).display().to_string())
+    );
     let _ = writeln!(
         out,
         "size: {} characters, about {} tokens, {} lines",

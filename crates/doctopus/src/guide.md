@@ -32,12 +32,16 @@ attachments, and the files in an embedded zip archive.
 ## Converting to Markdown files
 
 `doctopus convert FILE... -o DIR` writes `DIR/NAME.md` for each file and
-saves its pictures and attachments in `DIR/NAME.parts/`. Every embedded
+saves its pictures and attachments in `DIR/NAME.parts/`. Without `-o`,
+each file is converted next to itself. A `NAME.md` already there is
+replaced only when it is an earlier conversion of the same file; any other
+is left alone, and the conversion is named `NAME-2.md`. Every embedded
 document is converted too, to any depth, into
 `NAME.parts/<id>/<its name>.md` with its own parts beside it. Embedded
 documents are linked where they appear, not inlined, and all links are
-relative to the Markdown file that holds them. The command lists every
-file it wrote and which one to read first. Visio pages also get a Mermaid
+relative to the Markdown file that holds them. The command prints the
+directory it wrote to as an absolute path, lists every file in it, and
+names the file to read first. Visio pages also get a Mermaid
 flowchart of their connections. Files doctopus cannot read are saved as
 they are and linked.
 
@@ -53,7 +57,8 @@ joined with `/`:
     doctopus extract deck.pptx -o deck.parts # save every part
     doctopus read deck.pptx --extract deck.parts
 
-`extract` lists each saved file with its address. Parts nested in an
+`extract` saves to `NAME.parts/` next to the file unless `-o` says
+otherwise, and lists each saved file with its address. Parts nested in an
 embedded document go into a subdirectory named after that document's id.
 With `read --extract DIR`, image and object references in the output point
 at the saved files. You can open images saved this way (for example by

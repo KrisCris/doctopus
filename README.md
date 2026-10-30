@@ -125,8 +125,8 @@ Markdown files. `doctopus guide` explains the rest.
 |---|---|
 | `doctopus info FILE...` | Format, properties, sheets, slides or pages, embedded parts, output size, and suggested next commands |
 | `doctopus read FILE` | The content as Markdown, a page at a time (`doctopus FILE` is short for this) |
-| `doctopus extract FILE -o DIR` | Save every image, embedded document and attachment, nested ones included |
-| `doctopus convert FILE... -o DIR` | Write each file, and every document inside it, as Markdown files with their pictures and attachments |
+| `doctopus extract FILE [-o DIR]` | Save every image, embedded document and attachment, nested ones included (to `NAME.parts/` next to the file by default) |
+| `doctopus convert FILE... [-o DIR]` | Write each file, and every document inside it, as Markdown files with their pictures and attachments (next to the file by default) |
 | `doctopus formats` | The supported formats and extensions |
 | `doctopus guide` | A usage guide written for agents |
 
@@ -162,12 +162,17 @@ to that file.
 ### Converting to Markdown files
 
 ```sh
+doctopus convert docs/report.docx              # writes docs/report.md
 doctopus convert report.docx -o converted
 doctopus convert *.docx *.xlsx -o converted   # several files at once
 ```
 
 A document becomes `NAME.md`, and its pictures and attached files go to
-`NAME.parts/`. Every embedded document is converted too, however deep it
+`NAME.parts/`, in the directory given with `-o` or else next to the
+document. The command prints that directory as an absolute path and the
+file to read first. A `NAME.md` already there is replaced only when it is
+an earlier conversion of the same file; anything else is left alone, and
+the conversion is written as `NAME-2.md` instead. Every embedded document is converted too, however deep it
 is nested: it gets a directory named after its id inside its parent's
 parts, with its own Markdown file and parts.
 

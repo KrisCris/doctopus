@@ -28,7 +28,11 @@ follow [Semantic Versioning](https://semver.org/).
 - `doctopus convert`: a file and every document inside it, to any depth,
   as Markdown files linked to each other and to the saved pictures and
   attachments, to be read without doctopus. Visio pages also get a
-  Mermaid flowchart of their connections.
+  Mermaid flowchart of their connections. Without `-o`, files are written
+  next to the document, and a Markdown file of the user's own is never
+  overwritten.
+- `convert`, `extract` and `read -o` report where they wrote as absolute
+  paths.
 - `doctopus info`, `doctopus extract`, `doctopus formats` and
   `doctopus guide`.
 - Release binaries for Linux, macOS and Windows on x86_64 and arm64. Linux

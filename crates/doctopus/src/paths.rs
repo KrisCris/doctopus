@@ -1,6 +1,30 @@
-//! Paths written into Markdown links.
+//! Paths written into Markdown links and shown in reports.
 
 use std::path::{Component, Path, PathBuf};
+
+use doctopus_core::Address;
+
+/// The directory of the file an address names: where its converted or
+/// extracted files go unless `-o` says otherwise.
+pub(crate) fn beside(address: &Address) -> PathBuf {
+    address
+        .file
+        .parent()
+        .map(Path::to_path_buf)
+        .unwrap_or_default()
+}
+
+/// `path` as reports show it: absolute, so it says where the file is
+/// whatever directory the reader is in.
+pub(crate) fn shown(path: &Path) -> PathBuf {
+    absolute(path).unwrap_or_else(|| path.to_path_buf())
+}
+
+/// `file` relative to the directory `dir` that holds it, for listing the
+/// files written there.
+pub(crate) fn within(dir: &Path, file: &Path) -> PathBuf {
+    relative(dir, file).unwrap_or_else(|| file.to_path_buf())
+}
 
 /// `file` as a link from a Markdown file in the directory `from`: relative
 /// to it when both are on the same root, and with `/` between components
@@ -82,5 +106,20 @@ mod tests {
             link(&out.join("..").join("out"), &image),
             "report.parts/image 1.png"
         );
+    }
+
+    #[test]
+    fn reports_show_absolute_paths() {
+        let here = std::env::current_dir().unwrap();
+        assert_eq!(shown(Path::new("")), here);
+        assert_eq!(shown(Path::new("a/../b.md")), here.join("b.md"));
+        let dir = shown(Path::new("out"));
+        assert_eq!(
+            within(&dir, &dir.join("report.parts").join("a.png")),
+            Path::new("report.parts").join("a.png")
+        );
+        let address = Address::parse("docs/report.docx");
+        assert_eq!(beside(&address), Path::new("docs"));
+        assert_eq!(beside(&Address::parse("report.docx")), Path::new(""));
     }
 }
