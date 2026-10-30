@@ -1,8 +1,9 @@
 name: Release
 
-# Pushing a tag such as v0.2.0 builds self-contained binaries for six
-# targets and attaches them to a draft GitHub release. Running the workflow
-# by hand builds and checks the binaries without releasing anything.
+# Pushing a tag such as v0.2.0 builds the binaries for every target (see
+# binaries.yml) and attaches them to a draft GitHub release. Running the
+# workflow by hand builds and checks the binaries without releasing
+# anything.
 
 on:
   push:
@@ -37,75 +38,14 @@ jobs:
           fi
 
   build:
-    name: Build ${{ matrix.target }}
+    name: Binaries
     needs: version
     # Also run by hand, when the version check is skipped.
     if: ${{ !failure() && !cancelled() }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: x86_64-unknown-linux-musl
-            runner: ubuntu-latest
-            native: true
-          - target: aarch64-unknown-linux-musl
-            runner: ubuntu-24.04-arm
-            native: true
-          - target: x86_64-apple-darwin
-            runner: macos-latest
-            native: false
-          - target: aarch64-apple-darwin
-            runner: macos-latest
-            native: true
-          - target: x86_64-pc-windows-msvc
-            runner: windows-latest
-            native: true
-          - target: aarch64-pc-windows-msvc
-            runner: windows-latest
-            native: false
-    runs-on: ${{ matrix.runner }}
-    env:
-      EXE: ${{ contains(matrix.target, 'windows') && '.exe' || '' }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-      - name: Build
-        run: cargo build --profile dist --locked --target ${{ matrix.target }} -p doctopus
-      - name: Check that the binary is self-contained
-        run: |
-          python=$(command -v python3 || command -v python)
-          "$python" scripts/check-binary.py "target/${{ matrix.target }}/dist/doctopus$EXE"
-      - name: Smoke test
-        if: matrix.native
-        run: |
-          bin="target/${{ matrix.target }}/dist/doctopus$EXE"
-          "$bin" --version
-          "$bin" formats
-      - name: Package
-        run: |
-          case "$GITHUB_REF" in
-            refs/tags/v*) version="${GITHUB_REF_NAME#v}" ;;
-            *) version="dev" ;;
-          esac
-          name="doctopus-$version-${{ matrix.target }}"
-          mkdir -p "dist/$name"
-          cp "target/${{ matrix.target }}/dist/doctopus$EXE" README.md LICENSE-MIT LICENSE-APACHE NOTICE "dist/$name/"
-          python=$(command -v python3 || command -v python)
-          "$python" scripts/third-party-licenses.py --target ${{ matrix.target }} > "dist/$name/THIRD-PARTY-LICENSES.txt"
-          cd dist
-          if [ -n "$EXE" ]; then
-            7z a -tzip "$name.zip" "$name" > /dev/null
-          else
-            tar -czf "$name.tar.gz" "$name"
-          fi
-          rm -r "$name"
-      - uses: actions/upload-artifact@v7
-        with:
-          name: doctopus-${{ matrix.target }}
-          path: dist/*
-          if-no-files-found: error
+    # Without a cache, so a release is built from scratch.
+    uses: ./.github/workflows/binaries.yml
+    with:
+      retention-days: 30
 
   publish:
     name: Draft the GitHub release

@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Check that a release binary runs on a bare system.
 
-Usage: check-binary.py BINARY
+Usage: check-binary.py [--glibc] BINARY
 
 Reads the executable's own headers (ELF, Mach-O or PE) with the standard
 library only, so it works the same on every CI runner:
 
 * Linux (ELF): fully static. No program interpreter, no shared libraries.
+  With --glibc, for the builds that link glibc dynamically: only glibc's
+  loader and the libraries every glibc system has (libc, libm, libgcc_s,
+  libpthread, libdl, librt, libutil).
 * macOS (Mach-O): only libraries every Mac has (/usr/lib, /System/Library).
   Apple does not support static executables.
 * Windows (PE): no C runtime DLLs (vcruntime, msvcp, ucrtbase,
@@ -19,6 +22,18 @@ import re
 import struct
 import sys
 
+# With --glibc: glibc's loader (ld-linux-x86-64.so.2, ld-linux-aarch64.so.1),
+# its libraries, and libgcc_s, which every glibc system has.
+GLIBC_LOADER = re.compile(r"^ld-linux[-\w]*\.so\.\d+$")
+GLIBC_LIBRARIES = {
+    "libc.so.6",
+    "libm.so.6",
+    "libgcc_s.so.1",
+    "libpthread.so.0",
+    "libdl.so.2",
+    "librt.so.1",
+    "libutil.so.1",
+}
 MACHO_SYSTEM_PREFIXES = ("/usr/lib/", "/System/Library/")
 PE_RUNTIME_DLLS = re.compile(
     r"^(vcruntime|msvcp|msvcr|ucrtbase|api-ms-win-crt-|libgcc|libstdc\+\+|libwinpthread)",
@@ -37,7 +52,7 @@ PT_LOAD, PT_DYNAMIC, PT_INTERP = 1, 2, 3
 DT_NULL, DT_NEEDED, DT_STRTAB = 0, 1, 5
 
 
-def check_elf(data):
+def check_elf(data, glibc):
     is64 = data[4] == 2
     order = "<" if data[5] == 1 else ">"
     if is64:
@@ -59,7 +74,9 @@ def check_elf(data):
     problems = []
     for kind, offset, _, filesz in segments:
         if kind == PT_INTERP:
-            problems.append("needs the program interpreter " + c_string(data, offset))
+            interpreter = c_string(data, offset)
+            if not (glibc and GLIBC_LOADER.match(interpreter.rsplit("/", 1)[-1])):
+                problems.append("needs the program interpreter " + interpreter)
 
     def file_offset(address):
         for kind, offset, vaddr, filesz in segments:
@@ -67,6 +84,7 @@ def check_elf(data):
                 return offset + address - vaddr
         return None
 
+    libraries = []
     for kind, offset, _, filesz in segments:
         if kind != PT_DYNAMIC:
             continue
@@ -83,7 +101,11 @@ def check_elf(data):
                 break
             if tag == DT_NEEDED:
                 name = c_string(data, strtab + value) if strtab is not None else "?"
-                problems.append("needs the shared library " + name)
+                libraries.append(name)
+                if not (glibc and (name in GLIBC_LIBRARIES or GLIBC_LOADER.match(name))):
+                    problems.append("needs the shared library " + name)
+    if libraries:
+        return "ELF (needs: " + ", ".join(libraries) + ")", problems
     return "ELF", problems
 
 
@@ -168,13 +190,17 @@ def check_pe(data):
 
 
 def main():
-    if len(sys.argv) != 2:
+    args = sys.argv[1:]
+    glibc = args[:1] == ["--glibc"]
+    if glibc:
+        args = args[1:]
+    if len(args) != 1:
         sys.exit(__doc__.strip())
-    path = sys.argv[1]
+    path = args[0]
     with open(path, "rb") as f:
         data = f.read()
     if data[:4] == b"\x7fELF":
-        kind, problems = check_elf(data)
+        kind, problems = check_elf(data, glibc)
     elif data[:4] in (b"\xcf\xfa\xed\xfe", b"\xce\xfa\xed\xfe"):
         kind, problems = check_macho(data)
     elif data[:4] == b"\xca\xfe\xba\xbe":

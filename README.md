@@ -75,12 +75,28 @@ $ doctopus read deck.pptx --no-front-matter
 
 ## Install
 
-**Prebuilt binaries.** Every release has archives for Linux, macOS and
-Windows, each on x86_64 and arm64. Download the one for your platform from
-the [releases page](https://github.com/KrisCris/doctopus/releases), unpack
-it, and put `doctopus` (or `doctopus.exe`) on your `PATH`. The Linux
-binaries are statically linked with musl and run on any distribution. The
-Windows binaries do not need the Visual C++ runtime.
+**Prebuilt binaries.** Every release has an archive for each of these
+targets. Download the one for your platform from the
+[releases page](https://github.com/KrisCris/doctopus/releases), unpack it,
+and put `doctopus` (or `doctopus.exe`) on your `PATH`.
+
+| Platform | x86_64 | arm64 |
+|---|---|---|
+| Linux, any distribution (static, musl) | `x86_64-unknown-linux-musl` | `aarch64-unknown-linux-musl` |
+| Linux with glibc 2.35 or newer | `x86_64-unknown-linux-gnu` | `aarch64-unknown-linux-gnu` |
+| macOS | `x86_64-apple-darwin` | `aarch64-apple-darwin` |
+| Windows | `x86_64-pc-windows-msvc` | `aarch64-pc-windows-msvc` |
+
+Archives are named `doctopus-VERSION-TARGET.tar.gz`, or `.zip` on
+Windows. On Linux, the musl binaries are statically linked and run on any
+distribution, including Alpine and older ones; if unsure, pick those. The
+gnu binaries link the system's glibc dynamically, like most Linux programs,
+and need glibc 2.35 or newer (Ubuntu 22.04, Debian 12, RHEL 10 and later).
+The Windows binaries do not need the Visual C++ runtime.
+
+Every CI run, on `main` and on pull requests, builds the same eight
+archives. To try a change before it is released, download one from the
+run's summary page under **Artifacts**; they are kept for 14 days.
 
 **From source.** With Rust 1.88 or newer:
 

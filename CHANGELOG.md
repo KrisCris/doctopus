@@ -31,5 +31,7 @@ follow [Semantic Versioning](https://semver.org/).
   Mermaid flowchart of their connections.
 - `doctopus info`, `doctopus extract`, `doctopus formats` and
   `doctopus guide`.
-- Self-contained release binaries for Linux, macOS and Windows on x86_64
-  and arm64.
+- Release binaries for Linux, macOS and Windows on x86_64 and arm64. Linux
+  has two builds: statically linked with musl, for any distribution, and
+  linked against glibc 2.35 or newer. Every CI run builds them too and
+  keeps them as downloadable artifacts for 14 days.
