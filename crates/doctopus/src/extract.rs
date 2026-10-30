@@ -4,7 +4,7 @@ use std::collections::HashSet;
 use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 
-use doctopus_core::render::{describe_part, shell_quote};
+use doctopus_core::render::{describe_part, empty_reason, shell_quote, unique_name};
 use doctopus_core::{Address, Document, Part};
 use serde::Serialize;
 
@@ -181,36 +181,8 @@ impl Saver<'_> {
     }
 }
 
-/// Why a part without data has nothing to save.
-pub(crate) fn empty_reason(part: &Part) -> String {
-    match &part.link {
-        Some(link) => format!("linked, not embedded: {link}"),
-        None => "no content".into(),
-    }
-}
-
 fn has_parts(part: &Part) -> bool {
     part.document.as_ref().is_some_and(|d| !d.parts.is_empty())
-}
-
-/// `name`, or `name-2`, `name-3`... if it is taken. Names compare without
-/// case, as they do on Windows and macOS file systems.
-pub(crate) fn unique_name(used: &mut HashSet<String>, name: String) -> String {
-    if used.insert(name.to_lowercase()) {
-        return name;
-    }
-    let (stem, ext) = match name.rsplit_once('.') {
-        Some((stem, ext)) if !stem.is_empty() => (stem, format!(".{ext}")),
-        _ => (name.as_str(), String::new()),
-    };
-    let mut n = 2;
-    loop {
-        let candidate = format!("{stem}-{n}{ext}");
-        if used.insert(candidate.to_lowercase()) {
-            return candidate;
-        }
-        n += 1;
-    }
 }
 
 /// The report as YAML-style text.

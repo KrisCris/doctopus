@@ -34,6 +34,15 @@ follow [Semantic Versioning](https://semver.org/).
   conversion takes the next free name.
 - `convert`, `extract` and `read -o` report where they wrote as absolute
   paths.
+- A web app (`crates/doctopus-web`, built with `scripts/build-web.sh`) that
+  converts a document in the browser, in WebAssembly, as `doctopus convert`
+  does. It shows the converted files as a tree, renders each Markdown file
+  with its pictures and Mermaid diagrams, follows the links between them,
+  and downloads one file or all of them as a zip file. CI builds it on
+  every run and publishes it at <https://kriscris.github.io/doctopus/>
+  after each push to `main`.
+- `render::convert` in `doctopus-core`: the files of `doctopus convert`,
+  laid out in memory.
 - `doctopus info`, `doctopus extract`, `doctopus formats` and
   `doctopus guide`.
 - Release binaries for Linux, macOS and Windows on x86_64 and arm64. Linux

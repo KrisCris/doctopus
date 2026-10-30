@@ -202,6 +202,15 @@ most Markdown viewers. Files doctopus cannot read, such as audio or
 programs, are saved as they are and linked. The command prints what it
 wrote; `--json` prints it as JSON.
 
+### In the browser
+
+**<https://kriscris.github.io/doctopus/>** converts a document the same
+way, in WebAssembly, without uploading it. It shows the converted files as
+a tree, renders each Markdown file with its pictures and diagrams, follows
+the links between them, and downloads any file or all of them as a zip
+file. The page is [`crates/doctopus-web`](crates/doctopus-web); build it
+yourself with `scripts/build-web.sh`.
+
 ### Exit codes
 
 | Code | Meaning |
@@ -276,6 +285,9 @@ let doc = engine.open("report.docx")?;
 let options = RenderOptions::new(Address::parse("report.docx"));
 println!("{}", render::markdown(&doc, &options).text);
 ```
+
+`render::convert` lays a document out as the linked Markdown files of
+`doctopus convert`, in memory, for a program to write wherever it likes.
 
 A new file type is a crate that implements the `Reader` trait and registers
 itself. The engine, the renderers, embedded-document handling and the

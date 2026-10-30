@@ -6,10 +6,14 @@
 //! * [`text`] — the same content without Markdown syntax.
 //! * [`json`] — the full document model, for programs.
 //! * [`info`] — a compact overview: format, metadata, structure, parts.
+//! * [`convert`] — linked Markdown files read without doctopus: one per
+//!   document, embedded ones included, plus the pictures and files they
+//!   link to.
 //!
 //! Output is deterministic, so it can be paged with [`paginate`] and resumed
 //! from any offset.
 
+mod convert;
 mod info;
 mod json;
 mod markdown;
@@ -17,6 +21,9 @@ mod yaml;
 
 use std::collections::BTreeMap;
 
+pub use self::convert::{
+    Converted, MarkdownFile, PartFile, SkippedPart, convert, empty_reason, unique_name,
+};
 pub use self::info::{
     OutlineEntry, PartInfo, PartSummary, SectionSummary, Summary, info, summarize,
 };
