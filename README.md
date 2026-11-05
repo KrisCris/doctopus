@@ -75,10 +75,26 @@ $ doctopus read deck.pptx --no-front-matter
 
 ## Install
 
+**With your coding agent.** Ask Claude Code, Codex or another coding
+agent:
+
+```text
+Install doctopus and its agent skill for me, following
+https://raw.githubusercontent.com/KrisCris/doctopus/main/skills/doctopus/references/install.md
+```
+
+It downloads the release for your platform, checks it against the
+published checksums, and puts the program in `~/.doctopus/bin`. Then it
+installs [the agent skill](#the-agent-skill) where your agent loads
+skills. To use another folder, set `DOCTOPUS_HOME` or name the folder when
+you ask. If no release has been published yet, the guide builds
+doctopus with Cargo instead, which needs Rust.
+
 **Prebuilt binaries.** Every release has an archive for each of these
 targets. Download the one for your platform from the
 [releases page](https://github.com/KrisCris/doctopus/releases), unpack it,
-and put `doctopus` (or `doctopus.exe`) on your `PATH`.
+and put `doctopus` (or `doctopus.exe`) in `~/.doctopus/bin`, where the
+agent skill looks for it, or anywhere on your `PATH`.
 
 | Platform | x86_64 | arm64 |
 |---|---|---|
@@ -101,22 +117,46 @@ run's summary page under **Artifacts**; they are kept for 14 days.
 **From source.** With Rust 1.88 or newer:
 
 ```sh
-cargo install --locked --git https://github.com/KrisCris/doctopus doctopus
+cargo install --locked --git https://github.com/KrisCris/doctopus doctopus --root ~/.doctopus
 ```
 
-In a clone of the repository, `cargo install --locked --path crates/doctopus`
-does the same.
+This puts the program in `~/.doctopus/bin`. Leave out `--root` to install
+it in Cargo's own `bin` directory instead. In a clone of the repository,
+`cargo install --locked --path crates/doctopus` does the same.
 
-### Tell your agent about it
+### The agent skill
 
-Add a line like this to your agent's instructions (`AGENTS.md`,
-`CLAUDE.md`, ...):
+[`skills/doctopus`](skills/doctopus/SKILL.md) is an
+[Agent Skill](https://agentskills.io) that teaches a coding agent to use
+doctopus whenever a task needs what is inside an Office or PDF file.
+It covers reading, summarizing, searching, saving pictures and converting.
+The agent then doesn't take the file apart itself, which models do
+slowly and unreliably, smaller ones especially. The skill looks for the
+program in this order:
+- a location you have given your agent;
+- `$DOCTOPUS_HOME/bin`;
+- `~/.doctopus/bin`;
+- your `PATH`.
+
+If the program is missing, the skill offers to install it.
+
+In Claude Code, the repository is also a plugin marketplace:
+
+```sh
+claude plugin marketplace add KrisCris/doctopus
+claude plugin install doctopus@doctopus
+```
+
+For other agents, copy the `skills/doctopus` folder to where they load
+skills from, for example `~/.codex/skills/` for Codex. If your agent
+doesn't support skills, add a line like this to its instructions
+(`AGENTS.md`, `CLAUDE.md`, ...):
 
 ```markdown
 To read Office and PDF files (.docx .doc .xlsx .xls .xlsb .pptx .ppt .vsdx .vsd
-.pdf), use `doctopus`: `doctopus info FILE` for an overview, `doctopus read FILE` for the
-content as Markdown, `doctopus convert FILE -o DIR` to write it all out as
-Markdown files. `doctopus guide` explains the rest.
+.pdf), use `~/.doctopus/bin/doctopus`: `info FILE` for an overview, `read FILE` for
+the content as Markdown, `convert FILE` to write it all out as Markdown files.
+`~/.doctopus/bin/doctopus guide` explains the rest.
 ```
 
 ## Usage

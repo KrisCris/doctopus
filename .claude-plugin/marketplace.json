@@ -1,0 +1,14 @@
+{
+  "name": "doctopus",
+  "description": "The doctopus skill: Office and PDF files as Markdown for coding agents",
+  "owner": {
+    "name": "KrisCris"
+  },
+  "plugins": [
+    {
+      "name": "doctopus",
+      "source": "./",
+      "description": "Read, search, extract from and convert Word, Excel, PowerPoint, Visio and PDF files with the doctopus command-line tool, which it finds in ~/.doctopus/bin."
+    }
+  ]
+}
