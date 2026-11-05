@@ -1,0 +1,12 @@
+{
+  "name": "doctopus",
+  "description": "Read, search, extract from and convert Word, Excel, PowerPoint, Visio and PDF files, and everything embedded in them, with the doctopus command-line tool.",
+  "author": {
+    "name": "KrisCris",
+    "url": "https://github.com/KrisCris"
+  },
+  "homepage": "https://github.com/KrisCris/doctopus",
+  "repository": "https://github.com/KrisCris/doctopus",
+  "license": "MIT OR Apache-2.0",
+  "keywords": ["docx", "xlsx", "pptx", "visio", "pdf", "markdown", "documents"]
+}

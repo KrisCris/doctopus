@@ -29,6 +29,8 @@ still runs.
 | `crates/doctopus-text` | The plain-text reader. |
 | `crates/doctopus` | The command line. `src/convert.rs` writes documents out as linked Markdown files, laid out by `render::convert` in `doctopus-core`. |
 | `crates/doctopus-web` | The web app: the same conversion in WebAssembly, with a static page in `www/` that shows the files and their links. See [its README](crates/doctopus-web/README.md). |
+| `skills/doctopus` | The agent skill: when and how a coding agent uses doctopus (`SKILL.md`), and how an agent installs doctopus and the skill (`references/install.md`). When a command, option or default changes, update it along with `crates/doctopus/src/guide.md`. |
+| `.claude-plugin/` | Makes the repository a Claude Code plugin marketplace whose one plugin is the skill. |
 | `testdata/corpus.tsv` | The third-party test corpus: sources, file names and hashes. The files are downloaded, not committed. |
 | `scripts/` | Fetching the corpus, checking release binaries, collecting third-party licenses, building and checking the web app. |
 | `docs/adding-a-format.md` | How to add a reader for a new file type. |

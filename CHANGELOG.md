@@ -34,6 +34,12 @@ follow [Semantic Versioning](https://semver.org/).
   conversion takes the next free name.
 - `convert`, `extract` and `read -o` report where they wrote as absolute
   paths.
+- An agent skill (`skills/doctopus`), also installable as a Claude Code
+  plugin from this repository. It has coding agents use doctopus for
+  Office and PDF files, finds the program in `~/.doctopus/bin`,
+  `$DOCTOPUS_HOME/bin` or on the `PATH`, and offers to install it there.
+  Its install guide lets an agent set up doctopus and the skill on its
+  own.
 - A web app (`crates/doctopus-web`, built with `scripts/build-web.sh`) that
   converts a document in the browser, in WebAssembly, as `doctopus convert`
   does. It shows the converted files as a tree, renders each Markdown file
